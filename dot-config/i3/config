@@ -23,6 +23,9 @@ font pango:DejaVu Sans Mono 12
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex-autostart --autostart --environment i3
 
+#place hdmi screen on the left
+exec_always --no-startup-id xrandr --output HDMI-1 --left-of eDP-1 
+
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
@@ -152,7 +155,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 #start on startup
 exec_always --no-startup-id firefox
-exec_always --no-startup-id emacs
+exec_always --no-startup-id emacs ~/Documents/Planner/gtd.org
 exec --no-startup-id thunderbird
 
 # Assign to workspaces

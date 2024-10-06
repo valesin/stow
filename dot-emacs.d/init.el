@@ -1,6 +1,5 @@
 (require 'package)
 (package-initialize)
-
 (setq package-archives(add-to-list 'package-archives
 				   '("melpa-stable" . "https://stable.melpa.org/packages/") t))
 
@@ -23,6 +22,8 @@
   (dolist (p my-packages)
     (when (not (package-installed-p p))
       (package-install p))))
+(package-install 'ledger-mode)
+(package-install 'org)
 
 ;; this folder contains every package used
 (let ((default-directory  "~/.emacs.d/lisp/"))
@@ -33,7 +34,7 @@
 
 ;;Global settings
 (add-to-list 'default-frame-alist
-             '(font . "DejaVu Sans Mono-12"))
+             '(font . "DejaVu Sans Mono-14"))
 (setq line-spacing 0.1)          ; Set line spacing
 (setq inhibit-startup-message t) ; Don't show the splash screen
 (setq visible-bell t)            ; Flash when the bell rings
@@ -78,7 +79,7 @@
 (setq org-todo-keywords
   '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 ;;set files to fill agenda
-(setq org-agenda-files '("~/Documents/Planner/gtd.org"))
+(setq org-agenda-files '("~/Documents/gtd.org"))
 ;; hide emphasis markers (*..*, /../)
 (setq org-hide-emphasis-markers t)
 ;; sostitute bullet circle to the hyphen for list items
@@ -119,6 +120,24 @@
              ("j" "Journal" entry (file+datetree "~/Documents/Planner/journal.org")
               "* %?\nEntered on %U")))
 
+(setq org-refile-use-outline-path t)
+;; Refile until 5 level
+(setq org-refile-targets '((org-agenda-files :maxlevel . 5)))
+
+;; ORG AGENDA
+;; (setq org-agenda-start-on-weekday 1)
+;; (setq org-agenda-skip-scheduled-if-done t)
+;; (setq org-agenda-skip-deadline-if-done t)
+;; (setq org-agenda-todo-ignore-scheduled t)
+
+;; ORG BABEL
+;; load languages
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((emacs-lisp . nil)
+        (ocaml . t)))
+
+(require 'ob-ocaml)
 ;; Check this stuff in the future
 ;;   ; Log stuff into the LOGBOOK drawer by default
 ;;   (org-log-into-drawer t)
@@ -171,12 +190,22 @@
 ;;                           `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))))
 
 
+;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
+(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+;; ## end of OPAM user-setup addition for emacs / base ## keep this line
+
+;; (add-hook 'tuareg-mode-hook
+;;             (lambda ()
+	      
+;;               ))
+
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(pdf-tools org ledger-mode)))
+ '(package-selected-packages '(org tuareg ledger-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
