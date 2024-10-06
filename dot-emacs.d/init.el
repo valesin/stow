@@ -7,7 +7,7 @@
 (require 'cl-lib)
 
 (defvar my-packages
-  '(ledger-mode org)
+  '(ledger-mode org lsp-mode)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
@@ -22,8 +22,6 @@
   (dolist (p my-packages)
     (when (not (package-installed-p p))
       (package-install p))))
-(package-install 'ledger-mode)
-(package-install 'org)
 
 ;; this folder contains every package used
 (let ((default-directory  "~/.emacs.d/lisp/"))
@@ -55,16 +53,16 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; i3 integration
-;(require 'i3)
-;(require 'i3-integration)
-;(i3-one-window-per-frame-mode-on)
-;(i3-advise-visible-frame-list-on)
+;; (require 'i3)
+;; (require 'i3-integration)
+;; (i3-one-window-per-frame-mode-on)
+;; (i3-advise-visible-frame-list-on)
 
 
 ;; Install the package from https://github.com/emacsmirror/spray?tab=readme-ov-file to speedread
-(require 'spray)
+;(require 'spray)
 
-(require 'ledger-mode)
+;(require 'ledger-mode)
 
 
 ;________________________________________________________________________________________________________________
