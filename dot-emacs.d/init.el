@@ -7,7 +7,7 @@
 (require 'cl-lib)
 
 (defvar my-packages
-  '(ledger-mode org lsp-mode)
+  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
@@ -24,11 +24,24 @@
       (package-install p))))
 
 ;; this folder contains every package used
+(add-to-list 'load-path "~/.emacs.d/lisp/")
 (let ((default-directory  "~/.emacs.d/lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
 
 ;; set init file in config position
 ;;(setq user-init-file "~/.config/emacs/init.el")
+
+;; GO_____________________________________
+;; set 4 tabs
+;;(add-mode-hook 'go-mode-hook (lambda ()
+;;			       (setq tab-width 4)))
+;; enable snippets
+(require 'yasnippet)
+(add-hook 'go-mode-hook #'yas-minor-mode)
+(add-to-list 'yas-snippet-dirs "/home/vko/Documents/Uni/Alg/")
+
+;; gofmt at save
+(add-hook 'before-save-hook 'gofmt-before-save)
 
 ;;Global settings
 (add-to-list 'default-frame-alist
@@ -57,6 +70,17 @@
 ;; (require 'i3-integration)
 ;; (i3-one-window-per-frame-mode-on)
 ;; (i3-advise-visible-frame-list-on)
+
+(require 'company)
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 1)
+
+(require 'lsp-mode)
+(add-hook 'go-mode-hook #'lsp-deferred)
+(defun lsp-go-install-save-hooks()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
 
 ;; Install the package from https://github.com/emacsmirror/spray?tab=readme-ov-file to speedread
@@ -129,11 +153,16 @@
 ;; (setq org-agenda-todo-ignore-scheduled t)
 
 ;; ORG BABEL
+(require 'ob-go)
 ;; load languages
      (org-babel-do-load-languages
       'org-babel-load-languages
-      '((emacs-lisp . nil)
-        (ocaml . t)))
+      '(
+	(emacs-lisp . nil)
+        (ocaml . t)
+	(go . t)
+	)
+      )
 
 (require 'ob-ocaml)
 ;; Check this stuff in the future
@@ -203,7 +232,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(org tuareg ledger-mode)))
+ '(package-selected-packages '(yasnippet org tuareg ledger-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
