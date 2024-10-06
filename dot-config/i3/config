@@ -157,11 +157,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 #start on startup
 exec_always --no-startup-id firefox
 exec_always --no-startup-id emacs ~/Documents/Planner/gtd.org
-<<<<<<< HEAD
 exec_always --no-startup-id thunderbird
-=======
-exec --no-startup-id thunderbird
->>>>>>> origin/main
 
 # Assign to workspaces
 assign [class="emacs"] number 1 $tag1
