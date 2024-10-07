@@ -1,8 +1,15 @@
 (require 'package)
 (package-initialize)
-(setq package-archives(add-to-list 'package-archives
-				   '("melpa-stable" . "https://stable.melpa.org/packages/") t))
-
+;;just to solve spinner issue
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+(setq package-archives
+'(("GNU ELPA" . "http://elpa.gnu.org/packages/")
+("MELPA Stable" . "http://stable.melpa.org/packages/")
+("MELPA" . "http://melpa.org/packages/"))
+package-archive-priorities
+'(("MELPA Stable" . 10)
+("MELPA" . 5)
+("GNU ELPA" . 0)))
 ;; Comment out if you've already loaded this package...
 (require 'cl-lib)
 
