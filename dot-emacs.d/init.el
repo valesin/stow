@@ -15,6 +15,8 @@ package-archive-priorities
 
 (global-auto-revert-mode)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+;; fontify code in code blocks
+(setq org-src-fontify-natively t)
 
 (defvar my-packages
   '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet)
@@ -37,6 +39,8 @@ package-archive-priorities
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (let ((default-directory  "~/.emacs.d/lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
+
+(require 'htmlize)
 
 ;; set init file in config position
 ;;(setq user-init-file "~/.config/emacs/init.el")
@@ -163,14 +167,14 @@ package-archive-priorities
 ;; (setq org-agenda-todo-ignore-scheduled t)
 
 ;; ORG BABEL
-;; (require 'ob-go);; no because it adds the package and i can't tangle
+ (require 'ob-go);; no because it adds the package and i can't tangle
 ;; load languages
      (org-babel-do-load-languages
       'org-babel-load-languages
       '(
 	(emacs-lisp . nil)
         (ocaml . t)
-;;	(go . t)
+	(go . t)
 	)
       )
 
