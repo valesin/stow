@@ -115,7 +115,7 @@ package-archive-priorities
 (setq org-todo-keywords
   '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 ;;set files to fill agenda
-(setq org-agenda-files '("~/Documents/gtd.org"))
+(setq org-agenda-files '("~/Documents/Planner/"))
 ;; hide emphasis markers (*..*, /../)
 (setq org-hide-emphasis-markers t)
 ;; sostitute bullet circle to the hyphen for list items
