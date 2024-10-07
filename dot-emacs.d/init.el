@@ -13,6 +13,7 @@ package-archive-priorities
 ;; Comment out if you've already loaded this package...
 (require 'cl-lib)
 
+(global-auto-revert-mode)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
 (defvar my-packages
