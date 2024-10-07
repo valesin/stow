@@ -6,6 +6,8 @@
 ;; Comment out if you've already loaded this package...
 (require 'cl-lib)
 
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+
 (defvar my-packages
   '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet)
   "A list of packages to ensure are installed at launch.")
@@ -153,14 +155,14 @@
 ;; (setq org-agenda-todo-ignore-scheduled t)
 
 ;; ORG BABEL
-(require 'ob-go)
+;; (require 'ob-go);; no because it adds the package and i can't tangle
 ;; load languages
      (org-babel-do-load-languages
       'org-babel-load-languages
       '(
 	(emacs-lisp . nil)
         (ocaml . t)
-	(go . t)
+;;	(go . t)
 	)
       )
 
