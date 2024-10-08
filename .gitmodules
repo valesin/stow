@@ -1,0 +1,3 @@
+[submodule "dot-mozilla/user.js"]
+	path = dot-mozilla/user.js
+	url = git@github.com:arkenfox/user.js.git
