@@ -40,6 +40,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
+exec --no-startup-id volumeicon
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
@@ -49,8 +50,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-bindsym $mod+p exec ~/Documents/Scripts/push_stow_and_Documents.sh
-
+hide_edge_borders none
 # start a terminal
 bindsym $mod+Return exec kitty
 
@@ -68,6 +68,8 @@ bindsym $mod+d exec --no-startup-id "dmenu_run -nf '#BBBBBB' -nb '#222222' -sb '
 
 
 workspace_auto_back_and_forth yes
+bindsym $mod+b workspace back_and_forth
+bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
 # change focus
 bindsym $mod+j focus left
@@ -166,7 +168,7 @@ exec_always --no-startup-id emacs ~/Documents/Planner/gtd.org
 exec_always --no-startup-id thunderbird
 
 # Assign to workspaces
-assign [class="emacs"] number 1 $tag1
+assign [class="Emacs"] number 1 $tag1
 assign [class="org.mozilla.firefox"] number 2 $tag2
 assign [class="thunderbird"] number 9 $tag9
 

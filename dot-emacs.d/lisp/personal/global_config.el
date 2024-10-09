@@ -13,7 +13,7 @@ package-archive-priorities
 ("GNU ELPA" . 0)))
 
 (defvar my-packages
-  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet)
+  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
@@ -46,7 +46,7 @@ package-archive-priorities
 
 ;; By default, Emacs saves backup files in the current directory. These are the files ending in ~ that are cluttering up your directory lists.
 ;; The following code stashes them all in ~/.config/emacs/backups, where I can find them with C-x C-f (find-file) if I really need to. 
-(setq backup-directory-alist '(("." . "~/.config/emacs/backups")))
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (with-eval-after-load 'tramp
 (add-to-list 'tramp-backup-directory-alist
              (cons tramp-file-name-regexp nil)))
@@ -56,7 +56,7 @@ package-archive-priorities
 (setq delete-old-versions -1)
 (setq version-control t)
 (setq vc-make-backup-files t)
-(setq auto-save-file-name-transforms '((".*" "~/.config/emacs/auto-save-list/" t)))
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 
 ;; Open files in firefox
 (setq browse-url-generic-program "firefox")

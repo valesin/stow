@@ -1,6 +1,8 @@
 ;;ORG related settings
 (require 'org)
 (require 'htmlize)
+(require 'cdlatex)
+(add-hook 'org-mode-hook #'turn-on-org-cdlatex)
 ;; Global commands for org
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
@@ -18,7 +20,7 @@
 ;;                          '(("^ *\\([-]\\) "
 ;;                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 ;; setup indentation space
-(setq org-indent-indentation-per-level 10)
+(setq org-indent-indentation-per-level 4)
 ;; activate it on startup
 (setq org-startup-indented t)
 ;; Follow the links
