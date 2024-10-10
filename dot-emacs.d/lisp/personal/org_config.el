@@ -14,7 +14,7 @@
 (setq org-todo-keywords
   '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 ;;set files to fill agenda
-(setq org-agenda-files '('("~/Documents/Uni/Alg/Teoria/lez7.org" "/home/vjo/Documents/Planner/gtd.org" "/home/vjo/Documents/Planner/journal.org" "/home/vjo/Documents/Planner/someday.org" "/home/vjo/Documents/Planner/tasks.org" "/home/vjo/Documents/Planner/taskstomerge.org"))
+(setq org-agenda-files '("/home/vjo/Documents/Planner/"))
 ;; hide emphasis markers (*..*, /../)
 (setq org-hide-emphasis-markers t)
 ;; sostitute bullet circle to the hyphen for list items
@@ -74,6 +74,7 @@
 	(emacs-lisp . nil)
         (ocaml . t)
 	(go . t)
+	(latex .t)
 	)
       )
 

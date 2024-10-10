@@ -10,18 +10,5 @@
 (load "programming_config.el")
 (load "ocaml_config.el")
 (load "go_config.el")
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-agenda-files
-   
- '(package-selected-packages
-   '(auctex yasnippet tuareg lsp-ui ledger-mode go-mode company)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+
