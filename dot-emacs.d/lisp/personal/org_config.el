@@ -14,7 +14,7 @@
 (setq org-todo-keywords
   '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 ;;set files to fill agenda
-(setq org-agenda-files '("~/Documents/Planner/"))
+(setq org-agenda-files '('("~/Documents/Uni/Alg/Teoria/lez7.org" "/home/vjo/Documents/Planner/gtd.org" "/home/vjo/Documents/Planner/journal.org" "/home/vjo/Documents/Planner/someday.org" "/home/vjo/Documents/Planner/tasks.org" "/home/vjo/Documents/Planner/taskstomerge.org"))
 ;; hide emphasis markers (*..*, /../)
 (setq org-hide-emphasis-markers t)
 ;; sostitute bullet circle to the hyphen for list items
@@ -76,6 +76,32 @@
 	(go . t)
 	)
       )
+
+;; PUBLISH
+(setq org-publish-project-alist
+           '(
+	     ("Reti"
+	      :base-directory "/home/vjo/Documents/Uni/Ret/"
+	      :publishing-function org-html-publish-to-html
+	      :htmlized-source t
+              :publishing-directory "/home/vjo/Documents/Uni/Ret/export_html/"
+	      :makeindex t
+	      :with-toc t
+	      )
+	     )
+	   )
+	   
+
+
+
+
+
+
+
+
+
+
+
 
 ;; fontify code in code blocks
 ;; Check this stuff in the future
