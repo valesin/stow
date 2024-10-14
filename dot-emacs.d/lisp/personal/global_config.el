@@ -62,7 +62,6 @@ package-archive-priorities
 (setq browse-url-generic-program "firefox")
 
 ;; Keep open files open across sessions.
-
-(desktop-save-mode 1)
-(setq desktop-restore-eager 10)
+;(desktop-save-mode 1)
+;(setq desktop-restore-eager 10)
 

@@ -14,7 +14,7 @@
 (setq org-todo-keywords
   '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 ;;set files to fill agenda
-(setq org-agenda-files '("/home/vjo/Documents/Planner/"))
+(setq org-agenda-files '("/home/vjo/Documents/Planner/" "/home/vjo/Documents/Uni/Ret/"   ))
 ;; hide emphasis markers (*..*, /../)
 (setq org-hide-emphasis-markers t)
 ;; sostitute bullet circle to the hyphen for list items
@@ -58,6 +58,9 @@
 ;;(setq org-refile-use-outline-path t)
 ;; Refile until 5 level
 (setq org-refile-targets '((org-agenda-files :maxlevel . 5)))
+
+;; latex
+
 
 ;; ORG AGENDA
 ;; (setq org-agenda-start-on-weekday 1)
