@@ -50,6 +50,7 @@
 ;; The code above saves also the place from where the capture was started, through %a. Useful for emails. I temporarily remove it.
 (setq org-capture-templates
       '(
+	
 	("t" "Todo" entry
 	 (file+headline "~/Documents/Planner/gtd.org" "Tasks")
          "* TODO %?")
@@ -63,8 +64,14 @@
 	("rb" "bookmarks" entry
 	 (file+headline "~/Documents/Roam/references.org" "Bookmarks")
 	 "* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
+	
+
+        ("rr" "books" entry
+	 (file+headline "~/Documents/Roam/references.org" "Books")
+	 "* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
 	)
       )
+
 
 ;; use whole path to refile
 ;;(setq org-refile-use-outline-path t)

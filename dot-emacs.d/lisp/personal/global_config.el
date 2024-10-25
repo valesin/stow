@@ -31,6 +31,7 @@ package-archive-priorities
 ;; end PACKAGES
 
 
+
 (global-auto-revert-mode)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
