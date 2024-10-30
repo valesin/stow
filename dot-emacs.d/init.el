@@ -9,5 +9,5 @@
 (load "org_config.el")
 (load "org_roam_config.el")
 (load "programming_config.el")
-(load "ocaml_config.el")
+;;(load "ocaml_config.el")
 (load "go_config.el")

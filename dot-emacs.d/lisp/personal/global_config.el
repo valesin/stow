@@ -3,6 +3,7 @@
 (package-initialize)
 (require 'cl-lib)
 
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (setq package-archives
 '(("GNU ELPA" . "http://elpa.gnu.org/packages/")
 ("MELPA Stable" . "http://stable.melpa.org/packages/")
