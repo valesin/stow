@@ -56,8 +56,8 @@ package-archive-priorities
 ;; save as many files as possible
 (setq delete-old-versions -1)
 (setq version-control t)
-(setq vc-make-backup-files t)
-(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+;;(setq vc-make-backup-files t)
+;;(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 
 ;; Open files in firefox
 (setq browse-url-generic-program "firefox")
