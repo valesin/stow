@@ -9,12 +9,13 @@
 (global-set-key (kbd "C-c c") #'org-capture)
 
 ; set org path
-;;(setq org-directory "~/Documents/")
+(setq org-directory "~/Documents/")
 ;set stages
 (setq org-todo-keywords
-  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+      '((sequence "TODO" "STARTED" "WAITING" "APPT" "|" "DONE" "CANCELLED" "DEFERRED")))
+
 ;;set files to fill agenda
-(setq org-agenda-files '("/home/vjo/Documents/Planner/" "/home/vjo/Documents/Uni/Ret/"   ))
+(setq org-agenda-files '("/home/vjo/Documents/Planner/" "/home/vjo/Documents/Uni/Ret/" "/home/vjo/Documents/Uni/Alg/" "/home/vjo/Documents/Uni/Lin.Pro./"    ))
 ;; hide emphasis markers (*..*, /../)
 (setq org-hide-emphasis-markers t)
 ;; sostitute bullet circle to the hyphen for list items
@@ -41,32 +42,29 @@
 ;; fontify exports
 (setq org-src-fontify-natively t)
 
-;; Setup capture mode to quickly register tasks
-;; (setq org-capture-templates
-;;            '(("t" "Todo" entry (file+headline "~/Documents/gtd.org" "Tasks")
-;;               "* TODO %?\n  %i\n  %a")
-;;              ("j" "Journal" entry (file+datetree "~/org/journal.org")
-;;               "* %?\nEntered on %U\n  %i\n  %a")))
-;; The code above saves also the place from where the capture was started, through %a. Useful for emails. I temporarily remove it.
 (setq org-capture-templates
       '(
 	
-	("t" "Todo" entry
-	 (file+headline "~/Documents/Planner/gtd.org" "Tasks")
+	("t" "todo" entry
+	 (file "~/Documents/Planner/inbox.org")
          "* TODO %?")
-	
-	("j" "Journal" entry
+
+	("i" "info to process" entry
+	 (file "~/Documents/Planner/inbox.org")
+	 "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n")
+
+	("j" "journal" entry
 	 (file+datetree "~/Documents/Planner/journal.org")
-         "* %?\nEntered on %U")
+         "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n")
 
 	("r" "References")
 
-	("rb" "bookmarks" entry
+	("rw" "bookmarks" entry
 	 (file+headline "~/Documents/Roam/references.org" "Bookmarks")
 	 "* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
 	
 
-        ("rr" "books" entry
+        ("rb" "books" entry
 	 (file+headline "~/Documents/Roam/references.org" "Books")
 	 "* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
 	)
