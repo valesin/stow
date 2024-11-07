@@ -16,6 +16,7 @@ set $mod Mod4
 font pango:monospace 12
 
 exec_always ~/Documents/Scripts/keyboard.sh
+exec_always redshift
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
