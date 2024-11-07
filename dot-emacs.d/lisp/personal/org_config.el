@@ -50,7 +50,7 @@
          "* TODO %?")
 
 	("i" "info to process" entry
-	 (file "~/Documents/Planner/inbox.org")
+	 (file "~/Documents/Roam/inbox.org")
 	 "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n")
 
 	("j" "journal" entry
