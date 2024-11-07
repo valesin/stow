@@ -23,9 +23,20 @@
 ;;                                                   '(:immediate-finish t)))))
 ;;     (apply #'org-roam-node-insert args)))
 
-
 ;; this code is copied from https://systemcrafters.net/build-a-second-brain-in-emacs/5-org-roam-hacks/
 
+;; show the type of note in the completion
+(cl-defmethod org-roam-node-type ((node org-roam-node))
+  "Return the TYPE of NODE."
+  (condition-case nil
+      (file-name-nondirectory
+       (directory-file-name
+        (file-name-directory
+         (file-relative-name (org-roam-node-file node) org-roam-directory))))
+    (error "")))
+(setq org-roam-node-display-template
+      (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+;; the code above is taken from https://jethrokuan.github.io/org-roam-guide/
 
 ;; li cancello tutti perchè le references possono essere realizzate con il capture normale
 ;; questo non mi piace perchè inverte l'ordine senza un motivo apparente, inoltre tutte le funzioni che mi fornisce sono standard di org, compreso l'id
@@ -59,3 +70,16 @@
 ;; 	 :immediate-finish t)
 ;; 	)
 ;;       )
+
+(setq org-roam-capture-templates
+      '(("m" "main" plain
+         "%?"
+         :if-new (file+head "Main/${slug}.org"
+                            "#+title: ${title}\n")
+         :immediate-finish t
+         :unnarrowed t)
+        ("r" "reference" plain "%?"
+         :if-new
+         (file+head "Reference/${title}.org" "#+title: ${title}\n")
+         :immediate-finish t
+         :unnarrowed t)))

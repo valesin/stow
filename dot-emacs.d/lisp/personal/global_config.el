@@ -14,7 +14,7 @@ package-archive-priorities
 ("GNU ELPA" . 0)))
 
 (defvar my-packages
-  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex tuareg org-roam)
+  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex org-roam zotxt)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
