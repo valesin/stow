@@ -26,8 +26,8 @@
 (setq org-indent-indentation-per-level 4)
 ;; activate it on startup
 (setq org-startup-indented t)
-;; Follow the links
-(setq org-return-follows-link  t)
+;; Follow the links (NO, use C-c C-o instead)
+;;(setq org-return-follows-link  t)
 ;;Non-nil means font-lock should hide the emphasis marker characters.
 (setq org-hide-emphasis-markers t)
 ;;C-a and C-e bring to beginning of item first (after stars and TODO), then beginning of line
@@ -38,7 +38,6 @@
 (setq org-log-done t)
 ;;   M-Ret creates and goes to a new blank line under the current
 (setq org-M-RET-may-split-line nil)
-
 ;; fontify exports
 (setq org-src-fontify-natively t)
 
@@ -55,26 +54,29 @@
 
 	("j" "journal" entry
 	 (file+datetree "~/Documents/Planner/journal.org")
-         "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n")
+         "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:
+   %U\n:END:\n%?\nFrom: %a\n")
 
 	("r" "References")
 
 	("rw" "bookmarks" entry
-	 (file+headline "~/Documents/Roam/references.org" "Bookmarks")
-	 "* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
-	
+	 (file+headline "~/Documents/Reference/references.org" "Bookmarks")
+	 "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
 
         ("rb" "books" entry
-	 (file+headline "~/Documents/Roam/references.org" "Books")
-	 "* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
-	)
-      )
+	 (file+headline "~/Documents/Reference/references.org" "Books")
+	 "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
 
+      	("rf" "feed" entry
+	 (file+headline "~/Documents/Reference/rssfeeds.org" "Uncategorized")
+	 "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?\n")
+	)
+)
 
 ;; use whole path to refile
 ;;(setq org-refile-use-outline-path t)
 ;; Refile until 5 level
-(setq org-refile-targets '((org-agenda-files :maxlevel . 5)))
+(setq org-refile-targets '((org-agenda-files :maxlevel . 5) (nil :maxlevel . 10 )) )
 
 ;; latex
 
