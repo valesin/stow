@@ -15,7 +15,7 @@
       '((sequence "TODO" "STARTED" "WAITING" "APPT" "|" "DONE" "CANCELLED" "DEFERRED")))
 
 ;;set files to fill agenda
-(setq org-agenda-files '("/home/vjo/Documents/Planner/" "/home/vjo/Documents/Uni/Ret/" "/home/vjo/Documents/Uni/Alg/" "/home/vjo/Documents/Uni/Lin.Pro./"    ))
+(setq org-agenda-files '("/home/vjo/Documents/Planner/" "/home/vjo/Documents/Notes/" ))
 ;; hide emphasis markers (*..*, /../)
 (setq org-hide-emphasis-markers t)
 ;; sostitute bullet circle to the hyphen for list items
@@ -45,15 +45,15 @@
       '(
 	
 	("t" "todo" entry
-	 (file "~/Documents/Planner/inbox.org")
+	 (file "~/Documents/inbox.org")
          "* TODO %?")
 
 	("i" "info to process" entry
-	 (file "~/Documents/Roam/inbox.org")
+	 (file "~/Documents/inbox.org")
 	 "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n")
 
 	("j" "journal" entry
-	 (file+datetree "~/Documents/Planner/journal.org")
+	 (file+datetree "~/Documents/journal.org")
          "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:
    %U\n:END:\n%?\nFrom: %a\n")
 

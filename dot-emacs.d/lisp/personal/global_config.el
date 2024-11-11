@@ -13,8 +13,11 @@ package-archive-priorities
 ("MELPA" . 5)
 ("GNU ELPA" . 0)))
 
+;; set lexical binding for faster execution
+(setq lexical-binding t)
+
 (defvar my-packages
-  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex org-roam zotxt elfeed elfeed-org)
+  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex org-roam zotxt elfeed elfeed-org use-package consult)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
@@ -31,6 +34,23 @@ package-archive-priorities
       (package-install p))))
 ;; end PACKAGES
 
+;; handle backups
+(defvar --backup-directory (concat user-emacs-directory "backups"))
+(if (not (file-exists-p --backup-directory))
+        (make-directory --backup-directory t))
+(setq backup-directory-alist `(("." . ,--backup-directory)))
+(setq make-backup-files t               ; backup of a file the first time it is saved.
+      backup-by-copying t               ; don't clobber symlinks
+      version-control t                 ; version numbers for backup files
+      delete-old-versions t             ; delete excess backup files silently
+      delete-by-moving-to-trash t
+      kept-old-versions 6               ; oldest versions to keep when a new numbered backup is made (default: 2)
+      kept-new-versions 9               ; newest versions to keep when a new numbered backup is made (default: 2)
+      auto-save-default t               ; auto-save every buffer that visits a file
+      auto-save-timeout 20              ; number of seconds idle time before auto-save (default: 30)
+      auto-save-interval 200            ; number of keystrokes between auto-saves (default: 300)
+      )
+;;(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 
 
 (global-auto-revert-mode)
@@ -54,11 +74,6 @@ package-archive-priorities
              (cons tramp-file-name-regexp nil)))
 
 
-;; save as many files as possible
-(setq delete-old-versions -1)
-(setq version-control t)
-;;(setq vc-make-backup-files t)
-;;(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 
 ;; Open files in firefox
 (setq browse-url-generic-program "firefox")

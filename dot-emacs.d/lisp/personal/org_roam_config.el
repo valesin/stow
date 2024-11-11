@@ -1,5 +1,5 @@
 ;; setup org roam directory
-(setq org-roam-directory (file-truename "~/Documents/Roam"))
+(setq org-roam-directory (file-truename "~/Documents/Notes"))
 (setq find-file-visit-truename t)
 
 ;; setup autosync and select builtin sqlite connector
@@ -25,17 +25,17 @@
 
 ;; this code is copied from https://systemcrafters.net/build-a-second-brain-in-emacs/5-org-roam-hacks/
 
-;; show the type of note in the completion
-(cl-defmethod org-roam-node-type ((node org-roam-node))
-  "Return the TYPE of NODE."
-  (condition-case nil
-      (file-name-nondirectory
-       (directory-file-name
-        (file-name-directory
-         (file-relative-name (org-roam-node-file node) org-roam-directory))))
-    (error "")))
-(setq org-roam-node-display-template
-      (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+;; show the type of note in the completion DOESNT WORK FREEZES
+;; (cl-defmethod org-roam-node-type ((node org-roam-node))
+;;   "Return the TYPE of NODE."
+;;   (condition-case nil
+;;       (file-name-nondirectory
+;;        (directory-file-name
+;;         (file-name-directory
+;;          (file-relative-name (org-roam-node-file node) org-roam-directory))))
+;;     (error "")))
+;; (setq org-roam-node-display-template
+;;       (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
 ;; the code above is taken from https://jethrokuan.github.io/org-roam-guide/
 
 ;; li cancello tutti perchè le references possono essere realizzate con il capture normale
@@ -72,14 +72,31 @@
 ;;       )
 
 (setq org-roam-capture-templates
-      '(("m" "main" plain
+      '(
+	("m" "main" plain
          "%?"
          :if-new (file+head "Main/${slug}.org"
                             "#+title: ${title}\n")
          :immediate-finish t
          :unnarrowed t)
-        ("r" "reference" plain "%?"
-         :if-new
-         (file+head "Reference/${title}.org" "#+title: ${title}\n")
+
+	("u" "uni" plain
+         "%?"
+         :if-new (file+head "Uni/${slug}.org"
+                            "#+title: ${title}\n")
          :immediate-finish t
-         :unnarrowed t)))
+         :unnarrowed t)
+
+	("f" "fleeting" plain
+         "#+filetags: %^g
+%?"
+         :if-new (file+head "Fleeting/${slug}.org"
+                            ":PROPERTIES:
+:CREATED: %T
+:REFERRER: %a
+:END:
+#+title: ${title}\n")
+         :immediate-finish t
+         :unnarrowed t)
+	)
+      )
