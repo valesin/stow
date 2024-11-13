@@ -74,14 +74,16 @@
 (setq org-roam-capture-templates
       '(
 	("m" "main" plain
-         "%?"
+         "#+filetags: %^g
+%?"
          :if-new (file+head "Main/${slug}.org"
                             "#+title: ${title}\n")
          :immediate-finish t
          :unnarrowed t)
 
 	("u" "uni" plain
-         "%?"
+         "#+filetags: %^g
+%?"
          :if-new (file+head "Uni/${slug}.org"
                             "#+title: ${title}\n")
          :immediate-finish t
