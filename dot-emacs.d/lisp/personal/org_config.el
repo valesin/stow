@@ -118,7 +118,7 @@
          :publishing-directory "/home/vjo/Public/uni_notes"
 	 :recursive t
 	 
-	 :with-creator t
+	 :with-creator nil
 	 :section-numbers nil
          :with-toc t
 	 :htmlized-source t
