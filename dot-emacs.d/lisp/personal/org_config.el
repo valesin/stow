@@ -119,6 +119,7 @@
 	 :recursive t
 	 
 	 :with-creator nil
+	 :with-author nil
 	 :section-numbers nil
          :with-toc t
 	 :htmlized-source t
