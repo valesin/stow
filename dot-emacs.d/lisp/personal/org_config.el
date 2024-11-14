@@ -75,8 +75,14 @@
 
 ;; use whole path to refile
 ;;(setq org-refile-use-outline-path t)
-;; Refile until 5 level
+;; Refile until 5 level and use file name, to have 1 level headlines
+
 (setq org-refile-targets '((org-agenda-files :maxlevel . 5) (nil :maxlevel . 10 )) )
+(setq org-refile-use-outline-path 'file)
+
+;;add a recursively scanned directory as target
+(defun org-refile-candidates () (directory-files-recursively "~/Documents/Notes/Uni" "^[[:alnum:]].*\\.org\\'"))
+(add-to-list 'org-refile-targets '(org-refile-candidates :maxlevel . 3))
 
 ;; latex
 
@@ -113,7 +119,20 @@
 	      )
 	     )
 	   )
-	   
+
+(setq org-publish-project-alist
+      '(
+	(
+	 "Reti"
+         :base-directory "/home/vjo/Documents/Notes/Uni/Reti"
+         :publishing-function org-html-publish-to-html
+         :publishing-directory "/home/vjo/Documents/Notes/Uni/Reti/html"
+         :section-numbers t
+         :with-toc t
+	 :htmlized-source t
+	 )
+	)
+      )
 
 
 

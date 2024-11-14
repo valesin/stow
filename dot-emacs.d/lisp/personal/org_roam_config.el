@@ -81,10 +81,28 @@
          :immediate-finish t
          :unnarrowed t)
 
-	("u" "uni" plain
-         "#+filetags: %^g
+	("u" "uni")
+
+	("ua" "algoritimi" plain
+         "#+filetags: :algoritmi:%^g
 %?"
-         :if-new (file+head "Uni/${slug}.org"
+         :if-new (file+head "Uni/Algoritmi/${slug}.org"
+                            "#+title: ${title}\n")
+         :immediate-finish t
+         :unnarrowed t)
+	
+	("ur" "reti" plain
+         "#+filetags: :reti:%^g
+%?"
+         :if-new (file+head "Uni/Reti/${slug}.org"
+                            "#+title: ${title}\n")
+         :immediate-finish t
+         :unnarrowed t)
+
+	("ul" "linguaggi" plain
+	 "#+filetags: :linguaggi:%^g
+%?"
+         :if-new (file+head "Uni/Linguaggi/${slug}.org"
                             "#+title: ${title}\n")
          :immediate-finish t
          :unnarrowed t)
