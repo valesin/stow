@@ -115,7 +115,7 @@
 	 "Uni"
 	 :publishing-function org-html-publish-to-html
          :base-directory "/home/vjo/Documents/Notes/Uni/"
-         :publishing-directory "/home/vjo/Documents/docs"
+         :publishing-directory "/home/vjo/Public/uni_notes"
 	 :recursive t
 	 
 	 :with-creator t
