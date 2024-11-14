@@ -40,6 +40,8 @@
 (setq org-M-RET-may-split-line nil)
 ;; fontify exports
 (setq org-src-fontify-natively t)
+;; Create ID to support a link when capturing from a source
+(setq org-id-link-to-org-use-id t)
 
 (setq org-capture-templates
       '(
@@ -108,41 +110,63 @@
 
 ;; PUBLISH
 (setq org-publish-project-alist
-           '(
-	     ("Reti"
-	      :base-directory "/home/vjo/Documents/Uni/Ret/"
-	      :publishing-function org-html-publish-to-html
-	      :htmlized-source t
-              :publishing-directory "/home/vjo/Documents/Uni/Ret/export_html/"
-	      :makeindex t
-	      :with-toc t
-	      )
-	     )
-	   )
-
-(setq org-publish-project-alist
       '(
 	(
-	 "Reti"
-         :base-directory "/home/vjo/Documents/Notes/Uni/Reti"
+	 "Uni"
+         :base-directory "/home/vjo/Documents/Notes/Uni/"
          :publishing-function org-html-publish-to-html
-         :publishing-directory "/home/vjo/Documents/Notes/Uni/Reti/html"
+         :publishing-directory "/home/vjo/Documents/Notes/Uni/html"
          :section-numbers t
          :with-toc t
 	 :htmlized-source t
+	 :auto-sitemap t
+	 :with-creator t
+	 :recursive t
 	 )
 	)
       )
 
+(defun org-html--reference (datum info &optional named-only)
+  "Return an appropriate reference for DATUM.
+DATUM is an element or a `target' type object.  INFO is the
+current export state, as a plist.
+When NAMED-ONLY is non-nil and DATUM has no NAME keyword, return
+nil.  This doesn't apply to headlines, inline tasks, radio
+targets and targets."
+  (let* ((type (org-element-type datum))
+	 (user-label
+	  (org-element-property
+	   (pcase type
+	     ((or `headline `inlinetask) :CUSTOM_ID)
+	     ((or `radio-target `target) :value)
+	     (_ :name))
+	   datum))
+         (user-label (or user-label
+                         (when-let ((path (org-element-property :ID datum)))
+                           (concat "ID-" path)))))
+    (cond
+     ((and user-label
+	   (or (plist-get info :html-prefer-user-labels)
+	       ;; Used CUSTOM_ID property unconditionally.
+	       (memq type '(headline inlinetask))))
+      user-label)
+     ((and named-only
+	   (not (memq type '(headline inlinetask radio-target target)))
+	   (not user-label))
+      nil)
+     (t
+      (org-export-get-reference datum info)))))
 
 
 
 
+;; Customize the HTML output
+(setq org-html-validation-link nil            ;; Don't show validation link
+      org-html-head-include-scripts nil       ;; Use our own scripts
+      org-html-head-include-default-style nil ;; Use our own styles
+      org-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />")
 
-
-
-
-
+(setq org-export-with-broken-links 'mark)
 
 
 ;; fontify code in code blocks
