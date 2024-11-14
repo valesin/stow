@@ -113,15 +113,17 @@
       '(
 	(
 	 "Uni"
+	 :publishing-function org-html-publish-to-html
          :base-directory "/home/vjo/Documents/Notes/Uni/"
-         :publishing-function org-html-publish-to-html
-         :publishing-directory "/home/vjo/Documents/Notes/Uni/html"
-         :section-numbers t
+         :publishing-directory "/home/vjo/Documents/Notes/Uni/docs"
+	 :recursive t
+	 
+	 :with-creator t
+	 :section-numbers nil
          :with-toc t
 	 :htmlized-source t
 	 :auto-sitemap t
-	 :with-creator t
-	 :recursive t
+	 :with-latex t
 	 )
 	)
       )
