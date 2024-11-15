@@ -108,6 +108,9 @@
 	)
       )
 
+;; don't ask confirm on C-c C-c
+(setq org-confirm-babel-evaluate nil)
+
 ;; PUBLISH
 (setq org-publish-project-alist
       '(
