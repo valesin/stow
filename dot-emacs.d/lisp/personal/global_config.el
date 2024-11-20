@@ -4,20 +4,22 @@
 (require 'cl-lib)
 
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (setq package-archives
-'(("GNU ELPA" . "http://elpa.gnu.org/packages/")
-("MELPA Stable" . "http://stable.melpa.org/packages/")
-("MELPA" . "http://melpa.org/packages/"))
-package-archive-priorities
-'(("MELPA Stable" . 10)
-("MELPA" . 5)
-("GNU ELPA" . 0)))
+      '(("GNU ELPA" . "http://elpa.gnu.org/packages/")
+        ("MELPA Stable" . "http://stable.melpa.org/packages/")
+        ("MELPA" . "http://melpa.org/packages/")))
+
+(setq package-archive-priorities
+      '(("MELPA Stable" . 5)
+        ("MELPA" . 10)
+        ("GNU ELPA" . 1)))
 
 ;; set lexical binding for faster execution
 (setq lexical-binding t)
 
 (defvar my-packages
-  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex org-roam zotxt elfeed elfeed-org use-package consult)
+  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex org-roam zotxt elfeed elfeed-org use-package consult promise org-anki)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()

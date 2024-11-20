@@ -84,7 +84,8 @@
 	("u" "uni")
 
 	("ua" "algoritimi" plain
-         "#+filetags: :algoritmi:%^g
+         "#+ANKI_DECK: Algoritmi
+#+filetags: :algoritmi:%^g
 %?"
          :if-new (file+head "Uni/Algoritmi/${slug}.org"
                             "#+title: ${title}\n")
@@ -92,21 +93,15 @@
          :unnarrowed t)
 	
 	("ur" "reti" plain
-         "#+filetags: :reti:%^g
+         "#+ANKI_DECK: Reti
+#+filetags: :reti:%^g
 %?"
          :if-new (file+head "Uni/Reti/${slug}.org"
                             "#+title: ${title}\n")
          :immediate-finish t
          :unnarrowed t)
 
-	("ul" "linguaggi" plain
-	 "#+filetags: :linguaggi:%^g
-%?"
-         :if-new (file+head "Uni/Linguaggi/${slug}.org"
-                            "#+title: ${title}\n")
-         :immediate-finish t
-         :unnarrowed t)
-
+	
 	("f" "fleeting" plain
          "#+filetags: %^g
 %?"
