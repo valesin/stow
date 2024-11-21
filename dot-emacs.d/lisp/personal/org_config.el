@@ -137,6 +137,61 @@
 	)
       )
 
+(setq org-html-mathjax-options
+      '(
+       (path "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js")
+       (scale 1.0)
+       (align "center")
+       (font "mathjax-modern")
+       (overflow "scale")
+       (tags "ams")
+       (indent "0em")
+       (multlinewidth "85%")
+       (tagindent ".8em")
+       (tagside "right")
+       )
+      )
+
+(setq org-html-mathjax-template
+      "<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '%MULTLINEWIDTH'
+      },
+      {packages: {'[+]': ['mathtools']}},
+      tags: '%TAGS',
+      tagSide: '%TAGSIDE',
+      tagIndent: '%TAGINDENT'
+    },
+    chtml: {
+      scale: %SCALE,
+      displayAlign: '%ALIGN',
+      displayIndent: '%INDENT'
+    },
+    svg: {
+      scale: %SCALE,
+      displayAlign: '%ALIGN',
+      displayIndent: '%INDENT'
+    },
+    output: {
+      font: '%FONT',
+      displayOverflow: '%OVERFLOW'
+    },
+    loader: {
+      load: ['[tex]/mathtools']
+    },
+};
+  };
+</script>
+
+<script
+  id=\"MathJax-script\"
+  async
+  src=\"%PATH\">
+</script>"
+      )
+      
 ;; (defun org-html--reference (datum info &optional named-only)
 ;;   "Return an appropriate reference for DATUM.
 ;; DATUM is an element or a `target' type object.  INFO is the
