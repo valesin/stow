@@ -47,7 +47,7 @@
       '(
 	
 	("t" "todo" entry
-	 (file "~/Documents/inbox.org")
+	 (file "~/Documents/Planner/inbox.org")
          "* TODO %?")
 
 	("i" "info to process" entry
