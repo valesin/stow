@@ -3,6 +3,8 @@
 (package-initialize)
 (require 'cl-lib)
 
+(auth-source-pass-enable)
+
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 (setq package-archives
@@ -19,7 +21,7 @@
 (setq lexical-binding t)
 
 (defvar my-packages
-  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex org-roam zotxt elfeed elfeed-org use-package consult promise org-anki)
+  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex org-roam zotxt elfeed elfeed-org use-package consult promise org-anki org-caldav)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()
