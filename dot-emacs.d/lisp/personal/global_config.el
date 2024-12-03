@@ -3,7 +3,7 @@
 (package-initialize)
 (require 'cl-lib)
 
-(auth-source-pass-enable)
+(setq auth-sources '("~/.authinfo.gpg"))
 
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
