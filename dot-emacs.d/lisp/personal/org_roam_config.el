@@ -1,5 +1,5 @@
 ;; setup org roam directory
-(setq org-roam-directory (file-truename "~/Documents/Notes"))
+(setq org-roam-directory (file-truename "~/Documents/Personal/Notes"))
 (setq find-file-visit-truename t)
 
 ;; setup autosync and select builtin sqlite connector

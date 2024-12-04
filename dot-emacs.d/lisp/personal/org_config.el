@@ -7,6 +7,8 @@
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "C-c s") #'org-anki-sync-entry)
+
 
 ; set org path
 (setq org-directory "~/Documents/")
@@ -47,30 +49,29 @@
       '(
 	
 	("t" "todo" entry
-	 (file "~/Documents/Planner/inbox.org")
-         "* TODO %?")
+	 (file "~/Documents/Personal/inbox.org")
+         "* TODO %?\nFrom: %a\n")
 
 	("i" "info to process" entry
-	 (file "~/Documents/inbox.org")
-	 "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n")
+	 (file "~/Documents/Personal/inbox.org")
+	 "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\nFrom: %a\n")
 
 	("j" "journal" entry
-	 (file+datetree "~/Documents/journal.org")
-         "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:
-   %U\n:END:\n%?\nFrom: %a\n")
+	 (file+datetree "~/Documents/Personal/journal.org")
+         "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:%U\n:END:\n%?\n")
 
 	("r" "References")
 
 	("rw" "bookmarks" entry
-	 (file+headline "~/Documents/Reference/references.org" "Bookmarks")
+	 (file+headline "~/Documents/Personal/Reference/references.org" "Bookmarks")
 	 "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
 
         ("rb" "books" entry
-	 (file+headline "~/Documents/Reference/references.org" "Books")
+	 (file+headline "~/Documents/Personal/Reference/references.org" "Books")
 	 "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
 
       	("rf" "feed" entry
-	 (file+headline "~/Documents/Reference/rssfeeds.org" "Uncategorized")
+	 (file+headline "~/Documents/Personal/Reference/rssfeeds.org" "Uncategorized")
 	 "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?\n")
 	)
 )
@@ -192,6 +193,9 @@
 </script>"
       )
 
+;;org anki
+
+
 (use-package org-caldav
   :init
   ;; This is the sync on close function; it also prompts for save after syncing so 
@@ -236,11 +240,11 @@
   ;; This ensures "scheduled" org items show up, and show up as start times
   (setq org-icalendar-use-scheduled '(todo-start event-if-todo event-if-not-todo))
   ;; Add the delayed save hook with a five minute idle timer
-  (add-hook 'after-save-hook
-	    (lambda ()
-	      (when (eq major-mode 'org-mode)
-		(org-caldav-sync-with-delay 300))))
-  ;; Add the close emacs hook
+  ;; (add-hook 'after-save-hook
+  ;; 	    (lambda ()
+  ;; 	      (when (eq major-mode 'org-mode)
+  ;; 		(org-caldav-sync-with-delay 300))))
+  ;; ;; Add the close emacs hook
   ;;(add-hook 'kill-emacs-hook 'org-caldav-sync-at-close)
   )
 

@@ -3,6 +3,13 @@
 (package-initialize)
 (require 'cl-lib)
 
+ ;;To set up Emacs for transparent encryption and decryption you need to add the following to your .emacs:
+
+(require 'epa-file)
+(epa-file-enable)
+
+
+;; for the auto login for webdav
 (setq auth-sources '("~/.authinfo.gpg"))
 
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
