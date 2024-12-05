@@ -1,13 +1,14 @@
-(global-set-key (kbd "C-x w") 'elfeed)
+;; Configuration for user: valesin
+;; Last updated: 2024-12-05 20:38:29 UTC
 
-;; Load elfeed-org
-(require 'elfeed-org)
+(use-package elfeed
+  :ensure t   ; Make sure elfeed is installed
+  :bind      ; Global keybinding for elfeed
+  ("C-x w" . elfeed))   ; Quick access to RSS reader
 
-;; Initialize elfeed-org
-;; This hooks up elfeed-org to read the configuration when elfeed
-;; is started with =M-x elfeed=
-(elfeed-org)
-
-;; Optionally specify a number of files containing elfeed
-;; configuration.
-(setq rmh-elfeed-org-files (list "~/Documents/Reference/rssfeeds.org"))
+(use-package elfeed-org
+  :ensure t    ; Make sure elfeed-org is installed
+  :after elfeed ; Load after elfeed is loaded
+  :config     ; Configuration to run after loading
+  (elfeed-org)   ; Initialize elfeed-org
+  (setq rmh-elfeed-org-files (list "~/Documents/Reference/rssfeeds.org")))   ; Set RSS feeds org file

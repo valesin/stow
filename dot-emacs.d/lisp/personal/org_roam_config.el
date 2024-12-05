@@ -1,117 +1,53 @@
-;; setup org roam directory
-(setq org-roam-directory (file-truename "~/Documents/Personal/Notes"))
-(setq find-file-visit-truename t)
+;; Configuration for user: valesin
+;; Last updated: 2024-12-05 20:51:38 UTC
 
-;; setup autosync and select builtin sqlite connector
-(org-roam-db-autosync-mode)
-(setq org-roam-database-connector 'sqlite-builtin)
-
-;; enable link completion everywhere (don't know what it means)
-(setq org-roam-completion-everywhere t)
-
-(global-set-key (kbd "C-c n l") #'org-roam-buffer-toggle)
-(global-set-key (kbd "C-c n i") #'org-roam-node-insert)
-(global-set-key (kbd "C-c n s") #'org-id-get-create)
-(global-set-key (kbd "C-c n c") #'org-roam-capture)
-(global-set-key (kbd "C-c n f") #'org-roam-node-find)
-(global-set-key (kbd "C-c n n") #'org-roam-node-find)
-;;(global-set-key (kbd "C-c n I") #'org-roam-node-insert-immediate);; ;; Bind this to C-c n I
-;; (defun org-roam-node-insert-immediate (arg &rest args)
-;;   (interactive "P")
-;;   (let ((args (cons arg args))
-;;         (org-roam-capture-templates (list (append (car org-roam-capture-templates)
-;;                                                   '(:immediate-finish t)))))
-;;     (apply #'org-roam-node-insert args)))
-
-;; this code is copied from https://systemcrafters.net/build-a-second-brain-in-emacs/5-org-roam-hacks/
-
-;; show the type of note in the completion DOESNT WORK FREEZES
-;; (cl-defmethod org-roam-node-type ((node org-roam-node))
-;;   "Return the TYPE of NODE."
-;;   (condition-case nil
-;;       (file-name-nondirectory
-;;        (directory-file-name
-;;         (file-name-directory
-;;          (file-relative-name (org-roam-node-file node) org-roam-directory))))
-;;     (error "")))
-;; (setq org-roam-node-display-template
-;;       (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-;; the code above is taken from https://jethrokuan.github.io/org-roam-guide/
-
-;; li cancello tutti perchè le references possono essere realizzate con il capture normale
-;; questo non mi piace perchè inverte l'ordine senza un motivo apparente, inoltre tutte le funzioni che mi fornisce sono standard di org, compreso l'id
-;; utilizzo la versione standard
-;; (setq org-roam-capture-templates
-;;       '(
-	
-;; 	("d" "default" plain
-;; 	 "%?"
-;; 	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-;; 	 :unnarrowed t)
-	
-;; 	("r" "references")
-
-;; 	("rb" "book" plain
-;; 	 "* Source\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
-;; 	 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-;; 	 :unnarrowed t
-;; 	 :immediate-finish t)
-
-;; 	("rw" "book nots" entry
-;; 	 "* Source\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
-;; 	 :if-new (file+head+olp "bookprova.org" "#+title: ${title}\n" ("booknots") )
-;; 	 :unnarrowed t
-;; 	 :immediate-finish t)
-
-;; 	("rg" "bookmarks" entry
-;; 	 "* [[%^{Link}][%^{Title}]] %^g\n:PROPERTIES:\n :ID: %(org-id-uuid)\n :DATE_ADDED: %t\n :END:\n %? "
-;; 	 :if-new (file+head+olp "references.org" "#+title: ${title}\n" ("Bookmarks") )
-;; 	 :unnarrowed t
-;; 	 :immediate-finish t)
-;; 	)
-;;       )
-
-(setq org-roam-capture-templates
-      '(
-	("m" "main" plain
-         "#+filetags: %^g
-%?"
-         :if-new (file+head "Main/${slug}.org"
-                            "#+title: ${title}\n")
-         :immediate-finish t
-         :unnarrowed t)
-
-	("u" "uni")
-
-	("ua" "algoritimi" plain
-         "#+ANKI_DECK: Algoritmi
-#+filetags: :algoritmi:%^g
-%?"
-         :if-new (file+head "Uni/Algoritmi/${slug}.org"
-                            "#+title: ${title}\n")
-         :immediate-finish t
-         :unnarrowed t)
-	
-	("ur" "reti" plain
-         "#+ANKI_DECK: Reti
-#+filetags: :reti:%^g
-%?"
-         :if-new (file+head "Uni/Reti/${slug}.org"
-                            "#+title: ${title}\n")
-         :immediate-finish t
-         :unnarrowed t)
-
-	
-	("f" "fleeting" plain
-         "#+filetags: %^g
-%?"
-         :if-new (file+head "Fleeting/${slug}.org"
-                            ":PROPERTIES:
-:CREATED: %T
-:REFERRER: %a
-:END:
-#+title: ${title}\n")
-         :immediate-finish t
-         :unnarrowed t)
-	)
-      )
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory (file-truename "~/Documents/Personal/Notes"))        ; Set org-roam directory
+  (find-file-visit-truename t)                                            ; Follow symlinks
+  (org-roam-database-connector 'sqlite-builtin)                           ; Use built-in SQLite
+  (org-roam-completion-everywhere t)                                      ; Enable completion everywhere
+  
+  :bind  ; Global keybindings for org-roam functions
+  (("C-c n r" . org-roam-buffer-toggle)    ; Toggle org-roam buffer
+   ("C-c n i" . org-roam-node-insert)      ; Insert org-roam node
+   ("C-c n s" . org-id-get-create)         ; Create or get ID
+   ("C-c n c" . org-roam-capture)          ; Capture to org-roam
+   ("C-c n f" . org-roam-node-find)        ; Find org-roam node
+   ("C-c n n" . org-roam-node-find))       ; Alternative find binding
+  
+  :custom  ; Capture templates
+  (org-roam-capture-templates
+   '(("m" "main" plain                      ; Main note template
+      "#+filetags: %^g\n%?"
+      :if-new (file+head "Main/${slug}.org"
+                         "#+title: ${title}\n")
+      :immediate-finish t
+      :unnarrowed t)
+     
+     ("u" "uni")                            ; University parent template
+     
+     ("ua" "algoritimi" plain               ; Algorithms template
+      "#+ANKI_DECK: Algoritmi\n#+filetags: :algoritmi:%^g\n%?"
+      :if-new (file+head "Uni/Algoritmi/${slug}.org"
+                         "#+title: ${title}\n")
+      :immediate-finish t
+      :unnarrowed t)
+     
+     ("ur" "reti" plain                     ; Networks template
+      "#+ANKI_DECK: Reti\n#+filetags: :reti:%^g\n%?"
+      :if-new (file+head "Uni/Reti/${slug}.org"
+                         "#+title: ${title}\n")
+      :immediate-finish t
+      :unnarrowed t)
+     
+     ("f" "fleeting" plain                  ; Fleeting notes template
+      "#+filetags: %^g\n%?"
+      :if-new (file+head "Fleeting/${slug}.org"
+                         ":PROPERTIES:\n:CREATED: %T\n:REFERRER: %a\n:END:\n#+title: ${title}\n")
+      :immediate-finish t
+      :unnarrowed t)))
+  
+  :config
+  (org-roam-db-autosync-mode))             ; Enable automatic database sync

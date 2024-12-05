@@ -6,7 +6,7 @@
  
 (load "global_config.el")
 (load "visual_config.el")
-(load "org_config.el")
+(load "org_config_real.el")
 (load "org_roam_config.el")
 (load "programming_config.el")
 ;;(load "ocaml_config.el")
@@ -19,7 +19,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(org-web-tools org-caldav promise org-anki org-drill elfeed-org elfeed helm zotxt yasnippet tuareg org-roam lsp-ui go-mode company auctex)))
+   '(htmlize org-web-tools org-caldav promise org-anki org-drill elfeed-org elfeed helm zotxt yasnippet tuareg org-roam lsp-ui go-mode company auctex)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
