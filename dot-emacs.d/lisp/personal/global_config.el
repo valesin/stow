@@ -28,7 +28,7 @@
 (setq lexical-binding t)
 
 (defvar my-packages
-  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex org-roam zotxt elfeed elfeed-org use-package consult promise org-anki org-caldav)
+  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex org-roam zotxt elfeed elfeed-org use-package consult promise org-anki org-caldav org-web-tools)
   "A list of packages to ensure are installed at launch.")
 
 (defun my-packages-installed-p ()

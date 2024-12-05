@@ -1,62 +1,35 @@
-# i3status configuration file.
-# see "man i3status" for documentation.
-
-# It is important that this file is edited as UTF-8.
-# The following line should contain a sharp s:
-# ß
-# If the above line is not correctly displayed, fix your editor first!
+# i3status configuration file
 
 general {
-   colors = true
-   color_good = "#859900"
-   color_bad = "#dc322f"
-   color_degraded = "#cb4b16"
-   output_format = "i3bar"
-   interval = 2
+    colors = false
+    interval = 10
 }
 
-#order += "disk /"
-#order += "disk /home"
-#order += "wireless wlan0" #it doesn't work here (probably it's the name of the device)
-order += "battery 0"
-#order += "load"
-order += "cpu_usage 0"
-#order += "cpu_temperature 0"
 order += "tztime local"
-
-wireless wlan0 {
-        format_up = "WiFi: %quality"
-        format_down = "W: down"
-}
-
-
-battery 0 {
-        format = "↯ %status %percentage, %remaining left"
-}
-
+order += "battery all"
+order += "volume master"
 
 
 tztime local {
-        format = "%d-%m-%Y %H:%M"
+    align = "center"
+    format = "%Y-%m-%d  %H:%M "
+    align = "left"
 }
 
-load {
-        format = "%1min"
+battery all {
+    format = "⚡: %percentage"
+    low_threshold = 20
+    threshold_type = percentage
+    align = "left"
+    min_width = 80
 }
 
-
-disk "/" {
-        format = "⛁ %avail"
-}
-
-disk "/home" {
-        format = "⛁ %avail"
-}
-
-cpu_usage {
-        format = " ⌗ %usage "
-}
-
-cpu_temperature 0 {
-        format = " ⇣ %degrees°C "
+volume master {
+        format = "🔊: %volume"
+        format_muted = "🔇: %volume"
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+	align = "left"
+        min_width = 80
 }

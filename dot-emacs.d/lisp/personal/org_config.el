@@ -1,4 +1,3 @@
-;;ORG related settings
 (require 'org)
 (require 'htmlize)
 (require 'cdlatex)
@@ -9,7 +8,6 @@
 (global-set-key (kbd "C-c c") #'org-capture)
 (global-set-key (kbd "C-c s") #'org-anki-sync-entry)
 
-
 ; set org path
 (setq org-directory "~/Documents/")
 ;set stages
@@ -17,7 +15,7 @@
       '((sequence "TODO" "STARTED" "WAITING" "APPT" "|" "DONE" "CANCELLED" "DEFERRED")))
 
 ;;set files to fill agenda
-(setq org-agenda-files '("/home/vjo/Documents/Planner/" "/home/vjo/Documents/Notes/" ))
+(setq org-agenda-files '("/home/vjo/Documents/Personal/Planner/" "/home/vjo/Documents/Personal/Notes/" ))
 ;; hide emphasis markers (*..*, /../)
 (setq org-hide-emphasis-markers t)
 ;; sostitute bullet circle to the hyphen for list items
@@ -228,8 +226,8 @@
 	  )
 	)
 
-  (setq org-caldav-backup-file "~/Documents/Planner/org-caldav-backup.org")
-  (setq org-caldav-save-directory "~/Documents/Planner/")
+  (setq org-caldav-backup-file "~/Documents/Personal/Planner/org-caldav/org-caldav-backup.org")
+  (setq org-caldav-save-directory "~/Documents/Personal/Planner/org-caldav/")
   
   :config
   (setq org-icalendar-alarm-time 1)
@@ -247,6 +245,8 @@
   ;; ;; Add the close emacs hook
   ;;(add-hook 'kill-emacs-hook 'org-caldav-sync-at-close)
   )
+
+(require 'org-web-tools)
 
 ;; don't do it cause i call it from the script
 ;;(defun org-caldav-sync-at-close ()
