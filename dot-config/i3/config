@@ -15,7 +15,7 @@ set $mod Mod4
 # is used in the bar {} block below.
 font pango:monospace 12
 
-exec_always ~/Documents/Scripts/keyboard.sh
+exec_always ~/Documents/Scripts/startup_both.sh
 exec_always redshift
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
