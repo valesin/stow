@@ -1,4 +1,3 @@
-;; Configuration for user: valesin
 ;; Last updated: 2024-12-05 20:51:38 UTC
 
 (use-package org-roam

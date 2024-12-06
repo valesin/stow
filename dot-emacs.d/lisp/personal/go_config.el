@@ -1,29 +1,37 @@
-;; set 4 tabs
-;;(add-mode-hook 'go-mode-hook (lambda ()
-;;			       (setq tab-width 4)))
+;; Go Mode Configuration
+(use-package go-mode
+  :ensure t
+  :hook
+  (go-mode . (lambda () (setq tab-width 4)))
+  (go-mode . lsp-deferred)  ;; Start LSP when entering Go mode
+  (go-mode . lsp-go-install-save-hooks)
+  (go-mode . yas-minor-mode)
+  (add-to-list 'yas-snippet-dirs "/home/vko/Documents/Uni/Alg/")
+  (before-save . gofmt-before-save)
+  )
 
-;; enable snippets
-(require 'yasnippet)
-(add-hook 'go-mode-hook #'yas-minor-mode)
-(add-to-list 'yas-snippet-dirs "/home/vko/Documents/Uni/Alg/")
+(use-package lsp-mode
+  :ensure t
+  :defer t
+  :config
+  (defun lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  
+  (with-eval-after-load 'lsp-mode
+    (lsp-register-custom-settings
+     '(("golangci-lint.command"
+        ["golangci-lint" "run" "--enable-all" "--disable" "lll" "--out-format" "json" "--issues-exit-code=1"])))
 
-;; gofmt at save
-(add-hook 'before-save-hook 'gofmt-before-save)
-
-(with-eval-after-load 'lsp-mode
-  (lsp-register-custom-settings
-   '(("golangci-lint.command"
-      ["golangci-lint" "run" "--enable-all" "--disable" "lll" "--out-format" "json" "--issues-exit-code=1"])))
-
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection
-                                     '("golangci-lint-langserver"))
-                    :activation-fn (lsp-activate-on "go")
-                    :language-id "go"
-                    :priority 0
-                    :server-id 'golangci-lint
-                    :add-on? t
-                    :library-folders-fn #'lsp-go--library-default-directories
-                    :initialization-options (lambda ()
-                                              (gethash "golangci-lint"
-                                                       (lsp-configuration-section "golangci-lint"))))))
+    (lsp-register-client
+     (make-lsp-client :new-connection (lsp-stdio-connection
+                                      '("golangci-lint-langserver"))
+                      :activation-fn (lsp-activate-on "go")
+                      :language-id "go"
+                      :priority 0
+                      :server-id 'golangci-lint
+                      :add-on? t
+                      :library-folders-fn #'lsp-go--library-default-directories
+                      :initialization-options (lambda ()
+                                             (gethash "golangci-lint"
+                                                     (lsp-configuration-section "golangci-lint")))))))

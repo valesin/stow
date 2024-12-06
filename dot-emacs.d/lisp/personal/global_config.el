@@ -1,95 +1,98 @@
-;; PACKAGES
+;; Initialize package management
 (require 'package)
-(package-initialize)
-(require 'cl-lib)
-
- ;;To set up Emacs for transparent encryption and decryption you need to add the following to your .emacs:
-
-(require 'epa-file)
-(epa-file-enable)
-
-
-;; for the auto login for webdav
-(setq auth-sources '("~/.authinfo.gpg"))
-
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-
 (setq package-archives
-      '(("GNU ELPA" . "http://elpa.gnu.org/packages/")
+      '(("GNU ELPA"     . "http://elpa.gnu.org/packages/")
         ("MELPA Stable" . "http://stable.melpa.org/packages/")
-        ("MELPA" . "http://melpa.org/packages/")))
-
+        ("MELPA"        . "http://melpa.org/packages/")))
 (setq package-archive-priorities
       '(("MELPA Stable" . 5)
-        ("MELPA" . 10)
-        ("GNU ELPA" . 1)))
+        ("MELPA"        . 10)
+        ("GNU ELPA"     . 1)))
+(package-initialize)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-and-compile
+  (setq use-package-always-ensure t ;; not necessary cause i put it
+        use-package-expand-minimally t))
 
-;; set lexical binding for faster execution
+;; Required for certain functions
+(require 'cl-lib)
+
+;; Enable transparent encryption and decryption
+(require 'epa-file)
+(epa-file-enable)
+(setq auth-sources '("~/.authinfo.gpg"))  ; auto login for WebDAV
+
+;; Avoid uncomfortable checks
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
+;; Set lexical binding for faster execution
 (setq lexical-binding t)
 
-(defvar my-packages
-  '(ledger-mode org lsp-mode lsp-ui go-mode company yasnippet auctex org-roam zotxt elfeed elfeed-org use-package consult promise org-anki org-caldav org-web-tools)
-  "A list of packages to ensure are installed at launch.")
+;; ;; Ensure packages are installed at launch
+;; (defvar my-packages
+;;     lsp-mode
+;;     lsp-ui
+;;     go-mode
+;;     company
+;;     yasnippet
+;; 
+;;     
+;;    
+;;     
+;;     promise
 
-(defun my-packages-installed-p ()
-  (cl-loop for p in my-packages
-           when (not (package-installed-p p)) do (cl-return nil)
-           finally (cl-return t)))
+;; (defun my-packages-installed-p ()
+;;   "Check if all packages in `my-packages` are installed."
+;;   (cl-loop for p in my-packages
+;;            when (not (package-installed-p p)) do (cl-return nil)
+;;            finally (cl-return t)))
 
-(unless (my-packages-installed-p)
-  ;; check for new packages (package versions)
-  (package-refresh-contents)
-  ;; install the missing packages
-  (dolist (p my-packages)
-    (when (not (package-installed-p p))
-      (package-install p))))
-;; end PACKAGES
+;; (unless (my-packages-installed-p)
+;;   ;; Check for new package versions
+;;   (package-refresh-contents)
+;;   ;; Install missing packages
+;;   (dolist (p my-packages)
+;;     (unless (package-installed-p p)
+;;       (package-install p))))
 
-;; handle backups
+;; Handle backups
 (defvar --backup-directory (concat user-emacs-directory "backups"))
-(if (not (file-exists-p --backup-directory))
-        (make-directory --backup-directory t))
-(setq backup-directory-alist `(("." . ,--backup-directory)))
-(setq make-backup-files t               ; backup of a file the first time it is saved.
-      backup-by-copying t               ; don't clobber symlinks
-      version-control t                 ; version numbers for backup files
-      delete-old-versions t             ; delete excess backup files silently
+(unless (file-exists-p --backup-directory)
+  (make-directory --backup-directory t))
+
+(setq backup-directory-alist `(("." . ,--backup-directory))
+      make-backup-files t                ; backup files the first time they are saved
+      backup-by-copying t                ; don't clobber symlinks
+      version-control t                  ; use version numbers for backups
+      delete-old-versions t              ; delete excess backup files silently
       delete-by-moving-to-trash t
-      kept-old-versions 6               ; oldest versions to keep when a new numbered backup is made (default: 2)
-      kept-new-versions 9               ; newest versions to keep when a new numbered backup is made (default: 2)
-      auto-save-default t               ; auto-save every buffer that visits a file
-      auto-save-timeout 20              ; number of seconds idle time before auto-save (default: 30)
-      auto-save-interval 200            ; number of keystrokes between auto-saves (default: 300)
+      kept-old-versions 6                ; oldest versions to keep
+      kept-new-versions 9                ; newest versions to keep
+      auto-save-default t                ; auto-save every buffer that visits a file
+      auto-save-timeout 20               ; number of seconds idle time before auto-save
+      auto-save-interval 200             ; number of keystrokes between auto-saves
       )
-;;(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 
+;; Enable global auto-revert mode
+(global-auto-revert-mode t)
 
-(global-auto-revert-mode)
+;; Enable visual line mode in text modes
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
-
-;;Type y or p instead of yes or no
+;; Type 'y' or 'n' instead of 'yes' or 'no'
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; i3 integration
-;(require 'i3)
-;(require 'i3-integration)
-;(i3-one-window-per-frame-mode-on)
-;(i3-advise-visible-frame-list-on)
-
-;; By default, Emacs saves backup files in the current directory. These are the files ending in ~ that are cluttering up your directory lists.
-;; The following code stashes them all in ~/.config/emacs/backups, where I can find them with C-x C-f (find-file) if I really need to. 
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-(with-eval-after-load 'tramp
-(add-to-list 'tramp-backup-directory-alist
-             (cons tramp-file-name-regexp nil)))
-
-
-
-;; Open files in firefox
+;; Set default browser for opening URLs
 (setq browse-url-generic-program "firefox")
 
-;; Keep open files open across sessions.
-;(desktop-save-mode 1)
-;(setq desktop-restore-eager 10)
+;; Uncomment the following lines to enable desktop save mode
+;; (desktop-save-mode 1)
+;; (setq desktop-restore-eager 10)
 
+;; Uncomment for i3 integration
+;; (require 'i3)
+;; (require 'i3-integration)
+;; (i3-one-window-per-frame-mode-on)
+;; (i3-advise-visible-frame-list-on)
