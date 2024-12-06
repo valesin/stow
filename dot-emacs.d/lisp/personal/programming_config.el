@@ -16,6 +16,11 @@
   (prog-mode . display-line-numbers-mode))
 
 (use-package yasnippet
-  :ensure t)
+  :ensure t
+  :init
+  (add-to-list 'yas-snippet-dirs "/home/vko/Documents/Uni/Alg/")
+  (yas-reload-all)
+  )
+  
   
 

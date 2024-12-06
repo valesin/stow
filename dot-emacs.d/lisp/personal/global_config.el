@@ -13,7 +13,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-and-compile
-  (setq use-package-always-ensure t ;; not necessary cause i put it
+  (setq use-package-always-ensure t ;; not necessary cause i always put it
         use-package-expand-minimally t))
 
 ;; Required for certain functions
@@ -30,50 +30,30 @@
 ;; Set lexical binding for faster execution
 (setq lexical-binding t)
 
-;; ;; Ensure packages are installed at launch
-;; (defvar my-packages
-;;     lsp-mode
-;;     lsp-ui
-;;     go-mode
-;;     company
-;;     yasnippet
-;; 
-;;     
-;;    
-;;     
-;;     promise
+;;     promise (WHO NEEDS IT?)
 
-;; (defun my-packages-installed-p ()
-;;   "Check if all packages in `my-packages` are installed."
-;;   (cl-loop for p in my-packages
-;;            when (not (package-installed-p p)) do (cl-return nil)
-;;            finally (cl-return t)))
-
-;; (unless (my-packages-installed-p)
-;;   ;; Check for new package versions
-;;   (package-refresh-contents)
-;;   ;; Install missing packages
-;;   (dolist (p my-packages)
-;;     (unless (package-installed-p p)
-;;       (package-install p))))
-
-;; Handle backups
-(defvar --backup-directory (concat user-emacs-directory "backups"))
+;; Backup settings
+(defvar --backup-directory (concat user-emacs-directory "backups/"))
 (unless (file-exists-p --backup-directory)
   (make-directory --backup-directory t))
+(setq backup-directory-alist `((".*" . ,--backup-directory)))
+(setq make-backup-files t)
+(setq backup-by-copying t)
+(setq version-control t)
+(setq delete-old-versions t)
+(setq delete-by-moving-to-trash t)
+(setq kept-old-versions 4)
+(setq kept-new-versions 8)
 
-(setq backup-directory-alist `(("." . ,--backup-directory))
-      make-backup-files t                ; backup files the first time they are saved
-      backup-by-copying t                ; don't clobber symlinks
-      version-control t                  ; use version numbers for backups
-      delete-old-versions t              ; delete excess backup files silently
-      delete-by-moving-to-trash t
-      kept-old-versions 6                ; oldest versions to keep
-      kept-new-versions 9                ; newest versions to keep
-      auto-save-default t                ; auto-save every buffer that visits a file
-      auto-save-timeout 20               ; number of seconds idle time before auto-save
-      auto-save-interval 200             ; number of keystrokes between auto-saves
-      )
+;; Auto-save settings
+(defvar --autosave-directory (concat user-emacs-directory "autosaves/"))
+(unless (file-exists-p --autosave-directory)
+  (make-directory --autosave-directory t))
+(setq auto-save-default t)
+(setq auto-save-timeout 20)
+(setq auto-save-interval 200)
+(setq auto-save-file-name-transforms
+      `((".*" ,--autosave-directory t)))
 
 ;; Enable global auto-revert mode
 (global-auto-revert-mode t)

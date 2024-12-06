@@ -1,23 +1,19 @@
 ;; Go Mode Configuration
 (use-package go-mode
   :ensure t
-  :hook
-  (go-mode . (lambda () (setq tab-width 4)))
-  (go-mode . lsp-deferred)  ;; Start LSP when entering Go mode
-  (go-mode . lsp-go-install-save-hooks)
-  (go-mode . yas-minor-mode)
-  (add-to-list 'yas-snippet-dirs "/home/vko/Documents/Uni/Alg/")
-  (before-save . gofmt-before-save)
-  )
-
+  :defer t
+  :hook ((go-mode . (lambda () (setq tab-width 4)))
+         (go-mode . lsp-deferred)  ;; Start LSP when entering Go mode
+         (go-mode . yas-minor-mode)
+         (go-mode . (lambda ()
+                     (add-hook 'before-save-hook #'gofmt-before-save nil t)
+                     (add-hook 'before-save-hook #'lsp-format-buffer nil t)
+                     (add-hook 'before-save-hook #'lsp-organize-imports nil t)))))
+	 
 (use-package lsp-mode
-  :ensure t
+  :ensure t :ensure lsp-ui
   :defer t
   :config
-  (defun lsp-go-install-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'before-save-hook #'lsp-organize-imports t t))
-  
   (with-eval-after-load 'lsp-mode
     (lsp-register-custom-settings
      '(("golangci-lint.command"
@@ -34,4 +30,4 @@
                       :library-folders-fn #'lsp-go--library-default-directories
                       :initialization-options (lambda ()
                                              (gethash "golangci-lint"
-                                                     (lsp-configuration-section "golangci-lint")))))))
+                                                      (lsp-configuration-section "golangci-lint")))))))
