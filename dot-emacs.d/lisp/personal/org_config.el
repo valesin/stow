@@ -7,6 +7,10 @@
    ("C-c a" . org-agenda)        ; Open the org agenda view
    ("C-c c" . org-capture)       ; Start org capture
    ("C-c s" . org-anki-sync-entry))  ; Sync current entry with Anki
+
+  :init
+  (defun org-refile-candidates ()
+    (directory-files-recursively "~/Documents/Personal/Notes/Uni" "^[[:alnum:]].*\\.org\\'"))
   
   :custom
   (org-directory "~/Documents/")  ; Base directory for org files
@@ -55,8 +59,12 @@
   
   
   ;; Refile settings
-  (org-refile-targets '((org-agenda-files :maxlevel . 5)  ; Allow refiling to level 5 in agenda files
-                        (nil :maxlevel . 10)))            ; And to level 10 in current buffer
+  (org-refile-targets '(
+			(org-agenda-files :maxlevel . 5)  ; Allow refiling to level 5 in agenda files
+                        (nil :maxlevel . 10)
+			(org-refile-candidates :maxlevel . 3)
+			)
+		      )            ; And to level 10 in current buffer
   (org-refile-use-outline-path 'file)  ; Show file names in refile interface
   
   ;; Babel settings
@@ -128,13 +136,7 @@
     <script id=\"MathJax-script\" async src=\"%PATH\"></script>")
 
   :config
-    ;; Function to find refile targets in university notes, DOES NOT WORK
-  ;;(defun org-refile-candidates ()
-  ;;  (directory-files-recursively "~/Documents/Personal/Notes/Uni" "^[[:alnum:]].*\\.org\\'"))
-    ;; Execute it
-  ;;(add-to-list 'org-refile-targets '(org-refile-candidates :maxlevel . 3))
-  
-  ;; Configure org-babel languages for code block execution
+   ;; Configure org-babel languages for code block execution
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . nil)  ; Support for Emacs Lisp
