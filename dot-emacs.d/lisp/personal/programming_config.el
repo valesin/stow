@@ -17,8 +17,8 @@
 
 (use-package yasnippet
   :ensure t
-  :init
-  (add-to-list 'yas-snippet-dirs "/home/vko/Documents/Uni/Alg/")
+  :config
+  (add-to-list 'yas-snippet-dirs "~/Documents/Uni/Alg/go-snippets/")
   (yas-reload-all)
   )
   
