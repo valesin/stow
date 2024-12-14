@@ -6,8 +6,8 @@
   (("C-c l" . org-store-link)    ; Store a link to the current location
    ("C-c a" . org-agenda)        ; Open the org agenda view
    ("C-c c" . org-capture)       ; Start org capture
-   ("C-c s" . org-anki-sync-entry))  ; Sync current entry with Anki
-
+   ("C-c s" . org-anki-sync-entry)  ; Sync current entry with Anki
+   )
   :init
   (defun org-refile-candidates ()
     (directory-files-recursively "~/Documents/Personal/Notes/Uni" "^[[:alnum:]].*\\.org\\'"))
@@ -15,9 +15,9 @@
   :custom
   (org-directory "~/Documents/")  ; Base directory for org files
   (org-todo-keywords
-   '((sequence "TODO" "STARTED" "WAITING" "APPT" "|" "DONE" "CANCELLED" "DEFERRED")))  ; Custom TODO states workflow
-  (org-agenda-files '("/home/vjo/Documents/Personal/Planner/" 
-                     "/home/vjo/Documents/Personal/Notes/"))  ; Files to be included in agenda view
+   '((sequence "TODO(t)" "STARTED(s)" "WAITING(w)" "APPT(a)" "|" "DONE(d)" "CANCELLED(c)" "FUTURE(f)")))  ; Custom TODO states workflow
+  (org-agenda-files '("~/Documents/Personal/Actions/" 
+                     "~//Documents/Personal/inbox.org"))  ; Files to be included in agenda view
   (org-hide-emphasis-markers t)   ; Hide markup symbols like *bold* /italic/
   (org-indent-indentation-per-level 4)  ; Number of spaces for each level of indentation
   (org-startup-indented t)        ; Enable org-indent-mode by default
