@@ -74,13 +74,14 @@
   (org-publish-project-alist
    '(("Uni"  ; Project name for university notes
       :publishing-function org-html-publish-to-html  ; Convert org to HTML
-      :base-directory "/home/vjo/Documents/Notes/Uni/"  ; Where org files are
-      :publishing-directory "/home/vjo/Public/uni_notes"  ; Where HTML files go
+      :base-directory "~/Documents/Personal/Notes/Uni/"  ; Where org files are
+      :publishing-directory "~/Public/uni_notes"  ; Where HTML files go
       :recursive t        ; Include subdirectories
       :with-creator nil   ; Don't show "Created by Org" footer
       :with-author nil    ; Don't show author name
       :section-numbers nil  ; Don't number sections
       :with-toc t          ; Include table of contents
+      :auto-sitemap t
       :htmlized-source t   ; Include source code with syntax highlighting
       :auto-sitemap t      ; Generate sitemap.org automatically
       :with-latex t        ; Enable LaTeX math support
@@ -88,7 +89,8 @@
       :html-head-include-scripts nil     ; Don't include default scripts
       :html-head-include-default-style nil  ; Don't include default CSS
       :html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" onerror=\"this.onerror=null;this.href='local.css';\" />"  ; Use simple CSS framework
-      :with-broken-links 'mark)))  ; Mark broken links instead of failing
+      :with-broken-links 'mark
+      )))  ; Mark broken links instead of failing
   
   ;; MathJax settings for LaTeX math rendering
   (org-html-mathjax-options
