@@ -28,14 +28,14 @@
      ("u" "uni")                            ; University parent template
      
      ("ua" "algoritimi" plain               ; Algorithms template
-      "#+ANKI_DECK: Algoritmi\n#+filetags: :algoritmi:%^g\n%?"
+      "#+ANKI_DECK: Algoritmi\n#+exclude_tags: anki noexport\n#+filetags: :algoritmi:%^g\n%?"
       :if-new (file+head "Uni/Algoritmi/${slug}.org"
                          "#+title: ${title}\n")
       :immediate-finish t
       :unnarrowed t)
      
      ("ur" "reti" plain                     ; Networks template
-      "#+ANKI_DECK: Reti\n#+filetags: :reti:%^g\n%?"
+      "#+ANKI_DECK: Reti\n+exclude_tags: anki noexport\n#+filetags: :reti:%^g\n%?"
       :if-new (file+head "Uni/Reti/${slug}.org"
                          "#+title: ${title}\n")
       :immediate-finish t

@@ -42,7 +42,7 @@
            (file+datetree "~/Documents/Personal/journal.org")
            "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:%U\n:END:\n%?\n")
           
-          ("r" "References")  ; Parent template for references
+          ("r" "references")  ; Parent template for references
           
           ("rw" "bookmarks" entry  ; Web bookmarks
            (file+headline "~/Documents/Personal/Reference/references.org" "Bookmarks")
@@ -54,8 +54,26 @@
           
           ("rf" "feed" entry  ; RSS feed entries
            (file+headline "~/Documents/Personal/Reference/rssfeeds.org" "Uncategorized")
-           "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?\n")))
-  
+           "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?\n")
+	  
+	  ("a" "anki")
+
+	  ("aa" "algoritmi" entry  ; Book references
+           (file "~/Documents/Personal/Reference/Anki/anki_algoritmi.org")
+           "\n* %^{Front}      %^g\n%?\n"
+	   :after-finalize (lambda () 
+			     (org-anki-sync-all)))
+	  
+	  
+	  ("ar" "reti" entry  ; Book references
+	   (file "~/Documents/Personal/Reference/Anki/anki_reti.org")
+	   "\n* %^{Front}      %^g\n%?\n"
+	   :after-finalize (lambda () 
+			     (org-anki-sync-all)))
+	  )
+	)
+  )
+
   
   
   ;; Refile settings
