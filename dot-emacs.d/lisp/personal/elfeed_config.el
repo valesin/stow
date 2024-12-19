@@ -11,4 +11,4 @@
   :after elfeed ; Load after elfeed is loaded
   :config     ; Configuration to run after loading
   (elfeed-org)   ; Initialize elfeed-org
-  (setq rmh-elfeed-org-files (list "~/Documents/Reference/rssfeeds.org")))   ; Set RSS feeds org file
+  (setq rmh-elfeed-org-files (list "~/Documents/Personal/Reference/rssfeeds.org")))   ; Set RSS feeds org file
