@@ -76,6 +76,7 @@
       :publishing-function org-html-publish-to-html  ; Convert org to HTML
       :base-directory "~/Documents/Personal/Notes/Uni/"  ; Where org files are
       :publishing-directory "~/Public/uni_notes"  ; Where HTML files go
+      :language it
       :recursive t        ; Include subdirectories
       :with-creator nil   ; Don't show "Created by Org" footer
       :with-author nil    ; Don't show author name
