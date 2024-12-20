@@ -14,19 +14,34 @@
   
   :custom
   (org-directory "~/Documents/")  ; Base directory for org files
+  ;; TODOs
   (org-todo-keywords
-   '((sequence "TODO(t)" "STARTED(s)" "WAITING(w)" "APPT(a)" "|" "DONE(d)" "CANCELLED(c)" "FUTURE(f)")))  ; Custom TODO states workflow
+   '((sequence "APPT(a)" "|" "DONE(d)" "CANCELLED(c)" "FUTURE(f)")))  ; Custom TODO states workflow
+  (org-todo-keywords
+           '((sequence "TODO(t)" "STARTED(s)""WAITING(w)" "|" "FINISHED(f)")
+             (sequence "APPT(a)" "|" "DONE(d)")
+             (sequence "|" "CANCELED")))
+  (org-enforce-todo-dependencies t)
+  (org-log-done 'time) ; Add timestamp when marking items as DONE
+  ;; Agenda
   (org-agenda-files '("~/Documents/Personal/Actions/" 
-                     "~//Documents/Personal/inbox.org"))  ; Files to be included in agenda view
+                      "~//Documents/Personal/inbox.org"))  ; Files to be included in agenda view
+  (org-agenda-dim-blocked-tasks 'invisible)
+  (org-agenda-custom-commands
+        '(("h" "Agenda and TODO"
+           ((agenda "")
+            (todo "TODO")
+	    (todo "STARTED")))))
+
+
   (org-hide-emphasis-markers t)   ; Hide markup symbols like *bold* /italic/
   (org-indent-indentation-per-level 4)  ; Number of spaces for each level of indentation
   (org-startup-indented t)        ; Enable org-indent-mode by default
   (org-special-ctrl-a/e t)        ; Smart home/end keys in org mode
   (org-special-ctrl-k t)          ; Smart kill line in org mode
-  (org-log-done t)               ; Add timestamp when marking items as DONE
   (org-M-RET-may-split-line nil) ; Prevent M-RET from splitting lines
   (org-src-fontify-natively t)   ; Syntax highlighting in source blocks
-  (org-id-link-to-org-use-id t)  ; Use IDs for linking between entries
+  (org-id-link-to-org-use-id 'create-if-interactive)  ; Use IDs for linking between entries
 
   ;; Capture templates for different types of notes
   (org-capture-templates
@@ -39,7 +54,7 @@
            "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\nFrom: %a\n")
           
           ("j" "journal" entry  ; Journal entries with timestamp
-           (file+datetree "~/Documents/Personal/journal.org")
+           (file+olp+datetree "~/Documents/Personal/journal.org")
            "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:%U\n:END:\n%?\n")
           
           ("r" "references")  ; Parent template for references
@@ -58,21 +73,20 @@
 	  
 	  ("a" "anki")
 
-	  ("aa" "algoritmi" entry  ; Book references
-           (file "~/Documents/Personal/Reference/Anki/anki_algoritmi.org")
-           "\n* %^{Front}      %^g\n%?\n"
-	   :before-finalize (lambda () 
-			     (org-anki-sync-all)))
-	  
-	  
+	  ("aa" "algoritmi" entry  ; Algoritmi anki
+	   (file "~/Documents/Personal/Reference/Anki/anki_algoritmi.org")
+	   "\n* %^{Front}      %^g\n%?\n"
+	   :jump-to-captured t
+	  )
+	 
 	  ("ar" "reti" entry  ; Book references
 	   (file "~/Documents/Personal/Reference/Anki/anki_reti.org")
 	   "\n* %^{Front}      %^g\n%?\n"
-	   :before-finalize (lambda () 
-			     (org-anki-sync-all)))
+	   :jump-to-captured t
+	  )
 	  )
 	)
-  )
+  
 
   
   
@@ -206,17 +220,17 @@
   
   ;; Actual calendar configuration edit this to meet your specific needs
   (setq org-caldav-url "https://dav.mailbox.org/caldav/")
-  (setq org-caldav-calendars
-	'(
-	  (:calendar-id "Y2FsOi8vMC8xMTA"
-	    		:files ("~/Documents/Planner/calendar.org") ;;poi virgola sernza parentesi sito,sito,sito
-			:inbox "~/Documents/Planner/inbox.org")
-	  )
-	)
+  (setq org-caldav-calendar-id "Y2FsOi8vMC8xMTA")
+   ;; Org filename where new entries from calendar stored
+  (setq org-caldav-inbox '(file+headline "~/Documents/Personal/Actions/calendar.org" "Appointments"))
+  ;; Additional Org files to check for calendar events
+  (setq org-caldav-files '("~/Documents/Personal/Actions/calendar.org"
+                         ;;"~/Documents/Personal/Actions/meetings.org"
+                         ;;"~/Documents/Work/Projects/project1.org"
+			 ))
 
-  (setq org-caldav-backup-file "~/Documents/Personal/Planner/org-caldav/org-caldav-backup.org")
-  (setq org-caldav-save-directory "~/Documents/Personal/Planner/org-caldav/")
-  
+  (setq org-caldav-backup-file "~/Documents/Personal/Actions/org-caldav/org-caldav-backup.org")
+
   :config
   (setq org-icalendar-alarm-time 1)
   ;; This makes sure to-do items as a category can show up on the calendar
