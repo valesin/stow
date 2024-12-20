@@ -9,8 +9,8 @@
    ("C-c s" . org-anki-sync-entry)  ; Sync current entry with Anki
    )
   :init
-  (defun org-refile-candidates ()
-    (directory-files-recursively "~/Documents/Personal/Notes/Uni" "^[[:alnum:]].*\\.org\\'"))
+  ;;(defun org-refile-candidates ()
+  ;;  (directory-files-recursively "~/Documents/Personal/Notes/Uni" "^[[:alnum:]].*\\.org\\'"))
   
   :custom
   (org-directory "~/Documents/")  ; Base directory for org files
@@ -61,14 +61,14 @@
 	  ("aa" "algoritmi" entry  ; Book references
            (file "~/Documents/Personal/Reference/Anki/anki_algoritmi.org")
            "\n* %^{Front}      %^g\n%?\n"
-	   :after-finalize (lambda () 
+	   :before-finalize (lambda () 
 			     (org-anki-sync-all)))
 	  
 	  
 	  ("ar" "reti" entry  ; Book references
 	   (file "~/Documents/Personal/Reference/Anki/anki_reti.org")
 	   "\n* %^{Front}      %^g\n%?\n"
-	   :after-finalize (lambda () 
+	   :before-finalize (lambda () 
 			     (org-anki-sync-all)))
 	  )
 	)
@@ -79,10 +79,10 @@
   ;; Refile settings
   (org-refile-targets '(
 			(org-agenda-files :maxlevel . 5)  ; Allow refiling to level 5 in agenda files
-                        (nil :maxlevel . 10)
-			(org-refile-candidates :maxlevel . 3)
-			)
-		      )            ; And to level 10 in current buffer
+                        (nil :maxlevel . 10) ;; And to level 10 in current buffer
+			))
+;;(org-refile-candidates :maxlevel . 3) ;; Add the whole Roam directory to refile. Maybe in the future.
+
   (org-refile-use-outline-path 'file)  ; Show file names in refile interface
   
   ;; Babel settings
