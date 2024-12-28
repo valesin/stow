@@ -20,12 +20,14 @@
   (org-todo-keywords
            '((sequence "TODO(t)" "STARTED(s)""WAITING(w)" "|" "FINISHED(f)")
              (sequence "APPT(a)" "|" "DONE(d)")
-             (sequence "|" "CANCELED")))
+             (sequence "|" "CANCELLED")))
   (org-enforce-todo-dependencies t)
   (org-log-done 'time) ; Add timestamp when marking items as DONE
   ;; Agenda
   (org-agenda-files '("~/Documents/Personal/Actions/" 
-                      "~//Documents/Personal/inbox.org"))  ; Files to be included in agenda view
+                      "~//Documents/Personal/inbox.org"
+		      "~/Documents/Personal/Projects/" 
+		      ))  ; Files to be included in agenda view
   (org-agenda-dim-blocked-tasks 'invisible)
   (org-agenda-custom-commands
         '(("h" "Agenda and TODO"
@@ -86,9 +88,6 @@
 	  )
 	  )
 	)
-  
-
-  
   
   ;; Refile settings
   (org-refile-targets '(

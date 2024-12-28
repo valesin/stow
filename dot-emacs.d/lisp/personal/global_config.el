@@ -1,20 +1,42 @@
 ;; Initialize package management
-(require 'package)
-(setq package-archives
-      '(("GNU ELPA"     . "http://elpa.gnu.org/packages/")
-        ("MELPA Stable" . "http://stable.melpa.org/packages/")
-        ("MELPA"        . "http://melpa.org/packages/")))
-(setq package-archive-priorities
-      '(("MELPA Stable" . 5)
-        ("MELPA"        . 10)
-        ("GNU ELPA"     . 1)))
-(package-initialize)
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-and-compile
-  (setq use-package-always-ensure t ;; not necessary cause i always put it
-        use-package-expand-minimally t))
+;; This is removed because it has a conflict with straight.el
+;; (require 'package)
+;; (setq package-archives
+;;       '(("GNU ELPA"     . "http://elpa.gnu.org/packages/")
+;;         ("MELPA Stable" . "http://stable.melpa.org/packages/")
+;;         ("MELPA"        . "http://melpa.org/packages/")))
+;; (setq package-archive-priorities
+;;       '(("MELPA Stable" . 5)
+;;         ("MELPA"        . 10)
+;;         ("GNU ELPA"     . 1)))
+;; (package-initialize)
+;; (unless (package-installed-p 'use-package)
+;;   (package-refresh-contents)
+;;   (package-install 'use-package))
+;; (eval-and-compile
+;;   (setq use-package-always-ensure t ;; not necessary cause i always put it
+;;         use-package-expand-minimally t))
+
+;; Setup straight.el
+;; Required bootstrap
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(setq straight-use-package-by-default t)
+(straight-use-package 'use-package)
 
 ;; Required for certain functions
 (require 'cl-lib)

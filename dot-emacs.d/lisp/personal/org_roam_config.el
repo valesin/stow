@@ -41,9 +41,9 @@
       :immediate-finish t
       :unnarrowed t)
      
-     ("f" "fleeting" plain                  ; Fleeting notes template
+     ("p" "pre" plain                  ; Fleeting notes template
       "#+filetags: %^g\n%?"
-      :if-new (file+head "Fleeting/${slug}.org"
+      :if-new (file+head "Pre/${slug}.org"
                          ":PROPERTIES:\n:CREATED: %T\n:REFERRER: %a\n:END:\n#+title: ${title}\n")
       :immediate-finish t
       :unnarrowed t)))
