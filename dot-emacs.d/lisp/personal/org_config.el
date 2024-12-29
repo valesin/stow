@@ -3,6 +3,7 @@
   :ensure auctex
   :ensure org-anki
   :ensure org-caldav
+  :ensure citeproc
   
   :diminish org-cdlatex-mode
   :diminish org-indent-mode
