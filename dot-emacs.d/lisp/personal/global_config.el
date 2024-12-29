@@ -98,3 +98,8 @@
 ;; (require 'i3-integration)
 ;; (i3-one-window-per-frame-mode-on)
 ;; (i3-advise-visible-frame-list-on)
+
+(defun emacs-startup-screen ()
+  "Display the weekly org-agenda and all todos."
+  (org-agenda nil "a"))
+(add-hook 'emacs-startup-hook #'emacs-startup-screen)

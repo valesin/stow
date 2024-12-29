@@ -20,7 +20,7 @@
   (org-roam-capture-templates
    '(("m" "main" plain                      ; Main note template
       "#+filetags: %^g\n%?"
-      :if-new (file+head "Main/${slug}.org"
+      :if-new (file+head "Main/${slug}.org.gpg"
                          "#+title: ${title}\n")
       :immediate-finish t
       :unnarrowed t)
@@ -29,21 +29,21 @@
      
      ("ua" "algoritimi" plain               ; Algorithms template
       "#+ANKI_DECK: Algoritmi\n#+exclude_tags: anki noexport\n#+filetags: :algoritmi:%^g\n%?"
-      :if-new (file+head "Uni/Algoritmi/${slug}.org"
+      :if-new (file+head "Uni/Algoritmi/${slug}.org.gpg"
                          "#+title: ${title}\n")
       :immediate-finish t
       :unnarrowed t)
      
      ("ur" "reti" plain                     ; Networks template
       "#+ANKI_DECK: Reti\n+exclude_tags: anki noexport\n#+filetags: :reti:%^g\n%?"
-      :if-new (file+head "Uni/Reti/${slug}.org"
+      :if-new (file+head "Uni/Reti/${slug}.org.gpg"
                          "#+title: ${title}\n")
       :immediate-finish t
       :unnarrowed t)
      
      ("p" "pre" plain                  ; Fleeting notes template
       "#+filetags: %^g\n%?"
-      :if-new (file+head "Pre/${slug}.org"
+      :if-new (file+head "Pre/${slug}.org.gpg"
                          ":PROPERTIES:\n:CREATED: %T\n:REFERRER: %a\n:END:\n#+title: ${title}\n")
       :immediate-finish t
       :unnarrowed t)))

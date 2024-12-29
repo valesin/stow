@@ -1,6 +1,3 @@
-;; Configuration for user: valesin
-;; Last updated: 2024-12-05 20:38:29 UTC
-
 (use-package elfeed
   :ensure t   ; Make sure elfeed is installed
   :bind      ; Global keybinding for elfeed
@@ -11,4 +8,4 @@
   :after elfeed ; Load after elfeed is loaded
   :config     ; Configuration to run after loading
   (elfeed-org)   ; Initialize elfeed-org
-  (setq rmh-elfeed-org-files (list "~/Documents/Personal/Reference/rssfeeds.org")))   ; Set RSS feeds org file
+  (setq rmh-elfeed-org-files (list "~/Documents/Personal/Reference/rssfeeds.org.gpg")))   ; Set RSS feeds org file

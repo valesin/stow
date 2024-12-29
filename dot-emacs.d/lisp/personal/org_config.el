@@ -1,5 +1,9 @@
 (use-package org
   :ensure t  ; Make sure org-mode is installed
+  :ensure auctex
+  :ensure org-anki
+  :ensure org-caldav
+  
   :diminish org-cdlatex-mode
   :diminish org-indent-mode
   :bind  ; Global keybindings for org-mode functions
@@ -22,18 +26,26 @@
              (sequence "APPT(a)" "|" "DONE(d)")
              (sequence "|" "CANCELLED")))
   (org-enforce-todo-dependencies t)
+  (org-enforce-todo-checkbox-dependencies t)
   (org-log-done 'time) ; Add timestamp when marking items as DONE
+  
   ;; Agenda
+  (org-agenda-file-regexp "\\`[^.].*\\.org\\(\\.gpg\\)?\\'")
   (org-agenda-files '("~/Documents/Personal/Actions/" 
-                      "~//Documents/Personal/inbox.org"
+                      "~//Documents/Personal/inbox.org.gpg"
 		      "~/Documents/Personal/Projects/" 
 		      ))  ; Files to be included in agenda view
   (org-agenda-dim-blocked-tasks 'invisible)
   (org-agenda-custom-commands
-        '(("h" "Agenda and TODO"
-           ((agenda "")
-            (todo "TODO")
-	    (todo "STARTED")))))
+   '(("a" "Agenda and STARTED"
+      ((agenda "")
+       (todo "STARTED")
+       (todo "TODO"))
+      ))
+   )
+  (org-agenda-start-on-weekday 1)
+  (org-agenda-span 14)
+  (org-agenda-window-setup 'current-window)
 
 
   (org-hide-emphasis-markers t)   ; Hide markup symbols like *bold* /italic/
@@ -48,41 +60,41 @@
   ;; Capture templates for different types of notes
   (org-capture-templates
         '(("t" "todo" entry  ; Quick TODO entries
-           (file "~/Documents/Personal/inbox.org")
+           (file "~/Documents/Personal/inbox.org.gpg")
            "* TODO %?\nFrom: %a\n")
           
           ("i" "info to process" entry  ; General information entries
-           (file "~/Documents/Personal/inbox.org")
+           (file "~/Documents/Personal/inbox.org.gpg")
            "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\nFrom: %a\n")
           
           ("j" "journal" entry  ; Journal entries with timestamp
-           (file+olp+datetree "~/Documents/Personal/journal.org")
+           (file+olp+datetree "~/Documents/Personal/journal.org.gpg")
            "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:%U\n:END:\n%?\n")
           
           ("r" "references")  ; Parent template for references
           
           ("rw" "bookmarks" entry  ; Web bookmarks
-           (file+headline "~/Documents/Personal/Reference/references.org" "Bookmarks")
+           (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Bookmarks")
            "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
           
           ("rb" "books" entry  ; Book references
-           (file+headline "~/Documents/Personal/Reference/references.org" "Books")
+           (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Books")
            "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
           
           ("rf" "feed" entry  ; RSS feed entries
-           (file+headline "~/Documents/Personal/Reference/rssfeeds.org" "Uncategorized")
+           (file+headline "~/Documents/Personal/Reference/rssfeeds.org.gpg" "Uncategorized")
            "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?\n")
 	  
 	  ("a" "anki")
 
 	  ("aa" "algoritmi" entry  ; Algoritmi anki
-	   (file "~/Documents/Personal/Reference/Anki/anki_algoritmi.org")
+	   (file "~/Documents/Personal/Reference/Anki/anki_algoritmi.org.gpg")
 	   "\n* %^{Front}      %^g\n%?\n"
 	   :jump-to-captured t
 	  )
 	 
 	  ("ar" "reti" entry  ; Book references
-	   (file "~/Documents/Personal/Reference/Anki/anki_reti.org")
+	   (file "~/Documents/Personal/Reference/Anki/anki_reti.org.gpg")
 	   "\n* %^{Front}      %^g\n%?\n"
 	   :jump-to-captured t
 	  )
@@ -169,8 +181,16 @@
     </script>
     <script id=\"MathJax-script\" async src=\"%PATH\"></script>")
 
+  ;; CITE
+  (org-cite-global-bibliography
+   '("~/Documents/Books/bib.json"))
+  
+  (org-cite-export-processors
+   '((latex biblatex)                         
+     (t . (csl "~/Zotero/styles/ieee.csl")))) 
+
   :config
-   ;; Configure org-babel languages for code block execution
+  ;; Configure org-babel languages for code block execution
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . nil)  ; Support for Emacs Lisp
@@ -221,19 +241,21 @@
   (setq org-caldav-url "https://dav.mailbox.org/caldav/")
   (setq org-caldav-calendar-id "Y2FsOi8vMC8xMTA")
    ;; Org filename where new entries from calendar stored
-  (setq org-caldav-inbox '(file+headline "~/Documents/Personal/Actions/calendar.org" "Appointments"))
+  (setq org-caldav-inbox '(file+headline "~/Documents/Personal/Actions/calendar.org.gpg" "Appointments"))
   ;; Additional Org files to check for calendar events
-  (setq org-caldav-files '("~/Documents/Personal/Actions/calendar.org"
+  (setq org-caldav-files '("~/Documents/Personal/Actions/calendar.org.gpg"
                          ;;"~/Documents/Personal/Actions/meetings.org"
                          ;;"~/Documents/Work/Projects/project1.org"
-			 ))
+			   ))
+  (setq org-caldav-save-directory "~/Documents/Personal/Actions/")
 
-  (setq org-caldav-backup-file "~/Documents/Personal/Actions/org-caldav/org-caldav-backup.org")
+  ;; I found that the original value (see variable description) is ok and i will use it in case of emergency
+  ;;(setq org-caldav-backup-file "~/Documents/Personal/Actions/org-caldav/org-caldav-backup.org")
 
   :config
-  (setq org-icalendar-alarm-time 1)
+  (setq org-icalendar-alarm-time 0)
   ;; This makes sure to-do items as a category can show up on the calendar
-  (setq org-icalendar-include-todo t)
+  ;;(setq org-icalendar-include-todo t)
   ;; This ensures all org "deadlines" show up, and show up as due dates
   (setq org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due))
   ;; This ensures "scheduled" org items show up, and show up as start times
