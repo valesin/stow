@@ -188,7 +188,7 @@
   
   (org-cite-export-processors
    '((latex biblatex)                         
-     (t . (csl "~/Zotero/styles/ieee.csl")))) 
+     (html . (csl "~/Zotero/styles/ieee.csl")))) 
 
   :config
   ;; Configure org-babel languages for code block execution
@@ -217,7 +217,6 @@
   :ensure t)  ; Tools for handling web content in org-mode
 
 (use-package org-caldav
-  :after citeproc
   :init
   ;; This is the sync on close function; it also prompts for save after syncing so 
   ;; no late changes get lost 
@@ -243,7 +242,7 @@
   (setq org-caldav-url "https://dav.mailbox.org/caldav/")
   (setq org-caldav-calendar-id "Y2FsOi8vMC8xMTA")
    ;; Org filename where new entries from calendar stored
-  (setq org-caldav-inbox '(file+headline "~/Documents/Personal/Actions/calendar.org.gpg" "Appointments"))
+  (setq org-caldav-inbox '(file+olp "~/Documents/Personal/Actions/calendar.org.gpg" "Appointments"))
   ;; Additional Org files to check for calendar events
   (setq org-caldav-files '("~/Documents/Personal/Actions/calendar.org.gpg"
                          ;;"~/Documents/Personal/Actions/meetings.org"
