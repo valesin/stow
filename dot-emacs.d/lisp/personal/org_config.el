@@ -217,6 +217,7 @@
   :ensure t)  ; Tools for handling web content in org-mode
 
 (use-package org-caldav
+  :after citeproc
   :init
   ;; This is the sync on close function; it also prompts for save after syncing so 
   ;; no late changes get lost 
