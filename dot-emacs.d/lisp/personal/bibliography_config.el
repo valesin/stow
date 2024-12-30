@@ -1,2 +1,3 @@
 (use-package citeproc
-  :ensure t)
+  :ensure t
+  :defer t)

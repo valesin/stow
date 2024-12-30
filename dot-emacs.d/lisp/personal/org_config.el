@@ -18,6 +18,7 @@
   ;;  (directory-files-recursively "~/Documents/Personal/Notes/Uni" "^[[:alnum:]].*\\.org\\'"))
   
   :custom
+  (org-element-use-cache nil)
   (org-directory "~/Documents/")  ; Base directory for org files
   ;; TODOs
   (org-todo-keywords

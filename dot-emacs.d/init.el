@@ -16,4 +16,5 @@
 (load "go_config.el")
 (load "elfeed_config.el")
 (load "latex_config.el")
+(load "bibliography_config.el")
  
