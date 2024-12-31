@@ -19,6 +19,7 @@
   
   :custom
   (org-element-use-cache nil)
+  (org-element-cache-persistent nil)
   (org-directory "~/Documents/")  ; Base directory for org files
   ;; TODOs
   (org-todo-keywords
@@ -114,7 +115,9 @@
   
   ;; Babel settings
   (org-confirm-babel-evaluate nil)  ; Don't ask for confirmation before executing code blocks
-  
+
+  ;; Exporting settings
+  (org-export-with-broken-links 'mark) 
   ;; Publishing settings
   (org-publish-project-alist
    '(("Uni"  ; Project name for university notes
