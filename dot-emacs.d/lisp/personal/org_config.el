@@ -1,22 +1,23 @@
 (use-package org
   :ensure t  ; Make sure org-mode is installed
-  :ensure auctex
-  :ensure org-anki
-  :ensure org-caldav
-  :ensure citeproc
-  
+
   :diminish org-cdlatex-mode
   :diminish org-indent-mode
+  :diminish olivetti
+  
   :bind  ; Global keybindings for org-mode functions
   (("C-c l" . org-store-link)    ; Store a link to the current location
    ("C-c a" . org-agenda)        ; Open the org agenda view
    ("C-c c" . org-capture)       ; Start org capture
    ("C-c s" . org-anki-sync-entry)  ; Sync current entry with Anki
    )
-  :init
-  ;;(defun org-refile-candidates ()
-  ;;  (directory-files-recursively "~/Documents/Personal/Notes/Uni" "^[[:alnum:]].*\\.org\\'"))
-  
+
+  :hook (
+	 (org-mode . visual-line-mode)
+	 (org-mode . my/prettify-symbols-setup)
+	 (org-agenda-mode . my/prettify-symbols-setup)
+	 )
+
   :custom
   (org-element-use-cache nil) ;; To avoid...
   (org-element-cache-persistent nil) ;; issues with warning...
@@ -26,8 +27,20 @@
   (org-hide-emphasis-markers t)   ; Hide markup symbols like *bold* /italic/
   (org-indent-indentation-per-level 4)  ; Number of spaces for each level of indentation
   (org-startup-indented t)        ; Enable org-indent-mode by default
-  (org-src-fontify-natively t)   ; Syntax highlighting in source blocks
-
+  (org-hide-leading-stars t)
+  (org-auto-align-tags t)
+  (org-tags-column -80)
+  (org-fold-catch-invisible-edits     'show-and-error)
+  (org-format-latex-options '(:foreground default :background default :scale 1.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers ("begin" "$1" "$" "$$" "\\(" "\\[") :scale 1.35))
+     ;; Agenda styling
+   (org-agenda-block-separator ?─)
+   (org-agenda-time-grid
+   '((daily today require-timed)
+	 (800 1000 1200 1400 1600 1800 2000)
+	 " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"))
+   (org-agenda-current-time-string
+   "⭠ now ─────────────────────────────────────────────────")
+  
   ;; Behaviour
   (org-special-ctrl-a/e t)        ; Smart home/end keys in org mode
   (org-special-ctrl-k t)          ; Smart kill line in org mode
@@ -36,8 +49,8 @@
 
   ;; TODOs
   (org-todo-keywords
-           '((sequence "TODO(t)" "NEXT(n)""WAITING(w)" "|" "FINISHED(f)")
-             (sequence "APPT(a)" "|" "DONE(d)")
+           '((sequence "TODO(t)" "NEXT(n)""WAIT(w)" "|" "DONE(d)")
+             (sequence "APPT(a)" "|" "OK(o)")
              (sequence "|" "CANCELLED")))
   (org-use-fast-todo-selection t) ; Changing a task state is done with C-c C-t KEY 
   (org-treat-S-cursor-todo-selection-as-state-change nil) ; Skip processing when switching todo keywords with S-left/right
@@ -48,8 +61,9 @@
   ;; Agenda
   (org-agenda-file-regexp "\\`[^.].*\\.org\\(\\.gpg\\)?\\'")
   (org-agenda-files '(
-		      "~//Documents/Personal/todo.org.gpg"
-		      		      ))  ; Files to be included in agenda view
+		      "~/Documents/Personal/todo.org.gpg"
+		      "~/Documents/Personal/Calendar/calendar.org.gpg"
+		      ))  ; Files to be included in agenda view
   (org-agenda-dim-blocked-tasks 'invisible)
   (org-agenda-custom-commands
    '(("a" "Agenda and STARTED"
@@ -65,11 +79,11 @@
   ;; Capture templates for different types of notes
   (org-capture-templates
         '(("t" "todo" entry  ; Quick TODO entries
-           (file "~/Documents/Personal/inbox.org.gpg")
-           "* TODO %?\nFrom: %a\n")
+           (file+olp "~/Documents/Personal/todo.org.gpg" "Tasks" "Uncategorized" "Tasks")
+           "* TODO %?\n")
           
           ("i" "info to process" entry  ; General information entries
-           (file "~/Documents/Personal/inbox.org.gpg")
+           (file+olp "~/Documents/Personal/todo.org.gpg" "Info")
            "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\nFrom: %a\n")
           
           ("j" "journal" entry  ; Journal entries with timestamp
@@ -117,6 +131,9 @@
   
   ;; Babel settings
   (org-confirm-babel-evaluate nil)  ; Don't ask for confirmation before executing code blocks
+  (org-src-fontify-natively t)
+  (org-src-tab-acts-natively t)
+  (org-edit-src-content-indentation 0)
 
   ;; Exporting settings
   (org-export-with-broken-links 'mark) 
@@ -196,6 +213,10 @@
    '((latex biblatex)                         
      (html . (csl "~/Zotero/styles/ieee.csl")))) 
 
+  :custom-face
+  (org-document-title ((t (:foreground "midnight blue"
+                                       :weight bold
+                                       :height 1.44))))
   :config
   ;; Configure org-babel languages for code block execution
   (org-babel-do-load-languages
@@ -203,7 +224,69 @@
    '((emacs-lisp . nil)  ; Support for Emacs Lisp
      (ocaml . t)         ; Support for OCaml
      (go . t)            ; Support for Go
-     (latex . t))))      ; Support for LaTeX
+     (latex . t)))       ; Support for LaTeX
+  
+(defun my/prettify-symbols-setup ()
+  ;; Checkboxes
+  ;; (push '("[ ]" . "") prettify-symbols-alist)
+  ;; (push '("[X]" . "") prettify-symbols-alist)
+  ;; (push '("[-]" . "" ) prettify-symbols-alist)
+
+  ;; org-babel
+  (push '("#+BEGIN_SRC" . ≫) prettify-symbols-alist)
+  (push '("#+END_SRC" . ≫) prettify-symbols-alist)
+  (push '("#+begin_src" . ≫) prettify-symbols-alist)
+  (push '("#+end_src" . ≫) prettify-symbols-alist)
+  
+
+  (push '("#+BEGIN_QUOTE" . ❝) prettify-symbols-alist)
+  (push '("#+END_QUOTE" . ❞) prettify-symbols-alist)
+
+  ;; Drawers
+  ;;(push '(":PROPERTIES:" . "") prettify-symbols-alist)
+
+  ;; Tags
+  ;; (push '(":projects:" . "") prettify-symbols-alist)
+  ;; (push '(":work:"     . "") prettify-symbols-alist)
+  ;; (push '(":inbox:"    . "") prettify-symbols-alist)
+  ;; (push '(":task:"     . "") prettify-symbols-alist)
+  ;; (push '(":thesis:"   . "") prettify-symbols-alist)
+  ;; (push '(":uio:"      . "") prettify-symbols-alist)
+  ;; (push '(":emacs:"    . "") prettify-symbols-alist)
+  ;; (push '(":learn:"    . "") prettify-symbols-alist)
+  ;; (push '(":code:"     . "") prettify-symbols-alist)
+
+  (prettify-symbols-mode))
+
+  ;; (defun my-auto-commit-org-file ()
+  ;; (when (eq major-mode 'org-mode)
+  ;;   (shell-command "cd ~/Documents/ && git add . && git commit -m '${LOGNAME} on $(date '+%d/%m/%Y')' && git push origin main")))
+  )      
+
+(use-package olivetti
+  :hook (org-mode . olivetti-mode))
+
+(use-package org-superstar
+  :config
+  (setq org-superstar-leading-bullet " ")
+  (setq org-superstar-headline-bullets-list '("◉" "○" "⚬" "◈" "◇"))
+  (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
+  (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
+                                          ("NEXT"  . 9744)
+                                          ("WAIT"  . 9744)
+					  ("DONE"  . 9745)))
+  :hook (org-mode . org-superstar-mode))
+
+(use-package org-appear
+  :hook     (org-mode . org-appear-mode)
+  :custom
+   (org-appear-autoemphasis t)
+   (org-appear-autolinks t))
+
+(use-package org-fragtog
+  :hook (org-mode-hook . org-fragtog-mode))
+
+
 
 (use-package htmlize
   :ensure t  ; Package for converting org-mode buffers to HTML with syntax highlighting
@@ -214,15 +297,17 @@
   :hook (org-mode . turn-on-org-cdlatex))  ; Enable CDLaTeX in org-mode
 
 (use-package ob-go
-  :ensure t)  ; org-babel support for Go programming language
+  :ensure t
+  :after (org))  ; org-babel support for Go programming language
 
 ;;(use-package ob-ocaml
 ;;  :ensure t)  ; org-babel support for OCaml programming language
 
-(use-package org-web-tools
-  :ensure t)  ; Tools for handling web content in org-mode
+;;(use-package org-web-tools
+;;  :ensure t)  ; Tools for handling web content in org-mode
 
 (use-package org-caldav
+  :after (org)
   :init
   ;; This is the sync on close function; it also prompts for save after syncing so 
   ;; no late changes get lost 
@@ -248,13 +333,13 @@
   (setq org-caldav-url "https://dav.mailbox.org/caldav/")
   (setq org-caldav-calendar-id "Y2FsOi8vMC8xMTA")
    ;; Org filename where new entries from calendar stored
-  (setq org-caldav-inbox '(file+olp "~/Documents/Personal/Actions/calendar.org.gpg" "Appointments"))
+  (setq org-caldav-inbox '(file+olp "~/Documents/Personal/Calendar/calendar.org.gpg" "Appointments"))
   ;; Additional Org files to check for calendar events
-  (setq org-caldav-files '("~/Documents/Personal/Actions/calendar.org.gpg"
+  (setq org-caldav-files '("~/Documents/Personal/Calendar/calendar.org.gpg"
                          ;;"~/Documents/Personal/Actions/meetings.org"
                          ;;"~/Documents/Work/Projects/project1.org"
 			   ))
-  (setq org-caldav-save-directory "~/Documents/Personal/Actions/")
+  (setq org-caldav-save-directory "~/Documents/Personal/Calendar/")
 
   ;; I found that the original value (see variable description) is ok and i will use it in case of emergency
   ;;(setq org-caldav-backup-file "~/Documents/Personal/Actions/org-caldav/org-caldav-backup.org")
@@ -277,5 +362,7 @@
   )
 
 (use-package org-anki
-  :ensure t)
+  :ensure t
+  :after (org)
+  )
 
