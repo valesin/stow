@@ -18,26 +18,38 @@
   ;;  (directory-files-recursively "~/Documents/Personal/Notes/Uni" "^[[:alnum:]].*\\.org\\'"))
   
   :custom
-  (org-element-use-cache nil)
-  (org-element-cache-persistent nil)
+  (org-element-use-cache nil) ;; To avoid...
+  (org-element-cache-persistent nil) ;; issues with warning...
   (org-directory "~/Documents/")  ; Base directory for org files
+
+  ;; Visual
+  (org-hide-emphasis-markers t)   ; Hide markup symbols like *bold* /italic/
+  (org-indent-indentation-per-level 4)  ; Number of spaces for each level of indentation
+  (org-startup-indented t)        ; Enable org-indent-mode by default
+  (org-src-fontify-natively t)   ; Syntax highlighting in source blocks
+
+  ;; Behaviour
+  (org-special-ctrl-a/e t)        ; Smart home/end keys in org mode
+  (org-special-ctrl-k t)          ; Smart kill line in org mode
+  (org-M-RET-may-split-line nil) ; Prevent M-RET from splitting lines
+  (org-id-link-to-org-use-id 'create-if-interactive)  ; Use IDs for linking between entries
+
   ;; TODOs
   (org-todo-keywords
-   '((sequence "APPT(a)" "|" "DONE(d)" "CANCELLED(c)" "FUTURE(f)")))  ; Custom TODO states workflow
-  (org-todo-keywords
-           '((sequence "TODO(t)" "STARTED(s)""WAITING(w)" "|" "FINISHED(f)")
+           '((sequence "TODO(t)" "NEXT(n)""WAITING(w)" "|" "FINISHED(f)")
              (sequence "APPT(a)" "|" "DONE(d)")
              (sequence "|" "CANCELLED")))
+  (org-use-fast-todo-selection t) ; Changing a task state is done with C-c C-t KEY 
+  (org-treat-S-cursor-todo-selection-as-state-change nil) ; Skip processing when switching todo keywords with S-left/right
   (org-enforce-todo-dependencies t)
   (org-enforce-todo-checkbox-dependencies t)
   (org-log-done 'time) ; Add timestamp when marking items as DONE
   
   ;; Agenda
   (org-agenda-file-regexp "\\`[^.].*\\.org\\(\\.gpg\\)?\\'")
-  (org-agenda-files '("~/Documents/Personal/Actions/" 
-                      "~//Documents/Personal/inbox.org.gpg"
-		      "~/Documents/Personal/Projects/" 
-		      ))  ; Files to be included in agenda view
+  (org-agenda-files '(
+		      "~//Documents/Personal/todo.org.gpg"
+		      		      ))  ; Files to be included in agenda view
   (org-agenda-dim-blocked-tasks 'invisible)
   (org-agenda-custom-commands
    '(("a" "Agenda and STARTED"
@@ -49,16 +61,6 @@
   (org-agenda-start-on-weekday 1)
   (org-agenda-span 14)
   (org-agenda-window-setup 'current-window)
-
-
-  (org-hide-emphasis-markers t)   ; Hide markup symbols like *bold* /italic/
-  (org-indent-indentation-per-level 4)  ; Number of spaces for each level of indentation
-  (org-startup-indented t)        ; Enable org-indent-mode by default
-  (org-special-ctrl-a/e t)        ; Smart home/end keys in org mode
-  (org-special-ctrl-k t)          ; Smart kill line in org mode
-  (org-M-RET-may-split-line nil) ; Prevent M-RET from splitting lines
-  (org-src-fontify-natively t)   ; Syntax highlighting in source blocks
-  (org-id-link-to-org-use-id 'create-if-interactive)  ; Use IDs for linking between entries
 
   ;; Capture templates for different types of notes
   (org-capture-templates
