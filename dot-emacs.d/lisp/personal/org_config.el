@@ -12,11 +12,9 @@
    ("C-c s" . org-anki-sync-entry)  ; Sync current entry with Anki
    )
 
-  :hook (
-	 (org-mode . visual-line-mode)
+  :hook ((org-mode . visual-line-mode)
 	 (org-mode . my/prettify-symbols-setup)
-	 (org-agenda-mode . my/prettify-symbols-setup)
-	 )
+	 (org-agenda-mode . my/prettify-symbols-setup))
 
   :custom
   (org-element-use-cache nil) ;; To avoid...
@@ -283,10 +281,9 @@
    (org-appear-autoemphasis t)
    (org-appear-autolinks t))
 
+;; DOESNT WORK YET
 (use-package org-fragtog
   :hook (org-mode-hook . org-fragtog-mode))
-
-
 
 (use-package htmlize
   :ensure t  ; Package for converting org-mode buffers to HTML with syntax highlighting
