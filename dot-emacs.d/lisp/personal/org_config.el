@@ -13,7 +13,7 @@
    )
 
   :hook ((org-mode . visual-line-mode)
-	 (org-mode . my/prettify-symbols-setup)
+	 ;;(org-mode . my/prettify-symbols-setup)
 	 (org-agenda-mode . my/prettify-symbols-setup))
 
   :custom
@@ -231,10 +231,10 @@
   ;; (push '("[-]" . "" ) prettify-symbols-alist)
 
   ;; org-babel
-  (push '("#+BEGIN_SRC" . ≫) prettify-symbols-alist)
-  (push '("#+END_SRC" . ≫) prettify-symbols-alist)
-  (push '("#+begin_src" . ≫) prettify-symbols-alist)
-  (push '("#+end_src" . ≫) prettify-symbols-alist)
+  ;; (push '("#+BEGIN_SRC" . ≫) prettify-symbols-alist)
+  ;; (push '("#+END_SRC" . ≫) prettify-symbols-alist)
+  ;; (push '("#+begin_src" . ≫) prettify-symbols-alist)
+  ;; (push '("#+end_src" . ≫) prettify-symbols-alist)
   
 
   (push '("#+BEGIN_QUOTE" . ❝) prettify-symbols-alist)
