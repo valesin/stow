@@ -64,9 +64,9 @@
 		      ))  ; Files to be included in agenda view
   (org-agenda-dim-blocked-tasks 'invisible)
   (org-agenda-custom-commands
-   '(("a" "Agenda and STARTED"
+   '(("a" "Calendar, Next and Todo"
       ((agenda "")
-       (todo "STARTED")
+       (todo "NEXT")
        (todo "TODO"))
       ))
    )
