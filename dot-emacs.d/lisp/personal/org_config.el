@@ -73,6 +73,7 @@
   (org-agenda-start-on-weekday 1)
   (org-agenda-span 14)
   (org-agenda-window-setup 'current-window)
+  (org-deadline-warning-days 15)
 
   ;; Capture templates for different types of notes
   (org-capture-templates
