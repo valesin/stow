@@ -55,6 +55,7 @@
   (org-enforce-todo-dependencies t)
   (org-enforce-todo-checkbox-dependencies t)
   (org-log-done 'time) ; Add timestamp when marking items as DONE
+  (org-startup-folded 'fold)
   
   ;; Agenda
   (org-agenda-file-regexp "\\`[^.].*\\.org\\(\\.gpg\\)?\\'")
