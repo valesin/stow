@@ -3,7 +3,7 @@
 
   :diminish org-cdlatex-mode
   :diminish org-indent-mode
-  :diminish olivetti
+  :diminish olivetti-mode
   
   :bind  ; Global keybindings for org-mode functions
   (("C-c l" . org-store-link)    ; Store a link to the current location
@@ -29,6 +29,7 @@
   (org-auto-align-tags t)
   (org-tags-column -80)
   (org-fold-catch-invisible-edits     'show-and-error)
+  (org-startup-folded 'show2levels)
   (org-format-latex-options '(:foreground default :background default :scale 1.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers ("begin" "$1" "$" "$$" "\\(" "\\[") :scale 1.35))
      ;; Agenda styling
    (org-agenda-block-separator ?─)
@@ -55,7 +56,6 @@
   (org-enforce-todo-dependencies t)
   (org-enforce-todo-checkbox-dependencies t)
   (org-log-done 'time) ; Add timestamp when marking items as DONE
-  (org-startup-folded 'fold)
   
   ;; Agenda
   (org-agenda-file-regexp "\\`[^.].*\\.org\\(\\.gpg\\)?\\'")

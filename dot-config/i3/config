@@ -130,7 +130,7 @@ bindsym $mod+p move workspace to output right
 set $tag1 "emacs"
 set $tag2 "browser"
 set $tag3 "book"
-set $tag4 "4"
+set $tag4 "anki"
 set $tag5 "5"
 set $tag6 "6"
 set $tag7 "7"
@@ -170,11 +170,13 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 exec_always --no-startup-id firefox
 exec_always --no-startup-id emacs ~/Documents/intro.org
 exec_always --no-startup-id thunderbird
+exec_always --no-startup-id anki
 
 # Assign to workspaces
 assign [class="Emacs"] number 1 $tag1
 assign [class="org.mozilla.firefox"] number 2 $tag2
 assign [class="thunderbird"] number 9 $tag9
+assign [class="thunderbird"] number 4 $tag9
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
