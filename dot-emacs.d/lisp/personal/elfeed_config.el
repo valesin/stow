@@ -1,9 +1,11 @@
 (use-package elfeed
+  :straight t
   :ensure t   ; Make sure elfeed is installed
   :bind      ; Global keybinding for elfeed
   ("C-x w" . elfeed))   ; Quick access to RSS reader
 
 (use-package elfeed-org
+  :straight t
   :ensure t    ; Make sure elfeed-org is installed
   :after elfeed ; Load after elfeed is loaded
   :config     ; Configuration to run after loading

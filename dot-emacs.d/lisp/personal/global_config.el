@@ -18,6 +18,8 @@
 ;;         use-package-expand-minimally t))
 
 ;; Setup straight.el
+
+(setq straight-recipes-gnu-elpa-use-mirror t)
 ;; Required bootstrap
 (defvar bootstrap-version)
 (let ((bootstrap-file

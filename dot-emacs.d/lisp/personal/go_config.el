@@ -1,5 +1,6 @@
 ;; Go Mode Configuration
 (use-package go-mode
+  :straight t
   :ensure t
   :defer t
   :hook ((go-mode . (lambda () (setq tab-width 4)))
@@ -11,7 +12,9 @@
                      (add-hook 'before-save-hook #'lsp-organize-imports nil t)))))
 	 
 (use-package lsp-mode
-  :ensure t :ensure lsp-ui
+  :straight t
+  :ensure t
+  :ensure lsp-ui
   :defer t
   :config
   (with-eval-after-load 'lsp-mode

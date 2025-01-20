@@ -1,6 +1,7 @@
 ;; Last updated: 2024-12-05 20:51:38 UTC
 
 (use-package org-roam
+  :straight t
   :ensure t
   :custom
   (org-roam-directory (file-truename "~/Documents/Personal/Notes"))        ; Set org-roam directory

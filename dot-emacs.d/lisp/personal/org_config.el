@@ -1,6 +1,4 @@
 (use-package org
-  :ensure t  ; Make sure org-mode is installed
-
   :diminish org-cdlatex-mode
   :diminish org-indent-mode
   :diminish olivetti-mode
@@ -264,9 +262,11 @@
   )      
 
 (use-package olivetti
+  :straight t
   :hook (org-mode . olivetti-mode))
 
 (use-package org-superstar
+  :straight t
   :config
   (setq org-superstar-leading-bullet " ")
   (setq org-superstar-headline-bullets-list '("◉" "○" "⚬" "◈" "◇"))
@@ -278,6 +278,7 @@
   :hook (org-mode . org-superstar-mode))
 
 (use-package org-appear
+  :straight t
   :hook     (org-mode . org-appear-mode)
   :custom
    (org-appear-autoemphasis t)
@@ -288,14 +289,17 @@
   :hook (org-mode-hook . org-fragtog-mode))
 
 (use-package htmlize
+  :straight t
   :ensure t  ; Package for converting org-mode buffers to HTML with syntax highlighting
   )
 
 (use-package cdlatex
+  :straight t
   :ensure t  ; Fast math input in LaTeX and org-mode
   :hook (org-mode . turn-on-org-cdlatex))  ; Enable CDLaTeX in org-mode
 
 (use-package ob-go
+  :straight t
   :ensure t
   :after (org))  ; org-babel support for Go programming language
 
@@ -306,6 +310,7 @@
 ;;  :ensure t)  ; Tools for handling web content in org-mode
 
 (use-package org-caldav
+  :straight t
   :after (org)
   :init
   ;; This is the sync on close function; it also prompts for save after syncing so 
@@ -361,6 +366,7 @@
   )
 
 (use-package org-anki
+  :straight t
   :ensure t
   :after (org)
   )

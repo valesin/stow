@@ -1,4 +1,4 @@
-(use-package diminish :ensure t)
+(use-package diminish :straight t :ensure t)
 (diminish 'visual-line-mode)
 
 ;;Global settings
