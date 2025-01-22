@@ -10,15 +10,19 @@
    ("C-c s" . org-anki-sync-entry)  ; Sync current entry with Anki
    )
 
-  :hook ((org-mode . visual-line-mode)
-	 ;;(org-mode . my/prettify-symbols-setup)
-	 (org-agenda-mode . my/prettify-symbols-setup))
+  :hook ((org-mode . visual-line-mode))
 
   :custom
   (org-element-use-cache nil) ;; To avoid...
   (org-element-cache-persistent nil) ;; issues with warning...
   (org-directory "~/Documents/")  ; Base directory for org files
 
+  ;; Feeds
+  (org-feed-alist
+      '(("Marginalian"
+         "https://www.themarginalian.org/feed/"
+         "~/Documents/feeds.org" "Marginalian entries")))
+  
   ;; Visual
   (org-hide-emphasis-markers t)   ; Hide markup symbols like *bold* /italic/
   (org-indent-indentation-per-level 4)  ; Number of spaces for each level of indentation
@@ -28,8 +32,17 @@
   (org-tags-column -80)
   (org-fold-catch-invisible-edits     'show-and-error)
   (org-startup-folded 'show2levels)
-  (org-format-latex-options '(:foreground default :background default :scale 1.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers ("begin" "$1" "$" "$$" "\\(" "\\[") :scale 1.35))
-     ;; Agenda styling
+  (org-format-latex-options
+   '(
+     :foreground default
+		 :background default
+		 :scale 1.0
+		 :html-foreground "Black"
+		 :html-background "Transparent"
+		 :html-scale 1.0
+		 :matchers ("begin" "$1" "$" "$$" "\\(" "\\[") :scale 1.35))
+
+  ;; Agenda styling
    (org-agenda-block-separator ?─)
    (org-agenda-time-grid
    '((daily today require-timed)
@@ -134,6 +147,7 @@
   (org-edit-src-content-indentation 0)
 
   ;; Exporting settings
+  (org-export-headline-levels 10) ;; headlines exported as they are until 10th level
   (org-export-with-broken-links 'mark) 
   ;; Publishing settings
   (org-publish-project-alist

@@ -18,7 +18,8 @@
 ;;         use-package-expand-minimally t))
 
 ;; Setup straight.el
-
+(setq user-full-name "Valerio Siniscalco")
+(setq user-mail-address "valerio@siniscalco.me")
 (setq straight-recipes-gnu-elpa-use-mirror t)
 ;; Required bootstrap
 (defvar bootstrap-version)
