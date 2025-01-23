@@ -1,0 +1,4 @@
+Host piccolo
+    User adM
+    Hostname 192.168.0.101
+    ForwardX11Trusted yes
