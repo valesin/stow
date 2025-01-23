@@ -44,3 +44,8 @@ pullall()
 {
     ~/Documents/Scripts/pull_Stow_and_Documents.sh 
 }
+
+ciscopt()
+{
+    wine ~/.wine/drive_c/Program\ Files/Cisco\ Packet\ Tracer\ 8.2.2/bin/PacketTracer.exe
+}
