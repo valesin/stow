@@ -42,14 +42,6 @@
 		 :html-scale 1.0
 		 :matchers ("begin" "$1" "$" "$$" "\\(" "\\[") :scale 1.35))
 
-  ;; Agenda styling
-   (org-agenda-block-separator ?─)
-   (org-agenda-time-grid
-   '((daily today require-timed)
-	 (800 1000 1200 1400 1600 1800 2000)
-	 " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"))
-   (org-agenda-current-time-string
-   "⭠ now ─────────────────────────────────────────────────")
   
   ;; Behaviour
   (org-special-ctrl-a/e t)        ; Smart home/end keys in org mode
@@ -82,11 +74,18 @@
        (todo "TODO"))
       ))
    )
-  (org-agenda-start-on-weekday 1)
+  (org-agenda-start-on-weekday nil)
   (org-agenda-span 14)
   (org-agenda-window-setup 'current-window)
   (org-deadline-warning-days 15)
-
+;; Agenda styling
+   (org-agenda-block-separator ?─)
+   (org-agenda-time-grid
+   '((daily today require-timed)
+	 (800 1000 1200 1400 1600 1800 2000)
+	 " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"))
+   (org-agenda-current-time-string
+   "⭠ now ─────────────────────────────────────────────────")
   ;; Capture templates for different types of notes
   (org-capture-templates
         '(("t" "todo" entry  ; Quick TODO entries
