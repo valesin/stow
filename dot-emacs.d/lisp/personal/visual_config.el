@@ -3,7 +3,8 @@
 
 ;;Global settings
 (add-to-list 'default-frame-alist
-             '(font . "DejaVu Sans Mono-16"))
+             '(font . "Noto Sans Mono-16"))
+(set-fontset-font t 'greek (font-spec :family "Helvetica" :weight 'normal :height 0.75))
 (setq line-spacing 0.1)          ; Set line spacing
 (setq inhibit-startup-message t) ; Don't show the splash screen
 (setq visible-bell t)            ; Flash when the bell rings
