@@ -49,6 +49,8 @@
   (org-M-RET-may-split-line nil) ; Prevent M-RET from splitting lines
   (org-id-link-to-org-use-id 'create-if-interactive)  ; Use IDs for linking between entries
 
+  ;; Archiving
+  (org-archive-location "%s_archive.gpg::")
   ;; TODOs
   (org-todo-keywords
            '((sequence "TODO(t)" "NEXT(n)""WAIT(w)" "|" "DONE(d)")
@@ -125,7 +127,7 @@
 	  ("ar" "reti" entry  ; Book references
 	   (file "~/Documents/Personal/Reference/Anki/anki_reti.org.gpg")
 	   "\n* %^{Front}      %^g\n%?\n"
-	   :jump-to-captured t
+	   :jump-to-captured f ;; poi risettare a true eventualmente (a meno che non treovo un modo automatico per fare la push su anki
 	  )
 	  )
 	)
@@ -282,7 +284,7 @@
   :straight t
   :config
   (setq org-superstar-leading-bullet " ")
-  (setq org-superstar-headline-bullets-list '("◉" "○" "⚬" "◈" "◇"))
+  (setq org-superstar-headline-bullets-list '("◉" "○" "‣" "◈" "◇"))
   (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
   (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
                                           ("NEXT"  . 9744)
