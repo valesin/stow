@@ -89,48 +89,56 @@
    (org-agenda-current-time-string
    "⭠ now ─────────────────────────────────────────────────")
   ;; Capture templates for different types of notes
-  (org-capture-templates
-        '(("t" "todo" entry  ; Quick TODO entries
-           (file+olp "~/Documents/Personal/todo.org.gpg" "Tasks" "Uncategorized" "Tasks")
-           "* TODO %?\n")
-          
-          ("i" "info to process" entry  ; General information entries
-           (file+olp "~/Documents/Personal/todo.org.gpg" "Info")
-           "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\nFrom: %a\n")
-          
-          ("j" "journal" entry  ; Journal entries with timestamp
-           (file+olp+datetree "~/Documents/Personal/journal.org.gpg")
-           "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:%U\n:END:\n%?\n")
-          
-          ("r" "references")  ; Parent template for references
-          
-          ("rw" "bookmarks" entry  ; Web bookmarks
-           (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Bookmarks")
-           "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
-          
-          ("rb" "books" entry  ; Book references
-           (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Books")
-           "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
-          
-          ("rf" "feed" entry  ; RSS feed entries
-           (file+headline "~/Documents/Personal/Reference/rssfeeds.org.gpg" "Uncategorized")
-           "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?\n")
-	  
-	  ("a" "anki")
-
-	  ("aa" "algoritmi" entry  ; Algoritmi anki
-	   (file "~/Documents/Personal/Reference/Anki/anki_algoritmi.org.gpg")
-	   "\n* %^{Front}      %^g\n%?\n"
-	   :jump-to-captured t
-	  )
-	 
-	  ("ar" "reti" entry  ; Book references
-	   (file "~/Documents/Personal/Reference/Anki/anki_reti.org.gpg")
-	   "\n* %^{Front}      %^g\n%?\n"
-	   :jump-to-captured f ;; poi risettare a true eventualmente (a meno che non treovo un modo automatico per fare la push su anki
-	  )
-	  )
-	)
+   (org-capture-templates
+    '(("t" "todo" entry  ; Quick TODO entries
+       (file+olp "~/Documents/Personal/todo.org.gpg" "Tasks" "Uncategorized" "Tasks")
+       "* TODO %?\n")
+      
+      ("i" "info to process" entry  ; General information entries
+       (file+olp "~/Documents/Personal/todo.org.gpg" "Info")
+       "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\nFrom: %a\n")
+      
+      ("j" "journal" entry  ; Journal entries with timestamp
+       (file+olp+datetree "~/Documents/Personal/journal.org.gpg")
+       "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:%U\n:END:\n%?\n")
+      
+      ("r" "references")  ; Parent template for references
+      
+      ("rw" "bookmarks" entry  ; Web bookmarks
+       (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Bookmarks")
+       "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
+      
+      ("rb" "books" entry  ; Book references
+       (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Books")
+       "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
+      
+      ("rf" "feed" entry  ; RSS feed entries
+       (file+headline "~/Documents/Personal/Reference/rssfeeds.org.gpg" "Uncategorized")
+       "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?\n")
+      
+      ("a" "anki")
+      
+      ("aa" "algoritmi" entry  ; Algoritmi anki
+       (file "~/Documents/Personal/Reference/Anki/anki_algoritmi.org.gpg")
+       "\n* %^{Front}      %^g\n%?\n"
+       :jump-to-captured t
+       )
+      
+      ("ar" "reti" entry  ; Book references
+       (file "~/Documents/Personal/Reference/Anki/anki_reti.org.gpg")
+       "\n* %^{Front}      %^g\n%?\n"
+       :jump-to-captured f ;; poi risettare a true eventualmente (a meno che non treovo un modo automatico per fare la push su anki
+       )
+      
+      ("c" "calendar")
+      
+      ("cs" "scheduled" entry 
+       (file+headline "~/Documents/Personal/Calendar/calendar.org.gpg" "Appointments")
+       "\n* %^{Title}\nSCHEDULED: %^T"
+       :immediate-finish t
+       )
+      )
+    )
   
   ;; Refile settings
   (org-refile-targets '(
@@ -155,6 +163,7 @@
    '(("Uni"  ; Project name for university notes
       :publishing-function org-html-publish-to-html  ; Convert org to HTML
       :base-directory "~/Documents/Personal/Notes/Uni/"  ; Where org files are
+      :base-extension "org.gpg"
       :publishing-directory "~/Public/uni_notes"  ; Where HTML files go
       :language it
       :recursive t        ; Include subdirectories
