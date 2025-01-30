@@ -17,4 +17,5 @@
 (load "elfeed_config.el")
 (load "latex_config.el")
 (load "bibliography_config.el")
+(load "ledger_config.el")
  

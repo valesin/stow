@@ -294,7 +294,7 @@
   :config
   (setq org-superstar-leading-bullet " ")
   (setq org-superstar-headline-bullets-list '("◉" "○" "‣" "◈" "◇"))
-  (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
+  (setq org-superstar-special-todo-items nil) ;; Makes TODO header bullets into boxes FALSE CAUSE THE BULLET IS TOO LARGE
   (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
                                           ("NEXT"  . 9744)
                                           ("WAIT"  . 9744)
