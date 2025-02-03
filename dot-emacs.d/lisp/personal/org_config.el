@@ -127,7 +127,7 @@
       ("ar" "reti" entry  ; Book references
        (file "~/Documents/Personal/Reference/Anki/anki_reti.org.gpg")
        "\n* %^{Front}      %^g\n%?\n"
-       :jump-to-captured f ;; poi risettare a true eventualmente (a meno che non treovo un modo automatico per fare la push su anki
+;;       :jump-to-captured t ;; poi risettare a true eventualmente (a meno che non treovo un modo automatico per fare la push su anki
        )
       
       ("c" "calendar")
