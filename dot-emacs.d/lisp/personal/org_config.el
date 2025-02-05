@@ -121,7 +121,7 @@
       ("aa" "algoritmi" entry  ; Algoritmi anki
        (file "~/Documents/Personal/Reference/Anki/anki_algoritmi.org.gpg")
        "\n* %^{Front}      %^g\n%?\n"
-       :jump-to-captured t
+;;       :jump-to-captured t 
        )
       
       ("ar" "reti" entry  ; Book references
