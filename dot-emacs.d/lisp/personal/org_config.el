@@ -229,7 +229,7 @@
 
   ;; CITE
   (org-cite-global-bibliography
-   '("~/Documents/Books/bib.json"))
+   '("~/Library/bib.json"))
   
   (org-cite-export-processors
    '((latex biblatex)                         
