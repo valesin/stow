@@ -1,7 +1,6 @@
 ;; Company Mode Configuration
 (use-package company
   :straight t
-  :ensure t
   :defer t
   :init
   ;; Description: Delay (in seconds) before suggestions popup. Set to 0 for immediate suggestions.
@@ -12,14 +11,12 @@
 ;; Display Line Numbers in Programming Modes
 (use-package display-line-numbers
   :straight t
-  :ensure nil ;; Built-in package, no need to ensure
   :hook
   ;; Enable line numbers in programming modes
   (prog-mode . display-line-numbers-mode))
 
 (use-package yasnippet
   :straight t
-  :ensure t
   :config
   (add-to-list 'yas-snippet-dirs "~/Documents/Uni/Alg/go-snippets/")
   (yas-reload-all)

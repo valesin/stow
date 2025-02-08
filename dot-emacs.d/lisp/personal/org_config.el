@@ -2,6 +2,7 @@
   :diminish org-cdlatex-mode
   :diminish org-indent-mode
   :diminish olivetti-mode
+  :diminish org-cdlatex-mode
   
   :bind  ; Global keybindings for org-mode functions
   (("C-c l" . org-store-link)    ; Store a link to the current location
@@ -29,7 +30,7 @@
   (org-startup-indented t)        ; Enable org-indent-mode by default
   (org-hide-leading-stars t)
   (org-auto-align-tags t)
-  (org-tags-column -80)
+  (org-tags-column -60)
   (org-fold-catch-invisible-edits     'show-and-error)
   (org-startup-folded 'show2levels)
   (org-format-latex-options
@@ -244,8 +245,6 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . nil)  ; Support for Emacs Lisp
-     (ocaml . t)         ; Support for OCaml
-     (go . t)            ; Support for Go
      (latex . t)))       ; Support for LaTeX
   
 (defun my/prettify-symbols-setup ()
@@ -287,7 +286,10 @@
 
 (use-package olivetti
   :straight t
-  :hook (org-mode . olivetti-mode))
+  :hook (org-mode . olivetti-mode)
+  :custom
+   (olivetti-body-width 70)
+  )
 
 (use-package org-superstar
   :straight t
@@ -309,26 +311,16 @@
    (org-appear-autolinks t))
 
 ;; DOESNT WORK YET
-(use-package org-fragtog
-  :hook (org-mode-hook . org-fragtog-mode))
+;;(use-package org-fragtog
+;;  :hook (org-mode-hook . org-fragtog-mode))
 
 (use-package htmlize
   :straight t
-  :ensure t  ; Package for converting org-mode buffers to HTML with syntax highlighting
   )
 
 (use-package cdlatex
   :straight t
-  :ensure t  ; Fast math input in LaTeX and org-mode
   :hook (org-mode . turn-on-org-cdlatex))  ; Enable CDLaTeX in org-mode
-
-(use-package ob-go
-  :straight t
-  :ensure t
-  :after (org))  ; org-babel support for Go programming language
-
-;;(use-package ob-ocaml
-;;  :ensure t)  ; org-babel support for OCaml programming language
 
 ;;(use-package org-web-tools
 ;;  :ensure t)  ; Tools for handling web content in org-mode
@@ -390,8 +382,6 @@
   )
 
 (use-package org-anki
-  :straight t
-  :ensure t
-  :after (org)
+  :after org
   )
 

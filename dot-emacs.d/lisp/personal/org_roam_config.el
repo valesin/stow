@@ -2,7 +2,6 @@
 
 (use-package org-roam
   :straight t
-  :ensure t
   :custom
   (org-roam-directory (file-truename "~/Documents/Personal/Notes"))        ; Set org-roam directory
   (find-file-visit-truename t)                                            ; Follow symlinks
