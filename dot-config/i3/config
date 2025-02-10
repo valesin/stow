@@ -169,10 +169,10 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+Shift+g exec "i3-nagbar -t warning -m 'Are you leaving?' -B 'Goodnight' '~/Documents/Scripts/shutdown_routine.sh'"
 
 #start on startup
-exec_always --no-startup-id firefox
-exec_always --no-startup-id emacs ~/Documents/intro.org
-exec_always --no-startup-id thunderbird
-exec_always --no-startup-id anki
+exec --no-startup-id firefox
+exec --no-startup-id emacs ~/Documents/intro.org
+exec --no-startup-id thunderbird
+exec --no-startup-id anki
 
 # Assign to workspaces
 assign [class="Emacs"] number 1 $tag1
@@ -208,7 +208,7 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 hide_edge_borders smart_no_gaps
-default_border 1px
+
 
 # class                 border  bground text    indicator child_border
 client.focused          #000000 #FFFFFF #000000 #000000   #000000
@@ -237,5 +237,5 @@ bar {
     urgent_workspace   #900000 #900000 #FFFFFF
     binding_mode       #900000 #900000 #FFFFFF
   }
-  status_command i3status | ~/Documents/Scripts/pomodoro_new.sh
+  status_command 
 }
