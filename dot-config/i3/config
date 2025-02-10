@@ -237,5 +237,5 @@ bar {
     urgent_workspace   #900000 #900000 #FFFFFF
     binding_mode       #900000 #900000 #FFFFFF
   }
-  status_command 
+  status_command /home/vko/.config/i3status/my_i3status.sh
 }
