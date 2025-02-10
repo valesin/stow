@@ -20,8 +20,8 @@ battery all {
     format = "⚡: %percentage"
     low_threshold = 20
     threshold_type = percentage
+    format_down = "N/A"
     align = "left"
-    min_width = 80
 }
 
 volume master {
