@@ -16,6 +16,7 @@ set $mod Mod4
 font pango:Noto Sans Mono 12
 
 exec_always ~/Documents/Scripts/startup_both.sh
+exec ~/Documents/Scripts/pomo/pomo_timer.sh
 exec redshift
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
@@ -238,4 +239,20 @@ bar {
     binding_mode       #900000 #900000 #FFFFFF
   }
   status_command /home/vko/.config/i3status/my_i3status.sh
+}
+
+# Press $mod+Shift+p followed to enter pomodoro
+set $mode_launcher Pomodoro [s]tart [p]ause [c]ontinue [x]close [S]tatus [e]xit
+bindsym $mod+Shift+p mode "$mode_launcher"
+
+mode "$mode_launcher" {
+    bindsym s exec pomo -s && $refresh_i3status
+    bindsym p exec pomo -p && $refresh_i3status
+    bindsym c exec pomo -c && $refresh_i3status
+    bindsym x exec pomo -x && $refresh_i3status
+    bindsym S exec pomo -S && $refresh_i3status
+    bindsym e exec pomo -e && $refresh_i3status
+
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
 }

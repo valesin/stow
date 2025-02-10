@@ -14,10 +14,9 @@ if ! echo "$PATH" | grep -q "$HOME/bin"; then
 fi
 
 # Add $HOME/Documents/Scripts to PATH if not already present.
-if ! echo "$PATH" | grep -q "$HOME/Documents/Scripts"; then
-    PATH="$PATH:$HOME/Documents/Scripts"
-fi
-
+for d in $HOME/Documents/Scripts/*/; do
+    PATH+=":$d"
+done 
 export PATH
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
@@ -59,9 +58,4 @@ pullall()
 ciscopt()
 {
     wine ~/.wine/drive_c/Program\ Files/Cisco\ Packet\ Tracer\ 8.2.2/bin/PacketTracer.exe
-}
-
-pomodoro()
-{
-    ~/Documents/Scripts/pomodoro.sh
 }

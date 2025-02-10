@@ -1,6 +1,7 @@
 # i3status configuration file
 
 general {
+    output_format = "none"
     colors = false
     interval = 10
 }

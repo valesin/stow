@@ -1,16 +1,17 @@
-#!/bin/bash
-# This script reads one line at a time from i3status and my_custom_script.sh concurrently
-# and outputs them combined with the custom output coming first.
+#!/bin/sh
+# Shell script to prepend i3status with the output from my_custom_script.sh,
+# and every 10 seconds send SIGUSR1 to i3status
 
-# Open file descriptor 3 for i3status output.
-exec 3< <(i3status)
-# Open file descriptor 4 for my_custom_script.sh output.
-exec 4< <(./my_custom_script.sh)
+# Start background task to send SIGUSR1 every 10 seconds
+(
+  while true; do
+    sleep 10
+    killall -SIGUSR1 i3status
+  done
+) &
 
-while true; do
-    if ! read -r i3_line <&3 || ! read -r custom_line <&4; then
-         # If either command stops producing output, break the loop.
-         break
-    fi
-    echo "$custom_line | $i3_line"
+# Read the output from i3status line by line
+i3status | while read line; do
+    custom_output=$(~/Documents/Scripts/pomo/pomo -S)
+    echo "$custom_output | $line" || exit 1
 done
