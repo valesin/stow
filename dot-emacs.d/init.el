@@ -136,6 +136,8 @@
   :config
   (epa-file-enable))
 
+(use-package diminish)
+
 (load "org_config.el")
 (load "org_roam_config.el")
 (load "programming_config.el")

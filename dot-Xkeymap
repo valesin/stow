@@ -1197,7 +1197,7 @@ xkb_symbols "pc+us(intl)+inet(evdev)" {
     };
     key <AE06> {
         type= "FOUR_LEVEL",
-        symbols[Group1]= [               6, dead_circumflex,      onequarter,     asciicircum ]
+        symbols[Group1]= [               6,	asciicircum,      onequarter,     asciicircum ]
     };
     key <AE07> {
         type= "FOUR_LEVEL",
@@ -1321,7 +1321,7 @@ xkb_symbols "pc+us(intl)+inet(evdev)" {
     };
     key <TLDE> {
         type= "FOUR_LEVEL",
-        symbols[Group1]= [      dead_grave,      dead_tilde,           grave,      asciitilde ]
+        symbols[Group1]= [      dead_grave,      asciitilde,           grave,      asciitilde ]
     };
     key <LFSH> {         [         Shift_L ] };
     key <BKSL> {
