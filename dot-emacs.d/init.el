@@ -24,6 +24,18 @@
 	(eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
 
+  ;; Create backup directory if it doesn't exist
+  (defvar --backup-directory (concat user-emacs-directory "backups/"))
+  (unless (file-exists-p --backup-directory)
+    (make-directory --backup-directory t))
+  
+  ;; Create autosave directory if it doesn't exist
+  (defvar --autosave-directory (concat user-emacs-directory "autosaves/"))
+  (unless (file-exists-p --autosave-directory)
+    (make-directory --autosave-directory t))
+
+
+
   :diminish visual-line-mode
 
   :hook (
@@ -102,17 +114,7 @@
   (global-auto-revert-mode t)
   (fset 'yes-or-no-p 'y-or-n-p)
 
-  ;; Create backup directory if it doesn't exist
-  (defvar --backup-directory (concat user-emacs-directory "backups/"))
-  (unless (file-exists-p --backup-directory)
-    (make-directory --backup-directory t))
-  
-  ;; Create autosave directory if it doesn't exist
-  (defvar --autosave-directory (concat user-emacs-directory "autosaves/"))
-  (unless (file-exists-p --autosave-directory)
-    (make-directory --autosave-directory t))
-
-  (defun emacs-startup-screen ()
+    (defun emacs-startup-screen ()
   "Display the weekly org-agenda and all todos."
   (org-agenda nil "a"))
   )
