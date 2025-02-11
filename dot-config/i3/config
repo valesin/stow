@@ -7,6 +7,9 @@
 
 # i3 config file (v4)
 #
+
+set $refresh_i3status killall -SIGUSR1 i3status
+
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
@@ -18,6 +21,7 @@ font pango:Noto Sans Mono 12
 exec_always ~/Documents/Scripts/startup_both.sh
 exec ~/Documents/Scripts/pomo/pomo_timer.sh
 exec redshift
+exec $refresh_i3status
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -42,7 +46,6 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
@@ -238,20 +241,18 @@ bar {
     urgent_workspace   #900000 #900000 #FFFFFF
     binding_mode       #900000 #900000 #FFFFFF
   }
-  status_command /home/vko/.config/i3status/my_i3status.sh
+  status_command ~/.config/i3status/my_i3status.sh
 }
 
 # Press $mod+Shift+p followed to enter pomodoro
-set $mode_launcher Pomodoro [s]tart [p]ause [c]ontinue [x]close [S]tatus [e]xit
+set $mode_launcher Pomodoro [s]tart [n]ext [x]close [e]xit
 bindsym $mod+Shift+p mode "$mode_launcher"
 
 mode "$mode_launcher" {
-    bindsym s exec pomo -s && $refresh_i3status
-    bindsym p exec pomo -p && $refresh_i3status
-    bindsym c exec pomo -c && $refresh_i3status
-    bindsym x exec pomo -x && $refresh_i3status
-    bindsym S exec pomo -S && $refresh_i3status
-    bindsym e exec pomo -e && $refresh_i3status
+    bindsym s exec pomo --start && $refresh_i3status
+    bindsym n exec pomo --next && $refresh_i3status
+    bindsym x exec pomo --close && $refresh_i3status
+    bindsym e exec pomo --exit && $refresh_i3status
 
     bindsym Escape mode "default"
     bindsym Return mode "default"

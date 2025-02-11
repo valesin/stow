@@ -13,12 +13,6 @@ if ! echo "$PATH" | grep -q "$HOME/bin"; then
     PATH="$HOME/bin:$PATH"
 fi
 
-# Add $HOME/Documents/Scripts to PATH if not already present.
-for d in $HOME/Documents/Scripts/*/; do
-    PATH+=":$d"
-done 
-export PATH
-
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
