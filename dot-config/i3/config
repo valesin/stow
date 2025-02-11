@@ -19,9 +19,9 @@ set $mod Mod4
 font pango:Noto Sans Mono 12
 
 exec_always ~/Documents/Scripts/startup_both.sh
+exec ~/Documents/Scripts/pomo/timer.sh
 exec ~/Documents/Scripts/pomo/pomo_timer.sh
 exec redshift
-exec $refresh_i3status
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -249,10 +249,10 @@ set $mode_launcher Pomodoro [s]tart [n]ext [x]close [e]xit
 bindsym $mod+Shift+p mode "$mode_launcher"
 
 mode "$mode_launcher" {
-    bindsym s exec pomo --start && $refresh_i3status
-    bindsym n exec pomo --next && $refresh_i3status
-    bindsym x exec pomo --close && $refresh_i3status
-    bindsym e exec pomo --exit && $refresh_i3status
+    bindsym s exec ~/Documents/Scripts/pomo/pomo --start && $refresh_i3status
+    bindsym n exec ~/Documents/Scripts/pomo/pomo --next && $refresh_i3status
+    bindsym x exec ~/Documents/Scripts/pomo/pomo --close && $refresh_i3status
+    bindsym e exec ~/Documents/Scripts/pomo/pomo --exit && $refresh_i3status
 
     bindsym Escape mode "default"
     bindsym Return mode "default"
