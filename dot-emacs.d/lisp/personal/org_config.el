@@ -119,16 +119,22 @@
       
       ("a" "anki")
       
-      ("aa" "algoritmi" entry  ; Algoritmi anki
-       (file "~/Documents/Personal/Reference/Anki/anki_algoritmi.org.gpg")
+      ("as" "statistica" entry  ; Algoritmi anki
+       (file "~/Documents/Personal/Notes/Uni/Statistica/anki_statistica.org.gpg")
        "\n* %^{Front}      %^g\n%?\n"
 ;;       :jump-to-captured t 
        )
-      
-      ("ar" "reti" entry  ; Book references
-       (file "~/Documents/Personal/Reference/Anki/anki_reti.org.gpg")
+
+      ("ab" "basi di dati" entry  ; Algoritmi anki
+       (file "~/Documents/Personal/Notes/Uni/Basi_di_Dati/anki_basi.org.gpg")
        "\n* %^{Front}      %^g\n%?\n"
-;;       :jump-to-captured t ;; poi risettare a true eventualmente (a meno che non treovo un modo automatico per fare la push su anki
+;;       :jump-to-captured t 
+       )
+
+      ("ar" "ricerca operativa" entry  ; Algoritmi anki
+       (file "~/Documents/Personal/Notes/Uni/Ricerca_Operativa/anki_ricerca.org.gpg")
+       "\n* %^{Front}      %^g\n%?\n"
+;;       :jump-to-captured t 
        )
       
       ("c" "calendar")
@@ -381,7 +387,12 @@
   ;;(add-hook 'kill-emacs-hook 'org-caldav-sync-at-close)
   )
 
-(use-package org-anki
-  :after org
+(use-package anki-editor
+  :straight (:repo "anki-editor/anki-editor")
+  :bind
+  (("C-c 0 i" . anki-editor-insert-note)
+   ("C-c 0 b" . anki-editor-insert-default-note)
+   ("C-c 0 p" . anki-editor-push-note-at-point)
+   ("C-c 0 C-p" . anki-editor-push-notes)
+   )
   )
-

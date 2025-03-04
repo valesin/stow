@@ -7,6 +7,11 @@
 
 ;; Use-package is used to group settings.
 (use-package emacs
+  :bind
+  (
+   ( "C-c 0 j t" .  (lambda () (interactive) (find-file "~/Documents/Personal/todo.org.gpg")))
+   ( "C-c 0 j s" .  (lambda () (interactive) (find-file "~/Documents/Personal/someday.org.gpg")))
+   )
   :init
   ;; Bootstrap for straight.el
   (defvar bootstrap-version)
