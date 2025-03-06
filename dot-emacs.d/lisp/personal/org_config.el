@@ -396,3 +396,12 @@
    ("C-c 0 C-p" . anki-editor-push-notes)
    )
   )
+
+(use-package org-web-tools
+  :after org
+  :defer
+  :bind
+  (("C-c 0 l" . org-web-tools-insert-link-for-url)
+   ("C-c 0 w" . org-web-tools-insert-web-page-as-entry)
+   )
+  )
