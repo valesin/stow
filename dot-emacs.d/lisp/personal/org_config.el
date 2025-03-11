@@ -164,7 +164,8 @@
 
   ;; Exporting settings
   (org-export-headline-levels 10) ;; headlines exported as they are until 10th level
-  (org-export-with-broken-links 'mark) 
+  (org-export-with-broken-links 'mark)
+  (org-export-exclude-tags '("anki" "noexport" "private"))
   ;; Publishing settings
   (org-publish-project-alist
    '(("Uni"  ; Project name for university notes
