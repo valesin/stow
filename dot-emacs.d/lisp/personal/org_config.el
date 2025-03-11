@@ -389,7 +389,12 @@
   )
 
 (use-package anki-editor
-  :straight (:repo "anki-editor/anki-editor")
+  :straight (:type git
+             :host github
+             :repo "anki-editor/anki-editor"
+             :branch "main"
+             :fork (:host github
+			  :repo "valesin/anki-editor"))
   :bind
   (("C-c 0 i" . anki-editor-insert-note)
    ("C-c 0 b" . anki-editor-insert-default-note)
