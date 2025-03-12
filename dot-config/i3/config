@@ -173,16 +173,18 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+Shift+g exec "i3-nagbar -t warning -m 'Are you leaving?' -B 'Goodnight' '~/Documents/Scripts/shutdown_routine.sh'"
 
 #start on startup
-exec --no-startup-id firefox
 exec --no-startup-id emacs ~/Documents/intro.org
-exec --no-startup-id thunderbird
+exec --no-startup-id firefox
+exec --no-startup-id calibre
 exec --no-startup-id anki
+exec --no-startup-id thunderbird
 
 # Assign to workspaces
 assign [class="Emacs"] number 1 $tag1
 assign [class="org.mozilla.firefox"] number 2 $tag2
-assign [class="thunderbird"] number 9 $tag9
+assign [class="calibre-gui"] number 3 $tag3
 assign [class="Anki"] number 4 $tag4
+assign [class="thunderbird"] number 9 $tag9
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
