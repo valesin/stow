@@ -134,6 +134,11 @@ WARNING: Autosave files will be stored unencrypted!"
 
 (use-package diminish)
 
+;; Library setup
+(use-package citeproc
+  :straight t
+  :defer t)
+
 ;; Load additional configuration files.
 (load "org_config.el")
 (load "org_roam_config.el")
@@ -142,5 +147,4 @@ WARNING: Autosave files will be stored unencrypted!"
 ;; (load "go_config.el")
 (load "elfeed_config.el")
 (load "latex_config.el")
-(load "bibliography_config.el")
 (load "ledger_config.el")
