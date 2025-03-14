@@ -252,7 +252,9 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . nil)  ; Support for Emacs Lisp
-     (latex . t)))       ; Support for LaTeX
+     (latex . t)
+     (sql . t)
+     ))       ; Support for LaTeX
   
 (defun my/prettify-symbols-setup ()
   ;; Checkboxes
