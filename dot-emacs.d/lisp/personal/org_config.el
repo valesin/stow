@@ -254,6 +254,7 @@
    '((emacs-lisp . nil)  ; Support for Emacs Lisp
      (latex . t)
      (sql . t)
+     (gnuplot . t)
      ))       ; Support for LaTeX
   
 (defun my/prettify-symbols-setup ()

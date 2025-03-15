@@ -148,3 +148,6 @@ WARNING: Autosave files will be stored unencrypted!"
 (load "elfeed_config.el")
 (load "latex_config.el")
 (load "ledger_config.el")
+
+(use-package gnuplot
+  :defer t)
