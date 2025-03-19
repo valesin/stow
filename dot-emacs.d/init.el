@@ -99,6 +99,7 @@ WARNING: Autosave files will be stored unencrypted!"
   (browse-url-generic-program "firefox")
   (lexical-binding t)
   (gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+  (save-interprogram-paste-before-kill t)
 
   :custom-face
   (default ((t (:family "Noto Sans Mono" :height 160))))
@@ -151,3 +152,8 @@ WARNING: Autosave files will be stored unencrypted!"
 
 (use-package gnuplot
   :defer t)
+
+
+;; Allow Emacs to access content from clipboard.
+(setq x-select-enable-clipboard t
+      x-select-enable-primary t)
