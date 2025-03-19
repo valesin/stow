@@ -89,7 +89,8 @@
 	 " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"))
    (org-agenda-current-time-string
    "⭠ now ─────────────────────────────────────────────────")
-  ;; Capture templates for different types of notes
+   ;; Capture templates for different types of notes
+   (org-my-anki-file "~/Documents/Personal/Reference/anki.org.gpg")
    (org-capture-templates
     '(("t" "todo" entry  ; Quick TODO entries
        (file+olp "~/Documents/Personal/todo.org.gpg" "Tasks" "Uncategorized" "Tasks")
@@ -119,19 +120,19 @@
       
       ("a" "anki")
       
-      ("as" "statistica" entry  ; Algoritmi anki
-       (file "~/Documents/Personal/Notes/Uni/Statistica/anki_statistica.org.gpg")
+      ("as" "statistica" entry
+       (file + headline org-my-anki-file)
        "\n* %^{Front}      %^g\n%?\n"
 ;;       :jump-to-captured t 
        )
 
-      ("ab" "basi di dati" entry  ; Algoritmi anki
+      ("ab" "basi di dati" entry
        (file "~/Documents/Personal/Notes/Uni/Basi_di_Dati/anki_basi.org.gpg")
        "\n* %^{Front}      %^g\n%?\n"
 ;;       :jump-to-captured t 
        )
 
-      ("ar" "ricerca operativa" entry  ; Algoritmi anki
+      ("ar" "ricerca operativa" entry
        (file "~/Documents/Personal/Notes/Uni/Ricerca_Operativa/anki_ricerca.org.gpg")
        "\n* %^{Front}      %^g\n%?\n"
 ;;       :jump-to-captured t 
@@ -406,6 +407,42 @@
    )
   )
 
+(use-package anki-editor
+  :after org
+  :bind (:map org-mode-map
+              ("<f12>" . anki-editor-cloze-region-auto-incr)
+              ("<f11>" . anki-editor-cloze-region-dont-incr)
+              ("<f10>" . anki-editor-reset-cloze-number)
+              ("<f9>"  . anki-editor-push-tree))
+  :hook (org-capture-after-finalize . anki-editor-reset-cloze-number) ; Reset cloze-number after each capture.
+  :config
+  (setq anki-editor-create-decks t ;; Allow anki-editor to create a new deck if it doesn't exist
+        anki-editor-org-tags-as-anki-tags t)
+
+  (defun anki-editor-cloze-region-auto-incr (&optional arg)
+    "Cloze region without hint and increase card number."
+    (interactive)
+    (anki-editor-cloze-region my-anki-editor-cloze-number "")
+    (setq my-anki-editor-cloze-number (1+ my-anki-editor-cloze-number))
+    (forward-sexp))
+  (defun anki-editor-cloze-region-dont-incr (&optional arg)
+    "Cloze region without hint using the previous card number."
+    (interactive)
+    (anki-editor-cloze-region (1- my-anki-editor-cloze-number) "")
+    (forward-sexp))
+  (defun anki-editor-reset-cloze-number (&optional arg)
+    "Reset cloze number to ARG or 1"
+    (interactive)
+    (setq my-anki-editor-cloze-number (or arg 1)))
+  (defun anki-editor-push-tree ()
+    "Push all notes under a tree."
+    (interactive)
+    (anki-editor-push-notes '(4))
+    (anki-editor-reset-cloze-number))
+  ;; Initialize
+  (anki-editor-reset-cloze-number)
+  )
+
 (use-package org-web-tools
   :after org
   :defer
@@ -414,3 +451,67 @@
    ("C-c 0 w" . org-web-tools-insert-web-page-as-entry)
    )
   )
+
+;; Define the Anki file location
+(setq org-my-anki-file "/path/to/your/anki.org")
+
+(defun my/org-capture--build-template (template-key topic note-type deck)
+  "Helper function to construct a capture template.
+TEMPLATE-KEY is the first element of the template.
+TOPIC is used as both the headline and (if desired) the deck name.
+NOTE-TYPE should be a string like \"Basic\" or \"Cloze\".
+DECK is the target Anki deck, either \"All\", the topic name, or a user-specified name."
+  (list template-key
+        topic
+        'entry
+        `(file+headline org-my-anki-file ,topic)
+        (concat "* %<%H:%M>   %^g\n"
+                ":PROPERTIES:\n"
+                ":ANKI_NOTE_TYPE: " note-type "\n"
+                ":ANKI_DECK: " deck "\n"
+                ":END:\n"
+                "** Front\n%?\n"
+                "** Back\n%x\n")))
+
+(defun my/org-capture-add-template (key topic &optional deck topic-specific)
+  "Add an Org capture template for Anki using KEY and TOPIC.
+KEY is a one‑letter string. The generated template keys are formed by appending
+KEY with \"ab\" for Basic and \"ac\" for Cloze.
+If DECK is provided, it will be used as the Anki deck.
+Otherwise, if TOPIC-SPECIFIC is non‑nil, the topic name is used as the deck,
+and if not, the default deck \"All\" is used.
+When KEY is:
+  \"a\" – adds both Basic and Cloze templates.
+  \"b\" – adds only a Basic template.
+  \"c\" – adds only a Cloze template."
+  (let* ((deck-name (or deck (if topic-specific topic "All")))
+         (basic-key (concat key "ab"))
+         (cloze-key (concat key "ac")))
+    (cond
+     ((string= key "a")
+      ;; Add both Basic and Cloze templates.
+      (add-to-list 'org-capture-templates
+                   (my/org-capture--build-template basic-key topic "Basic" deck-name))
+      (add-to-list 'org-capture-templates
+                   (my/org-capture--build-template cloze-key topic "Cloze" deck-name)))
+     ((string= key "b")
+      ;; Add only the Basic template.
+      (add-to-list 'org-capture-templates
+                   (my/org-capture--build-template basic-key topic "Basic" deck-name)))
+     ((string= key "c")
+      ;; Add only the Cloze template.
+      (add-to-list 'org-capture-templates
+                   (my/org-capture--build-template cloze-key topic "Cloze" deck-name)))
+     (t (message "Invalid key provided: %s" key)))))
+
+;; Example Usage:
+
+;; Without specifying the deck (uses "All" for generic and TOPIC for topic-specific)
+(my/org-capture-add-template "a" "Programming")       ; Uses deck "All"
+(my/org-capture-add-template "b" "Math")              ; Uses deck "All"
+(my/org-capture-add-template "c" "History")           ; Uses deck "All"
+(my/org-capture-add-template "a" "Languages" nil t)     ; Uses deck "Languages" because topic-specific is true
+
+;; Specifying the deck explicitly (overrides the default behavior)
+(my/org-capture-add-template "a" "Philosophy" "CustomDeck") ; Uses deck "CustomDeck"
+(my/org-capture-add-template "b" "Science" "MyScienceDeck")  ; Uses deck "MyScienceDeck"
