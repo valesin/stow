@@ -364,28 +364,32 @@ This function always adds both Basic and Cloze templates."
   ;;(add-hook 'kill-emacs-hook 'org-caldav-sync-at-close)
   )
 
-(use-package anki-editor
-  :straight (:type git
-             :host github
-             :repo "anki-editor/anki-editor"
-             :branch "main"
-             :fork (:host github
-			  :repo "valesin/anki-editor"))
-  :bind
-  (("C-c 0 i" . anki-editor-insert-note)
-   ("C-c 0 b" . anki-editor-insert-default-note)
-   ("C-c 0 p" . anki-editor-push-note-at-point)
-   ("C-c 0 C-p" . anki-editor-push-notes)
-   )
-  )
+;; (use-package anki-editor
+;;   :straight (:type git
+;;              :host github
+;;              :repo "anki-editor/anki-editor"
+;;              :branch "main"
+;;              :fork (:host github
+;; 			  :repo "valesin/anki-editor"))
+;;   :bind
+;;   (("C-c 0 i" . anki-editor-insert-note)
+;;    ("C-c 0 b" . anki-editor-insert-default-note)
+;;    ("C-c 0 p" . anki-editor-push-note-at-point)
+;;    ("C-c 0 C-p" . anki-editor-push-notes)
+;;    )
+;;   )
 
 (use-package anki-editor
   :after org
   :bind (:map org-mode-map
-              ("<f12>" . anki-editor-cloze-region-auto-incr)
-              ("<f11>" . anki-editor-cloze-region-dont-incr)
-              ("<f10>" . anki-editor-reset-cloze-number)
-              ("<f9>"  . anki-editor-push-tree))
+              ("C-<tab> a c" . anki-editor-cloze-region-auto-incr)
+              ("C-<tab> a C" . anki-editor-cloze-region-dont-incr)
+              ("C-<tab> a 0" . anki-editor-reset-cloze-number)
+              ("C-<tab> a i" . anki-editor-insert-note)
+	      ("C-<tab> a b" . anki-editor-insert-default-note)
+	      ("C-<tab> a p" . anki-editor-push-note-at-point)
+	      ("C-<tab> a C-p" . anki-editor-push-notes)
+	      )
   :hook (org-capture-after-finalize . anki-editor-reset-cloze-number) ; Reset cloze-number after each capture.
   :config
   (setq anki-editor-create-decks t ;; Allow anki-editor to create a new deck if it doesn't exist
