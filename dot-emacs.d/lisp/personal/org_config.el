@@ -264,8 +264,12 @@ This function always adds both Basic and Cloze templates."
   (add-to-list 'org-capture-templates
                (my/org-capture--build-template (concat "ac" key) topic "Cloze")))
 
-;; Add Anki capture templates for the "Statistica" topic
-(my/org-capture-add-template "s" "Statistica")
+;; Add Anki capture templates for uni courses
+(my/org-capture-add-template "s" "statistica")
+
+(my/org-capture-add-template "r" "ricerca operativa")
+
+(my/org-capture-add-template "b" "basi di dati")
 
 (use-package olivetti
   :straight t
@@ -382,13 +386,13 @@ This function always adds both Basic and Cloze templates."
 (use-package anki-editor
   :after org
   :bind (:map org-mode-map
-              ("C-<tab> a c" . anki-editor-cloze-region-auto-incr)
-              ("C-<tab> a C" . anki-editor-cloze-region-dont-incr)
+              ("C-<tab> a C" . anki-editor-cloze-region-auto-incr)
+              ("C-<tab> a c" . anki-editor-cloze-region-dont-incr)
               ("C-<tab> a 0" . anki-editor-reset-cloze-number)
               ("C-<tab> a i" . anki-editor-insert-note)
 	      ("C-<tab> a b" . anki-editor-insert-default-note)
 	      ("C-<tab> a p" . anki-editor-push-note-at-point)
-	      ("C-<tab> a C-p" . anki-editor-push-notes)
+	      ("C-<tab> a C-p" . anki-editor-push-tree)
 	      )
   :hook (org-capture-after-finalize . anki-editor-reset-cloze-number) ; Reset cloze-number after each capture.
   :config
@@ -413,7 +417,7 @@ This function always adds both Basic and Cloze templates."
   (defun anki-editor-push-tree ()
     "Push all notes under a tree."
     (interactive)
-    (anki-editor-push-notes '(4))
+    (anki-editor-push-notes 'tree)
     (anki-editor-reset-cloze-number))
   ;; Initialize
   (anki-editor-reset-cloze-number)

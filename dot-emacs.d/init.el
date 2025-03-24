@@ -157,3 +157,6 @@ WARNING: Autosave files will be stored unencrypted!"
 ;; Allow Emacs to access content from clipboard.
 (setq x-select-enable-clipboard t
       x-select-enable-primary t)
+
+
+(use-package ement)
