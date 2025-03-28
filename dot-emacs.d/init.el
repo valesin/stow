@@ -5,6 +5,9 @@
 ;; (let ((default-directory "~/.emacs.d/lisp/"))
 ;;   (normal-top-level-add-subdirs-to-load-path))
 
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(package-initialize)
+
 ;; Use-package is used to group settings.
 (use-package emacs
   :bind
@@ -99,11 +102,9 @@ WARNING: Autosave files will be stored unencrypted!"
     (org-agenda nil "a"))
   )
 
-(use-package cl-lib
-  :straight nil)
+(use-package cl-lib)
 
 (use-package epa-file
-  :straight nil
   :custom
   (auth-sources '("~/.authinfo.gpg"))  ; auto login for WebDAV
   :config
@@ -113,7 +114,6 @@ WARNING: Autosave files will be stored unencrypted!"
 
 ;; Library setup
 (use-package citeproc
-  :straight t
   :defer t)
 
 ;; Load additional configuration files.
