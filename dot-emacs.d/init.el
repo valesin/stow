@@ -1,9 +1,9 @@
 ;; init.el -- Main Emacs configuration
 
 ;; Add our custom lisp directory to load-path and load all its subdirectories.
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-(let ((default-directory "~/.emacs.d/lisp/"))
-  (normal-top-level-add-subdirs-to-load-path))
+;; (add-to-list 'load-path "~/.emacs.d/lisp/")
+;; (let ((default-directory "~/.emacs.d/lisp/"))
+;;   (normal-top-level-add-subdirs-to-load-path))
 
 ;; Use-package is used to group settings.
 (use-package emacs
@@ -13,24 +13,7 @@
    ( "C-c 0 j s" .  (lambda () (interactive) (find-file "~/Documents/Personal/someday.org.gpg")))
    )
   :init
-  ;; Bootstrap for straight.el
-  (defvar bootstrap-version)
-  (let* ((bootstrap-file
-          (expand-file-name
-           "straight/repos/straight.el/bootstrap.el"
-           (or (bound-and-true-p straight-base-dir)
-               user-emacs-directory)))
-         (bootstrap-version 7))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-
-  ;; Define directories for backups and autosaves.
+   ;; Define directories for backups and autosaves.
   (defvar my-backup-directory (concat user-emacs-directory "backups/"))
   (defvar my-autosave-directory (concat user-emacs-directory "autosaves/"))
 
@@ -116,13 +99,6 @@ WARNING: Autosave files will be stored unencrypted!"
     (org-agenda nil "a"))
   )
 
-(use-package straight
-  :custom
-  (straight-use-package-by-default t)
-  (straight-recipes-gnu-elpa-use-mirror t)
-  :config
-  (straight-use-package 'use-package))
-
 (use-package cl-lib
   :straight nil)
 
@@ -142,13 +118,6 @@ WARNING: Autosave files will be stored unencrypted!"
 
 ;; Load additional configuration files.
 (load "org_config.el")
-(load "org_roam_config.el")
-(load "programming_config.el")
-;; (load "ocaml_config.el")
-;; (load "go_config.el")
-(load "elfeed_config.el")
-(load "latex_config.el")
-(load "ledger_config.el")
 
 (use-package gnuplot
   :defer t)
@@ -158,5 +127,19 @@ WARNING: Autosave files will be stored unencrypted!"
 (setq x-select-enable-clipboard t
       x-select-enable-primary t)
 
+(use-package elfeed
+  :bind      ; Global keybinding for elfeed
+  ("C-x w" . elfeed))   ; Quick access to RSS reader
 
-(use-package ement)
+(use-package elfeed-org
+  :after elfeed ; Load after elfeed is loaded
+  :config     ; Configuration to run after loading
+  (elfeed-org)   ; Initialize elfeed-org
+  (setq rmh-elfeed-org-files (list "~/Documents/Personal/Reference/rssfeeds.org.gpg")))   ; Set RSS feeds org file
+
+(use-package auctex)
+
+(use-package ledger-mode
+  :defer t)
+
+
