@@ -2,10 +2,11 @@
     name = Valerio Siniscalco
     email = valerio@siniscalco.me
 
+[init]
+	defaultBranch = main
+
 [core]
     editor = emacsclient -r -a
-    autocrlf = input
-    init.defaultBranch = main
 
 [color]
     ui = auto
