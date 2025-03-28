@@ -1,0 +1,29 @@
+[user]
+    name = Valerio Siniscalco
+    email = valerio@siniscalco.me
+
+[core]
+    editor = emacsclient -c -a emacs
+    autocrlf = input
+    excludesfile = ~/.gitignore_global
+    init.defaultBranch = main
+
+[color]
+    ui = auto
+
+[alias]
+    s = status
+    co = checkout
+    br = branch
+    ci = commit
+    st = stash
+    lg = log --graph --oneline --decorate --all
+
+[push]
+    default = simple
+
+[pull]
+    rebase = true
+
+[credential]
+    helper = cache --timeout=3600
