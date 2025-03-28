@@ -5,7 +5,9 @@
 ;; (let ((default-directory "~/.emacs.d/lisp/"))
 ;;   (normal-top-level-add-subdirs-to-load-path))
 
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
 ;; Use-package is used to group settings.
