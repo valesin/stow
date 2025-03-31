@@ -36,7 +36,7 @@
 
 ;; Visual settings for org-mode
 (setq org-hide-emphasis-markers t)         ;; Hide markup symbols like *bold* /italic/
-(setq org-indent-indentation-per-level 4)    ;; Spaces per indent level
+(setq org-indent-indentation-per-level 2)    ;; Spaces per indent level
 (setq org-startup-indented t)                ;; Enable org-indent-mode by default
 (setq org-hide-leading-stars t)
 (setq org-auto-align-tags t)

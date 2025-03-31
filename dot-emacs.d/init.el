@@ -10,6 +10,8 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
 ;; Use-package is used to group settings.
 (use-package emacs
   :bind
