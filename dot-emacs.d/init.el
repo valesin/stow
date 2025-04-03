@@ -121,10 +121,13 @@ WARNING: Autosave files will be stored unencrypted!"
   :defer t)
 
 ;; Load additional configuration files.
-(load "org_config.el")
+;;(load "org_config.el")
+(org-babel-load-file "~/guix-conf/dotfiles/.emacs.d/org_config.org")
 
 (use-package gnuplot
   :defer t)
+
+
 
 
 ;; Allow Emacs to access content from clipboard.
