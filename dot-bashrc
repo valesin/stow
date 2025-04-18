@@ -29,6 +29,7 @@ unset rc
 # Set gopath
 export GOPATH=$HOME/go
 export PATH="${PATH}:${GOROOT}/bin:${GOPATH}/bin"
+export PATH=$PATH:/usr/local/go/bin
 
 # As required by man of gpg-agent
 GPG_TTY=$(tty)
