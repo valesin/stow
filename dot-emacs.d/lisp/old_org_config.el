@@ -1,21 +1,42 @@
+;; Load required libraries
 (require 'org)
 (require 'org-capture)
 (require 'org-agenda)
-(require 'diminish)
+(require 'diminish) ;; if installed
 
+;; Global keybindings for org-mode functions
 (global-set-key (kbd "C-c l") 'org-store-link)    ;; Store a link to the current location
 (global-set-key (kbd "C-c a") 'org-agenda)        ;; Open the org agenda view
 (global-set-key (kbd "C-c c") 'org-capture)       ;; Start org capture
+(global-set-key (kbd "C-c s") 'org-anki-sync-entry) ;; Sync current entry with Anki
 
+;; Diminish minor modes if available
+(with-eval-after-load 'org
+  (when (fboundp 'diminish)
+    (diminish 'org-cdlatex-mode)
+    (diminish 'org-indent-mode)
+    (diminish 'olivetti-mode)
+    (diminish 'org-cdlatex-mode)))  ;; note: duplicate call kept from original config
+
+;; Hook: enable visual-line-mode in org-mode
+(add-hook 'org-mode-hook 'visual-line-mode)
+
+;; Custom Settings
+
+;; General org settings
 (setq org-element-use-cache nil)
 (setq org-element-cache-persistent nil)
 (setq org-directory "~/Documents/")
 
-(add-hook 'org-mode-hook 'visual-line-mode)
+;; Feeds
+(setq org-feed-alist
+      '(("Marginalian"
+         "https://www.themarginalian.org/feed/"
+         "~/Documents/feeds.org" "Marginalian entries")))
 
 ;; Visual settings for org-mode
 (setq org-hide-emphasis-markers t)         ;; Hide markup symbols like *bold* /italic/
-(setq org-indent-indentation-per-level 4)    ;; Spaces per indent level
+(setq org-indent-indentation-per-level 2)    ;; Spaces per indent level
 (setq org-startup-indented t)                ;; Enable org-indent-mode by default
 (setq org-hide-leading-stars t)
 (setq org-auto-align-tags t)
@@ -31,45 +52,8 @@
                     :html-scale 1.0
                     :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")
                     :scale 1.35))
-(custom-set-faces
- '(org-document-title ((t (:foreground "midnight blue"
-                                       :weight bold
-                                       :height 1.44)))))
 
-(use-package org-superstar
-  :config
-  (setq org-superstar-leading-bullet " ")
-  (setq org-superstar-headline-bullets-list '("◉" "○" "‣" "◈" "◇"))
-  (setq org-superstar-special-todo-items nil) ;; Makes TODO header bullets into boxes FALSE CAUSE THE BULLET IS TOO LARGE
-  (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
-                                          ("NEXT"  . 9744)
-                                          ("WAIT"  . 9744)
-					  ("DONE"  . 9745)))
-  :hook (org-mode . org-superstar-mode))
-
-(use-package olivetti
-  :hook (org-mode . olivetti-mode)
-  :custom
-   (olivetti-body-width 70)
-  )
-
-(use-package org-appear
-  :hook     (org-mode . org-appear-mode)
-  :custom
-   (org-appear-autoemphasis t)
-   (org-appear-autolinks t))
-
-(require 'cdlatex)
-(add-hook 'LaTeX-mode-hook #'turn-on-cdlatex)   ; with AUCTeX LaTeX mode
-(add-hook 'latex-mode-hook #'turn-on-cdlatex)   ; with Emacs latex mode
-(turn-on-org-cdlatex)
-
-(require 'auctex)
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-
-(use-package htmlize)
-
+;; Behavior settings
 (setq org-special-ctrl-a/e t)      ;; Smart home/end keys in org-mode
 (setq org-special-ctrl-k t)        ;; Smart kill line in org-mode
 (setq org-M-RET-may-split-line nil)  ;; Prevent M-RET from splitting lines
@@ -85,6 +69,7 @@
 (setq org-enforce-todo-checkbox-dependencies t)
 (setq org-log-done 'time)  ;; Add timestamp when marking items as DONE
 
+;; Agenda config
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\(\\.gpg\\)?\\'")
 (setq org-agenda-files '("~/Documents/Personal/todo.org.gpg"
                          "~/Documents/Personal/Calendar/calendar.org.gpg"))
@@ -105,158 +90,74 @@
         " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄"))
 (setq org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
 
+;; Capture Templates and Anki integration
+(setq org-my-anki-file "~/Documents/Personal/Reference/anki.org.gpg")
 (setq org-capture-templates
-       '(
-	 ("t" "todo" entry
-	  (file+olp "~/Documents/Personal/todo.org.gpg" "Tasks" "Uncategorized" "Tasks")
-	  "* TODO %?\n")
-	 
-	 ("i" "info to process" entry
-	  (file+olp "~/Documents/Personal/todo.org.gpg" "Info")
-	  "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\nFrom: %a\n")
-	 
-	 ("j" "journal" entry
-	  (file+olp+datetree "~/Documents/Personal/journal.org.gpg")
-	  "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:%U\n:END:\n%?\n")
-	 ("r" "references"
-	  )
-	 ("rw" "bookmarks" entry
-	  (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Bookmarks")
-	  "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
-	 
-	 ("rb" "books" entry
-	  (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Books")
-	  "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
-	 
-	 ("rf" "feed" entry
-	  (file+headline "~/Documents/Personal/Reference/rssfeeds.org.gpg" "Uncategorized")
-	  "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?\n")
-	 ("c" "calendar")
-	 
-	 ("cs" "scheduled" entry
-	  (file+headline "~/Documents/Personal/Calendar/calendar.org.gpg" "Appointments")
-	  "\n* %^{Title}\nSCHEDULED: %^T"
-	  :immediate-finish t)
-	 )
-       )
+      '(("t" "todo" entry
+         (file+olp "~/Documents/Personal/todo.org.gpg" "Tasks" "Uncategorized" "Tasks")
+         "* TODO %?\n")
+        ("i" "info to process" entry
+         (file+olp "~/Documents/Personal/todo.org.gpg" "Info")
+         "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\nFrom: %a\n")
+        ("j" "journal" entry
+         (file+olp+datetree "~/Documents/Personal/journal.org.gpg")
+         "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:%U\n:END:\n%?\n")
+        ("r" "references")
+        ("rw" "bookmarks" entry
+         (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Bookmarks")
+         "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
+        ("rb" "books" entry
+         (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Books")
+         "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
+        ("rf" "feed" entry
+         (file+headline "~/Documents/Personal/Reference/rssfeeds.org.gpg" "Uncategorized")
+         "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?\n")
+        ("a" "anki")
+        ("ab" "basic")
+        ("ac" "cloze")
+        ("c" "calendar")
+        ("cs" "scheduled" entry
+         (file+headline "~/Documents/Personal/Calendar/calendar.org.gpg" "Appointments")
+         "\n* %^{Title}\nSCHEDULED: %^T"
+         :immediate-finish t)))
 
+;; Refile settings
 (setq org-refile-targets '((org-agenda-files :maxlevel . 5)
                            (nil :maxlevel . 10)))
 (setq org-refile-use-outline-path 'file)
 
+;; Babel settings
 (setq org-confirm-babel-evaluate nil) ;; No confirmation before executing code blocks
 (setq org-src-fontify-natively t)
 (setq org-src-tab-acts-natively t)
 (setq org-edit-src-content-indentation 0)
 
-
-;; Configure org-babel languages for code block execution
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . nil)  ;; Emacs Lisp disabled
-   (latex . t)
-   (sql . t)
-   (gnuplot . t)
-   (scheme . t)))
-
+;; Export settings
 (setq org-export-headline-levels 10)
 (setq org-export-with-broken-links 'mark)
 (setq org-export-exclude-tags '("anki" "noexport" "private"))
-(setq org-export-with-archived-trees nil)
-(require 'ox-md)
 
+;; Publishing settings
 (setq org-publish-project-alist
-      '(
-	("Uni"
-	         :publishing-function org-html-publish-to-html
-	         :base-directory "~/Documents/Personal/Notes/Uni/"
-	         :base-extension "org.gpg"
-	         :publishing-directory "~/Public/uni_notes"
-	         :language it
-	         :recursive t
-	         :with-creator nil
-	         :with-author nil
-	         :section-numbers nil
-	         :with-toc t
-	         :auto-sitemap t
-	         :htmlized-source t
-	         :with-latex t
-	         :html-validation-link nil
-	         :html-head-include-scripts nil
-	         :html-head-include-default-style nil
-	         :html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" onerror=\"this.onerror=null;this.href='local.css';\" />"
-	         :with-broken-links 'mark)
-	("index"
-	 :publishing-function org-html-publish-to-html
-	 :base-directory "~/Documents/Personal/Notes/personal_website"
-	 :base-extension "org"
-	 :publishing-directory "~/Public/personal_website"
-	 :language en
-	 :recursive nil ;; non ho sottocartelle per ora
-	 :with-creator nil
-	 :with-author nil
-	 :section-numbers nil
-	 :with-toc t
-	 :auto-sitemap nil
-	 :htmlized-source t
-	 :with-latex t
-	 :with-todo-keywords nil
-	 ;;	 :with-cite-processors’      ‘org-export-process-citations’
-	 ;;	 :cite-export’               org-cite-export-processors
-	 :html-validation-link nil
-	 :html-head-include-scripts nil
-	 :html-head-include-default-style nil
-	 :html-head "<link rel=\"stylesheet\" href=\"tufte-css/tufte.css\"/>"
-	 :with-broken-links 'mark
-	 :preserve-breaks t
-	 :with-date nil
-	 :time-stamp-file nil
-	 :html-preamble "<header style=\"text-align:center;\">
-	    <h1 style=\"margin-bottom:0;\">Valerio Siniscalco</h1>
-	    <p style=\"margin-top:0;\">
-	      <a href=\"mailto:valerio.siniscalco@studenti.unimi.it\">valerio.siniscalco@studenti.unimi.it</a> |
-	      <a href=\"https://github.com/valesin\">github.com/valesin</a>
-	    </p>
-	  </header>"
-	 :with-title nil
-	 ;;:html-link-home "~/Public/personal_website"
-	 ;;:html-link-up "/"
-	 )
-	("posts"
-	 :publishing-function org-html-publish-to-html
-	 :base-directory "~/Documents/Personal/Notes/personal_website/posts"
-	 :base-extension "org"
-	 :publishing-directory "~/Public/personal_website/posts"
-	 :language en
-	 :recursive nil ;; non ho sottocartelle per ora
-	 :with-creator nil
-	 :with-author nil
-	 :section-numbers nil
-	 :with-toc t
-	 :auto-sitemap nil
-	 :htmlized-source t
-	 :with-latex t
-	 :with-todo-keywords nil
-	 :html-validation-link nil
-	 :html-head-include-scripts nil
-	 :html-head-include-default-style nil
-	 :html-head "<link rel=\"stylesheet\" href=\"../tufte-css/tufte.css\"/>"
-	 :with-broken-links 'mark
-	 :preserve-breaks t
-	 :with-date nil
-	 :time-stamp-file nil
-	)
-	("static"
-	 :base-directory "~/Documents/Personal/Notes/personal_website"
-	 :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|ttf\\|svg\\|woff"
-	 :publishing-directory "~/Public/personal_website"
-	 :recursive t
-	 :publishing-function org-publish-attachment
-	 )
-	
-	("Personal website" :components ("posts" "index" "static"))
-	)
-      )
+      '(("Uni"
+         :publishing-function org-html-publish-to-html
+         :base-directory "~/Documents/Personal/Notes/Uni/"
+         :base-extension "org.gpg"
+         :publishing-directory "~/Public/uni_notes"
+         :language it
+         :recursive t
+         :with-creator nil
+         :with-author nil
+         :section-numbers nil
+         :with-toc t
+         :auto-sitemap t
+         :htmlized-source t
+         :with-latex t
+         :html-validation-link nil
+         :html-head-include-scripts nil
+         :html-head-include-default-style nil
+         :html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" onerror=\"this.onerror=null;this.href='local.css';\" />"
+         :with-broken-links 'mark)))
 
 ;; MathJax settings for LaTeX math rendering
 (setq org-html-mathjax-options
@@ -301,16 +202,25 @@
     </script>
     <script id=\"MathJax-script\" async src=\"%PATH\"></script>")
 
-;; (setq org-cite-global-bibliography '("~/Library/bib.json"))
-;; (setq org-cite-export-processors
-;;       '((latex biblatex)
-;;         (html . (csl "~/Zotero/styles/ieee.csl"))))
+;; CITE configuration
+(setq org-cite-global-bibliography '("~/Library/bib.json"))
+(setq org-cite-export-processors
+      '((latex biblatex)
+        (html . (csl "~/Zotero/styles/ieee.csl"))))
 
-(setq org-my-anki-file "~/Documents/Personal/Reference/anki.org.gpg")
+;; Custom face for org-document-title
+(custom-set-faces
+ '(org-document-title ((t (:foreground "midnight blue"
+                                       :weight bold
+                                       :height 1.44)))))
 
-(add-to-list 'org-capture-templates "a" "anki")
-(add-to-list 'org-capture-templates "ab" "basic")
-(add-to-list 'org-capture-templates "ac" "cloze")
+;; Configure org-babel languages for code block execution
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . nil)  ;; Emacs Lisp disabled
+   (latex . t)
+   (sql . t)
+   (gnuplot . t)))
 
 ;; Define helper functions for Anki capture templates
 (defun my/org-capture--build-template (template-key topic note-type)
@@ -361,45 +271,40 @@ This function always adds both Basic and Cloze templates."
 
 (my/org-capture-add-template "b" "basi di dati")
 
-(use-package anki-editor
-  :after org
-  :bind (:map org-mode-map
-              ("C-<tab> a C" . anki-editor-cloze-region-auto-incr)
-              ("C-<tab> a c" . anki-editor-cloze-region-dont-incr)
-              ("C-<tab> a 0" . anki-editor-reset-cloze-number)
-              ("C-<tab> a i" . anki-editor-insert-note)
-	      ("C-<tab> a b" . anki-editor-insert-default-note)
-	      ("C-<tab> a p" . anki-editor-push-note-at-point)
-	      ("C-<tab> a C-p" . anki-editor-push-tree)
-	      )
-  :hook (org-capture-after-finalize . anki-editor-reset-cloze-number) ; Reset cloze-number after each capture.
-  :config
-  (setq anki-editor-create-decks t ;; Allow anki-editor to create a new deck if it doesn't exist
-        anki-editor-org-tags-as-anki-tags t)
-
-  (defun anki-editor-cloze-region-auto-incr (&optional arg)
-    "Cloze region without hint and increase card number."
-    (interactive)
-    (anki-editor-cloze-region my-anki-editor-cloze-number "")
-    (setq my-anki-editor-cloze-number (1+ my-anki-editor-cloze-number))
-    (forward-sexp))
-  (defun anki-editor-cloze-region-dont-incr (&optional arg)
-    "Cloze region without hint using the previous card number."
-    (interactive)
-    (anki-editor-cloze-region (1- my-anki-editor-cloze-number) "")
-    (forward-sexp))
-  (defun anki-editor-reset-cloze-number (&optional arg)
-    "Reset cloze number to ARG or 1"
-    (interactive)
-    (setq my-anki-editor-cloze-number (or arg 1)))
-  (defun anki-editor-push-tree ()
-    "Push all notes under a tree."
-    (interactive)
-    (anki-editor-push-notes 'tree)
-    (anki-editor-reset-cloze-number))
-  ;; Initialize
-  (anki-editor-reset-cloze-number)
+(use-package olivetti
+  :hook (org-mode . olivetti-mode)
+  :custom
+   (olivetti-body-width 70)
   )
+
+(use-package org-superstar
+  :config
+  (setq org-superstar-leading-bullet " ")
+  (setq org-superstar-headline-bullets-list '("◉" "○" "‣" "◈" "◇"))
+  (setq org-superstar-special-todo-items nil) ;; Makes TODO header bullets into boxes FALSE CAUSE THE BULLET IS TOO LARGE
+  (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
+                                          ("NEXT"  . 9744)
+                                          ("WAIT"  . 9744)
+					  ("DONE"  . 9745)))
+  :hook (org-mode . org-superstar-mode))
+
+(use-package org-appear
+  :hook     (org-mode . org-appear-mode)
+  :custom
+   (org-appear-autoemphasis t)
+   (org-appear-autolinks t))
+
+;; DOESNT WORK YET
+;;(use-package org-fragtog
+;;  :hook (org-mode-hook . org-fragtog-mode))
+
+(use-package htmlize)
+
+(use-package cdlatex
+  :hook (org-mode . turn-on-org-cdlatex))  ; Enable CDLaTeX in org-mode
+
+;;(use-package org-web-tools
+;;  :ensure t)  ; Tools for handling web content in org-mode
 
 (use-package org-caldav
   :after (org)
@@ -456,6 +361,61 @@ This function always adds both Basic and Cloze templates."
   ;;(add-hook 'kill-emacs-hook 'org-caldav-sync-at-close)
   )
 
+;; (use-package anki-editor
+;;   :straight (:type git
+;;              :host github
+;;              :repo "anki-editor/anki-editor"
+;;              :branch "main"
+;;              :fork (:host github
+;; 			  :repo "valesin/anki-editor"))
+;;   :bind
+;;   (("C-c 0 i" . anki-editor-insert-note)
+;;    ("C-c 0 b" . anki-editor-insert-default-note)
+;;    ("C-c 0 p" . anki-editor-push-note-at-point)
+;;    ("C-c 0 C-p" . anki-editor-push-notes)
+;;    )
+;;   )
+
+(use-package anki-editor
+  :after org
+  :bind (:map org-mode-map
+              ("C-<tab> a C" . anki-editor-cloze-region-auto-incr)
+              ("C-<tab> a c" . anki-editor-cloze-region-dont-incr)
+              ("C-<tab> a 0" . anki-editor-reset-cloze-number)
+              ("C-<tab> a i" . anki-editor-insert-note)
+	      ("C-<tab> a b" . anki-editor-insert-default-note)
+	      ("C-<tab> a p" . anki-editor-push-note-at-point)
+	      ("C-<tab> a C-p" . anki-editor-push-tree)
+	      )
+  :hook (org-capture-after-finalize . anki-editor-reset-cloze-number) ; Reset cloze-number after each capture.
+  :config
+  (setq anki-editor-create-decks t ;; Allow anki-editor to create a new deck if it doesn't exist
+        anki-editor-org-tags-as-anki-tags t)
+
+  (defun anki-editor-cloze-region-auto-incr (&optional arg)
+    "Cloze region without hint and increase card number."
+    (interactive)
+    (anki-editor-cloze-region my-anki-editor-cloze-number "")
+    (setq my-anki-editor-cloze-number (1+ my-anki-editor-cloze-number))
+    (forward-sexp))
+  (defun anki-editor-cloze-region-dont-incr (&optional arg)
+    "Cloze region without hint using the previous card number."
+    (interactive)
+    (anki-editor-cloze-region (1- my-anki-editor-cloze-number) "")
+    (forward-sexp))
+  (defun anki-editor-reset-cloze-number (&optional arg)
+    "Reset cloze number to ARG or 1"
+    (interactive)
+    (setq my-anki-editor-cloze-number (or arg 1)))
+  (defun anki-editor-push-tree ()
+    "Push all notes under a tree."
+    (interactive)
+    (anki-editor-push-notes 'tree)
+    (anki-editor-reset-cloze-number))
+  ;; Initialize
+  (anki-editor-reset-cloze-number)
+  )
+
 (use-package org-web-tools
   :after org
   :defer
@@ -497,6 +457,18 @@ This function always adds both Basic and Cloze templates."
 
 ;;     (prettify-symbols-mode))
 
+
+(defun make-orgcapture-frame ()
+    "Create a new frame and run org-capture."
+    (interactive)
+    (make-frame '((name . "org-capture") (window-system . x)))
+    (select-frame-by-name "org-capture")
+    (counsel-org-capture)
+    (delete-other-windows)
+    )
+
+;; Last updated: 2024-12-05 20:51:38 UTC
+
 (use-package org-roam
   :custom
   (org-roam-directory (file-truename "~/Documents/Personal/Notes"))        ; Set org-roam directory
@@ -514,25 +486,30 @@ This function always adds both Basic and Cloze templates."
   
   :custom  ; Capture templates
   (org-roam-capture-templates
-   '(("n" "nucleus" plain                      ; Main note template
+   '(("m" "main" plain                      ; Main note template
       "#+filetags: %^g\n%?"
-      :if-new (file+head "Nucleus/${slug}.org.gpg"
+      :if-new (file+head "Main/${slug}.org.gpg"
                          "#+title: ${title}\n")
       :immediate-finish t
       :unnarrowed t)
      
      ("u" "uni")                            ; University parent template
      
-     ("ur" "ricerca operativa" plain
-      "%?"
-      :if-new (file+head "Uni/Ricerca_Operativa/${slug}.org.gpg"
+     ("ua" "algoritimi" plain               ; Algorithms template
+      "#+ANKI_DECK: Algoritmi\n#+exclude_tags: anki noexport\n#+filetags: :algoritmi:%^g\n%?"
+      :if-new (file+head "Uni/Algoritmi/${slug}.org.gpg"
                          "#+title: ${title}\n")
       :immediate-finish t
       :unnarrowed t)
-
      
+     ("ur" "reti" plain                     ; Networks template
+      "#+ANKI_DECK: Reti\n+exclude_tags: anki noexport\n#+filetags: :reti:%^g\n%?"
+      :if-new (file+head "Uni/Reti/${slug}.org.gpg"
+                         "#+title: ${title}\n")
+      :immediate-finish t
+      :unnarrowed t)
      
-     ("f" "fleeting" plain                  ; Fleeting notes template
+     ("p" "pre" plain                  ; Fleeting notes template
       "#+filetags: %^g\n%?"
       :if-new (file+head "Pre/${slug}.org.gpg"
                          ":PROPERTIES:\n:CREATED: %T\n:REFERRER: %a\n:END:\n#+title: ${title}\n")

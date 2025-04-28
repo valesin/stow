@@ -8,6 +8,8 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives
+  '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 (package-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -122,7 +124,7 @@ WARNING: Autosave files will be stored unencrypted!"
 
 ;; Load additional configuration files.
 ;;(load "org_config.el")
-(org-babel-load-file "~/guix-conf/dotfiles/.emacs.d/org_config.org")
+(org-babel-load-file "~/Stow/dot-emacs.d/lisp/org_config.org")
 
 (use-package gnuplot
   :defer t)
@@ -149,4 +151,4 @@ WARNING: Autosave files will be stored unencrypted!"
 (use-package ledger-mode
   :defer t)
 
-
+(use-package geiser-mit)

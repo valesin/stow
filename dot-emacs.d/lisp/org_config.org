@@ -1,18 +1,33 @@
+:PROPERTIES:
+:header-args: :tangle yes
+:END:
+* Org
+** Load required packages
+Don't show the default emacs startup message when it's opened
+#+BEGIN_SRC emacs-lisp
 (require 'org)
 (require 'org-capture)
 (require 'org-agenda)
-(require 'diminish)
-
+(require 'diminish) 
+#+END_SRC
+** Set global keybindings
+#+begin_src emacs-lisp
 (global-set-key (kbd "C-c l") 'org-store-link)    ;; Store a link to the current location
 (global-set-key (kbd "C-c a") 'org-agenda)        ;; Open the org agenda view
 (global-set-key (kbd "C-c c") 'org-capture)       ;; Start org capture
-
+#+end_src
+** General settings
+#+begin_src emacs-lisp
 (setq org-element-use-cache nil)
 (setq org-element-cache-persistent nil)
 (setq org-directory "~/Documents/")
-
+#+end_src
+** Hooks
+#+begin_src emacs-lisp
 (add-hook 'org-mode-hook 'visual-line-mode)
-
+#+end_src
+** Visuals
+#+begin_src emacs-lisp
 ;; Visual settings for org-mode
 (setq org-hide-emphasis-markers t)         ;; Hide markup symbols like *bold* /italic/
 (setq org-indent-indentation-per-level 4)    ;; Spaces per indent level
@@ -35,7 +50,9 @@
  '(org-document-title ((t (:foreground "midnight blue"
                                        :weight bold
                                        :height 1.44)))))
-
+#+end_src
+*** Superstar
+#+begin_src emacs-lisp
 (use-package org-superstar
   :config
   (setq org-superstar-leading-bullet " ")
@@ -46,19 +63,25 @@
                                           ("WAIT"  . 9744)
 					  ("DONE"  . 9745)))
   :hook (org-mode . org-superstar-mode))
-
+#+end_src
+*** Olivetti
+#+begin_src emacs-lisp
 (use-package olivetti
   :hook (org-mode . olivetti-mode)
   :custom
    (olivetti-body-width 70)
   )
-
+#+end_src
+*** Appear
+#+begin_src emacs-lisp
 (use-package org-appear
   :hook     (org-mode . org-appear-mode)
   :custom
    (org-appear-autoemphasis t)
    (org-appear-autolinks t))
-
+#+end_src
+*** Latex
+#+begin_src emacs-lisp
 (require 'cdlatex)
 (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex)   ; with AUCTeX LaTeX mode
 (add-hook 'latex-mode-hook #'turn-on-cdlatex)   ; with Emacs latex mode
@@ -67,9 +90,13 @@
 (require 'auctex)
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
-
+#+end_src
+*** Htmlize ( i dont know what it does)
+#+begin_src emacs-lisp
 (use-package htmlize)
-
+#+end_src
+** Behaviour
+#+begin_src emacs-lisp
 (setq org-special-ctrl-a/e t)      ;; Smart home/end keys in org-mode
 (setq org-special-ctrl-k t)        ;; Smart kill line in org-mode
 (setq org-M-RET-may-split-line nil)  ;; Prevent M-RET from splitting lines
@@ -84,7 +111,9 @@
 (setq org-enforce-todo-dependencies t)
 (setq org-enforce-todo-checkbox-dependencies t)
 (setq org-log-done 'time)  ;; Add timestamp when marking items as DONE
-
+#+end_src
+** Agenda
+#+begin_src emacs-lisp
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\(\\.gpg\\)?\\'")
 (setq org-agenda-files '("~/Documents/Personal/todo.org.gpg"
                          "~/Documents/Personal/Calendar/calendar.org.gpg"))
@@ -104,46 +133,62 @@
         (800 1000 1200 1400 1600 1800 2000)
         " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄"))
 (setq org-agenda-current-time-string "⭠ now ─────────────────────────────────────────────────")
-
+#+end_src
+** Capture templates
+#+begin_src emacs-lisp :noweb yes
 (setq org-capture-templates
        '(
-	 ("t" "todo" entry
-	  (file+olp "~/Documents/Personal/todo.org.gpg" "Tasks" "Uncategorized" "Tasks")
-	  "* TODO %?\n")
-	 
-	 ("i" "info to process" entry
-	  (file+olp "~/Documents/Personal/todo.org.gpg" "Info")
-	  "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\nFrom: %a\n")
-	 
-	 ("j" "journal" entry
-	  (file+olp+datetree "~/Documents/Personal/journal.org.gpg")
-	  "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:%U\n:END:\n%?\n")
-	 ("r" "references"
-	  )
-	 ("rw" "bookmarks" entry
-	  (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Bookmarks")
-	  "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
-	 
-	 ("rb" "books" entry
-	  (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Books")
-	  "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
-	 
-	 ("rf" "feed" entry
-	  (file+headline "~/Documents/Personal/Reference/rssfeeds.org.gpg" "Uncategorized")
-	  "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?\n")
-	 ("c" "calendar")
-	 
-	 ("cs" "scheduled" entry
-	  (file+headline "~/Documents/Personal/Calendar/calendar.org.gpg" "Appointments")
-	  "\n* %^{Title}\nSCHEDULED: %^T"
-	  :immediate-finish t)
+	 <<org_capture>>
 	 )
        )
+#+end_src
+*** Basic ones
+#+begin_src emacs-lisp :tangle no :noweb-ref org_capture
+("t" "todo" entry
+ (file+olp "~/Documents/Personal/todo.org.gpg" "Tasks" "Uncategorized" "Tasks")
+ "* TODO %?\n")
 
+("i" "info to process" entry
+ (file+olp "~/Documents/Personal/todo.org.gpg" "Info")
+ "* %? \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\nFrom: %a\n")
+
+("j" "journal" entry
+ (file+olp+datetree "~/Documents/Personal/journal.org.gpg")
+ "* %^{Title}\t%^g \n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED:%U\n:END:\n%?\n")
+#+end_src
+*** References
+#+begin_src emacs-lisp :tangle no :noweb-ref org_capture
+("r" "references"
+ )
+("rw" "bookmarks" entry
+ (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Bookmarks")
+ "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
+
+("rb" "books" entry
+ (file+headline "~/Documents/Personal/Reference/references.org.gpg" "Books")
+ "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:ID: %(org-id-uuid)\n:CREATED: %U\n:END:\n%?\n")
+
+("rf" "feed" entry
+ (file+headline "~/Documents/Personal/Reference/rssfeeds.org.gpg" "Uncategorized")
+ "\n* [[%^{Link}][%^{Title}]]      %^g\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?\n")
+#+end_src
+*** Calendar
+#+begin_src emacs-lisp :tangle no :noweb-ref org_capture
+("c" "calendar")
+
+("cs" "scheduled" entry
+ (file+headline "~/Documents/Personal/Calendar/calendar.org.gpg" "Appointments")
+ "\n* %^{Title}\nSCHEDULED: %^T"
+ :immediate-finish t)
+#+end_src
+** Refile
+#+begin_src emacs-lisp
 (setq org-refile-targets '((org-agenda-files :maxlevel . 5)
                            (nil :maxlevel . 10)))
 (setq org-refile-use-outline-path 'file)
-
+#+end_src
+** Babel
+#+begin_src emacs-lisp
 (setq org-confirm-babel-evaluate nil) ;; No confirmation before executing code blocks
 (setq org-src-fontify-natively t)
 (setq org-src-tab-acts-natively t)
@@ -158,103 +203,20 @@
    (sql . t)
    (gnuplot . t)
    (scheme . t)))
-
+#+end_src
+** Export
+#+begin_src emacs-lisp
 (setq org-export-headline-levels 10)
 (setq org-export-with-broken-links 'mark)
 (setq org-export-exclude-tags '("anki" "noexport" "private"))
 (setq org-export-with-archived-trees nil)
 (require 'ox-md)
-
+#+end_src
+** Publishing
+#+begin_src emacs-lisp :noweb yes
 (setq org-publish-project-alist
       '(
-	("Uni"
-	         :publishing-function org-html-publish-to-html
-	         :base-directory "~/Documents/Personal/Notes/Uni/"
-	         :base-extension "org.gpg"
-	         :publishing-directory "~/Public/uni_notes"
-	         :language it
-	         :recursive t
-	         :with-creator nil
-	         :with-author nil
-	         :section-numbers nil
-	         :with-toc t
-	         :auto-sitemap t
-	         :htmlized-source t
-	         :with-latex t
-	         :html-validation-link nil
-	         :html-head-include-scripts nil
-	         :html-head-include-default-style nil
-	         :html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" onerror=\"this.onerror=null;this.href='local.css';\" />"
-	         :with-broken-links 'mark)
-	("index"
-	 :publishing-function org-html-publish-to-html
-	 :base-directory "~/Documents/Personal/Notes/personal_website"
-	 :base-extension "org"
-	 :publishing-directory "~/Public/personal_website"
-	 :language en
-	 :recursive nil ;; non ho sottocartelle per ora
-	 :with-creator nil
-	 :with-author nil
-	 :section-numbers nil
-	 :with-toc t
-	 :auto-sitemap nil
-	 :htmlized-source t
-	 :with-latex t
-	 :with-todo-keywords nil
-	 ;;	 :with-cite-processors’      ‘org-export-process-citations’
-	 ;;	 :cite-export’               org-cite-export-processors
-	 :html-validation-link nil
-	 :html-head-include-scripts nil
-	 :html-head-include-default-style nil
-	 :html-head "<link rel=\"stylesheet\" href=\"tufte-css/tufte.css\"/>"
-	 :with-broken-links 'mark
-	 :preserve-breaks t
-	 :with-date nil
-	 :time-stamp-file nil
-	 :html-preamble "<header style=\"text-align:center;\">
-	    <h1 style=\"margin-bottom:0;\">Valerio Siniscalco</h1>
-	    <p style=\"margin-top:0;\">
-	      <a href=\"mailto:valerio.siniscalco@studenti.unimi.it\">valerio.siniscalco@studenti.unimi.it</a> |
-	      <a href=\"https://github.com/valesin\">github.com/valesin</a>
-	    </p>
-	  </header>"
-	 :with-title nil
-	 ;;:html-link-home "~/Public/personal_website"
-	 ;;:html-link-up "/"
-	 )
-	("posts"
-	 :publishing-function org-html-publish-to-html
-	 :base-directory "~/Documents/Personal/Notes/personal_website/posts"
-	 :base-extension "org"
-	 :publishing-directory "~/Public/personal_website/posts"
-	 :language en
-	 :recursive nil ;; non ho sottocartelle per ora
-	 :with-creator nil
-	 :with-author nil
-	 :section-numbers nil
-	 :with-toc t
-	 :auto-sitemap nil
-	 :htmlized-source t
-	 :with-latex t
-	 :with-todo-keywords nil
-	 :html-validation-link nil
-	 :html-head-include-scripts nil
-	 :html-head-include-default-style nil
-	 :html-head "<link rel=\"stylesheet\" href=\"../tufte-css/tufte.css\"/>"
-	 :with-broken-links 'mark
-	 :preserve-breaks t
-	 :with-date nil
-	 :time-stamp-file nil
-	)
-	("static"
-	 :base-directory "~/Documents/Personal/Notes/personal_website"
-	 :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|ttf\\|svg\\|woff"
-	 :publishing-directory "~/Public/personal_website"
-	 :recursive t
-	 :publishing-function org-publish-attachment
-	 )
-	
-	("Personal website" :components ("posts" "index" "static"))
+	<<pubprojects>>
 	)
       )
 
@@ -300,12 +262,112 @@
     };
     </script>
     <script id=\"MathJax-script\" async src=\"%PATH\"></script>")
+#+end_src
+*** Projects
+**** Uni
+#+begin_src emacs-lisp :tangle no :noweb-ref pubprojects
+("Uni"
+         :publishing-function org-html-publish-to-html
+         :base-directory "~/Documents/Personal/Notes/Uni/"
+         :base-extension "org.gpg"
+         :publishing-directory "~/Public/uni_notes"
+         :language it
+         :recursive t
+         :with-creator nil
+         :with-author nil
+         :section-numbers nil
+         :with-toc t
+         :auto-sitemap t
+         :htmlized-source t
+         :with-latex t
+         :html-validation-link nil
+         :html-head-include-scripts nil
+         :html-head-include-default-style nil
+         :html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" onerror=\"this.onerror=null;this.href='local.css';\" />"
+         :with-broken-links 'mark)
+#+end_src
+**** Personal website
+#+begin_src emacs-lisp :tangle no :noweb-ref pubprojects
+("index"
+ :publishing-function org-html-publish-to-html
+ :base-directory "~/Documents/Personal/Notes/personal_website"
+ :base-extension "org"
+ :publishing-directory "~/Public/personal_website"
+ :language en
+ :recursive nil ;; non ho sottocartelle per ora
+ :with-creator nil
+ :with-author nil
+ :section-numbers nil
+ :with-toc t
+ :auto-sitemap nil
+ :htmlized-source t
+ :with-latex t
+ :with-todo-keywords nil
+ ;;	 :with-cite-processors’      ‘org-export-process-citations’
+ ;;	 :cite-export’               org-cite-export-processors
+ :html-validation-link nil
+ :html-head-include-scripts nil
+ :html-head-include-default-style nil
+ :html-head "<link rel=\"stylesheet\" href=\"tufte-css/tufte.css\"/>"
+ :with-broken-links 'mark
+ :preserve-breaks t
+ :with-date nil
+ :time-stamp-file nil
+ :html-preamble "<header style=\"text-align:center;\">
+    <h1 style=\"margin-bottom:0;\">Valerio Siniscalco</h1>
+    <p style=\"margin-top:0;\">
+      <a href=\"mailto:valerio.siniscalco@studenti.unimi.it\">valerio.siniscalco@studenti.unimi.it</a> |
+      <a href=\"https://github.com/valesin\">github.com/valesin</a>
+    </p>
+  </header>"
+ :with-title nil
+ ;;:html-link-home "~/Public/personal_website"
+ ;;:html-link-up "/"
+ )
+("posts"
+ :publishing-function org-html-publish-to-html
+ :base-directory "~/Documents/Personal/Notes/personal_website/posts"
+ :base-extension "org"
+ :publishing-directory "~/Public/personal_website/posts"
+ :language en
+ :recursive nil ;; non ho sottocartelle per ora
+ :with-creator nil
+ :with-author nil
+ :section-numbers nil
+ :with-toc t
+ :auto-sitemap nil
+ :htmlized-source t
+ :with-latex t
+ :with-todo-keywords nil
+ :html-validation-link nil
+ :html-head-include-scripts nil
+ :html-head-include-default-style nil
+ :html-head "<link rel=\"stylesheet\" href=\"../tufte-css/tufte.css\"/>"
+ :with-broken-links 'mark
+ :preserve-breaks t
+ :with-date nil
+ :time-stamp-file nil
+)
+("static"
+ :base-directory "~/Documents/Personal/Notes/personal_website"
+ :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|ttf\\|svg\\|woff"
+ :publishing-directory "~/Public/personal_website"
+ :recursive t
+ :publishing-function org-publish-attachment
+ )
 
+("Personal website" :components ("posts" "index" "static"))
+#+end_src
+** Citations
+#+begin_src emacs-lisp
 ;; (setq org-cite-global-bibliography '("~/Library/bib.json"))
 ;; (setq org-cite-export-processors
 ;;       '((latex biblatex)
 ;;         (html . (csl "~/Zotero/styles/ieee.csl"))))
 
+#+end_src
+** Anki
+#+begin_src emacs-lisp
 (setq org-my-anki-file "~/Documents/Personal/Reference/anki.org.gpg")
 
 (add-to-list 'org-capture-templates "a" "anki")
@@ -360,7 +422,11 @@ This function always adds both Basic and Cloze templates."
 (my/org-capture-add-template "r" "ricerca operativa")
 
 (my/org-capture-add-template "b" "basi di dati")
+#+end_src
 
+and also the package here
+
+#+begin_src emacs-lisp
 (use-package anki-editor
   :after org
   :bind (:map org-mode-map
@@ -400,7 +466,9 @@ This function always adds both Basic and Cloze templates."
   ;; Initialize
   (anki-editor-reset-cloze-number)
   )
-
+#+end_src
+** Caldav
+#+begin_src emacs-lisp
 (use-package org-caldav
   :after (org)
   :init
@@ -455,7 +523,9 @@ This function always adds both Basic and Cloze templates."
   ;; ;; Add the close emacs hook
   ;;(add-hook 'kill-emacs-hook 'org-caldav-sync-at-close)
   )
-
+#+end_src
+** Web tools
+#+begin_src emacs-lisp
 (use-package org-web-tools
   :after org
   :defer
@@ -465,6 +535,9 @@ This function always adds both Basic and Cloze templates."
    )
   )
 
+#+end_src
+** Prettify (not used)
+#+begin_src emacs-lisp
 ;; (defun my/prettify-symbols-setup ()
 ;;     ;; Checkboxes
 ;;     ;; (push '("[ ]" . "") prettify-symbols-alist)
@@ -496,7 +569,20 @@ This function always adds both Basic and Cloze templates."
 ;;     ;; (push '(":code:"     . "") prettify-symbols-alist)
 
 ;;     (prettify-symbols-mode))
-
+#+end_src
+** Function to call orgcapture from out
+#+begin_example
+(defun make-orgcapture-frame ()
+    "Create a new frame and run org-capture."
+    (interactive)
+    (make-frame '((name . "org-capture") (window-system . x)))
+    (select-frame-by-name "org-capture")
+    (counsel-org-capture)
+    (delete-other-windows)
+    )
+#+end_example
+* Roam
+#+begin_src emacs-lisp
 (use-package org-roam
   :custom
   (org-roam-directory (file-truename "~/Documents/Personal/Notes"))        ; Set org-roam directory
@@ -541,3 +627,5 @@ This function always adds both Basic and Cloze templates."
   
   :config
   (org-roam-db-autosync-mode))             ; Enable automatic database sync
+#+end_src
+
