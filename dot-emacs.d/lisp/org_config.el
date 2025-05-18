@@ -137,6 +137,11 @@
 	  (file+headline "~/Documents/Personal/Calendar/calendar.org.gpg" "Appointments")
 	  "\n* %^{Title}\nSCHEDULED: %^T"
 	  :immediate-finish t)
+	 
+	 ("cd" "deadline" entry
+	  (file+headline "~/Documents/Personal/Calendar/calendar.org.gpg" "Appointments")
+	  "\n* %^{Title}\nDEADLINE: %^T"
+	  :immediate-finish t)
 	 )
        )
 
@@ -308,9 +313,9 @@
 
 (setq org-my-anki-file "~/Documents/Personal/Reference/anki.org.gpg")
 
-(add-to-list 'org-capture-templates "a" "anki")
-(add-to-list 'org-capture-templates "ab" "basic")
-(add-to-list 'org-capture-templates "ac" "cloze")
+(add-to-list 'org-capture-templates '("a" "anki" nil))
+(add-to-list 'org-capture-templates '("ab" "basic" nil))
+(add-to-list 'org-capture-templates '("ac" "cloze" nil))
 
 ;; Define helper functions for Anki capture templates
 (defun my/org-capture--build-template (template-key topic note-type)
