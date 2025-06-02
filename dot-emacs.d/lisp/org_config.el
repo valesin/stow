@@ -25,7 +25,7 @@
 (setq org-format-latex-options
       '(:foreground default
                     :background default
-                    :scale 1.0
+                    :scale 1.5
                     :html-foreground "Black"
                     :html-background "Transparent"
                     :html-scale 1.0
