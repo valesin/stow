@@ -54,3 +54,5 @@ ciscopt()
 {
     wine ~/.wine/drive_c/Program\ Files/Cisco\ Packet\ Tracer\ 8.2.2/bin/PacketTracer.exe
 }
+
+alias emacs='emacs-gtk+x11'

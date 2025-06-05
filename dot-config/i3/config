@@ -175,7 +175,7 @@ bindsym $mod+Shift+g exec "i3-nagbar -t warning -m 'Are you leaving?' -B 'Goodni
 #start on startup
 #emacs
 exec --no-startup-id emacs --daemon
-exec --no-startup-id firefox
+exec --no-startup-id firefox "https://github.com/copilot/" "https://www.notion.so/204aa5e92a3d801c8069e8323cde9929?v=205aa5e92a3d80ad9d6e000c099a9a6e" "https://app.slack.com/client/T08VCD562BB/C08VCD5KZNV"
 exec --no-startup-id calibre
 exec --no-startup-id zotero
 exec --no-startup-id anki
