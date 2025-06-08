@@ -92,6 +92,7 @@ WARNING: Autosave files will be stored unencrypted!"
   (lexical-binding t)
   (gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
   (save-interprogram-paste-before-kill t)
+  (fill-column 100)
 
   :custom-face
   (default ((t (:family "Noto Sans Mono" :height 160))))
